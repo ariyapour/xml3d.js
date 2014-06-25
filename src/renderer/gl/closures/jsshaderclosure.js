@@ -41,73 +41,25 @@
                 case Shade.SPACE_VECTOR_TYPES.OBJECT: break;
                 case Shade.SPACE_VECTOR_TYPES.VIEW_POINT:
                     vsConfig.addInputParameter(Xflow.DATA_TYPE.FLOAT4X4, "modelViewMatrix", true);
-                    code = outputName + " = ( modelViewMatrix * vec4(#I{" + inputName + "}, 1.0) ).xyz;";
+                    code = "this.modelViewMatrix.mul(" + inputName + ", 1.0).xyz();";
                     break;
                 case Shade.SPACE_VECTOR_TYPES.VIEW_NORMAL:
                     vsConfig.addInputParameter(Xflow.DATA_TYPE.FLOAT3X3, "modelViewMatrixN", true);
-                    code =  outputName + " = normalize( modelViewMatrixN * #I{" + inputName + "} );";
+                    code = "this.modelViewMatrixN.mul(" + inputName + ").normalize();";
                     break;
                 case Shade.SPACE_VECTOR_TYPES.WORLD_POINT:
                     vsConfig.addInputParameter(Xflow.DATA_TYPE.FLOAT4X4, "modelMatrix", true);
-                    code = outputName + " = ( modelMatrix * vec4(#I{" + inputName + "}, 1.0) ).xyz;";
+                    code = "this.modelMatrix.mul(" + inputName + ", 1.0).xyz();";
                     break;
                 case Shade.SPACE_VECTOR_TYPES.WORLD_NORMAL:
                     vsConfig.addInputParameter(Xflow.DATA_TYPE.FLOAT3X3, "modelMatrixN", true);
-                    code =  outputName + " = normalize( modelMatrixN * #I{" + inputName + "} );";
+                    code = "this.modelMatrixN.mul(" + inputName + ").normalize();";
                     break;
                 default:
                     throw new Error("Can't handle Space Type: " + entry.space);
             }
             vsConfig.channelAttribute(inputName, outputName, code);
         }
-    }
-
-
-    /**
-     * @param {Xflow.DATA_TYPE} xflowType
-     */
-    var convertXflow2ShadeType = function(xflowType, source) {
-        var result = {}
-        switch (xflowType) {
-            case Xflow.DATA_TYPE.BOOL:
-                result.type = Shade.TYPES.BOOLEAN;
-                break;
-            case Xflow.DATA_TYPE.INT:
-                result.type = Shade.TYPES.INT;
-                break;
-            case Xflow.DATA_TYPE.FLOAT:
-                result.type = Shade.TYPES.NUMBER;
-                break;
-            case Xflow.DATA_TYPE.FLOAT2:
-                result.type = Shade.TYPES.OBJECT;
-                result.kind = Shade.OBJECT_KINDS.FLOAT2;
-                break;
-            case Xflow.DATA_TYPE.FLOAT3:
-                result.type = Shade.TYPES.OBJECT;
-                result.kind = Shade.OBJECT_KINDS.FLOAT3;
-                break;
-            case Xflow.DATA_TYPE.FLOAT4:
-                result.type = Shade.TYPES.OBJECT;
-                result.kind = Shade.OBJECT_KINDS.FLOAT4;
-                break;
-            case Xflow.DATA_TYPE.FLOAT3X3:
-                result.type = Shade.TYPES.OBJECT;
-                result.kind = Shade.OBJECT_KINDS.MATRIX3;
-                break;
-            case Xflow.DATA_TYPE.FLOAT4X4:
-                result.type = Shade.TYPES.OBJECT;
-                result.kind = Shade.OBJECT_KINDS.MATRIX4;
-                break;
-            case Xflow.DATA_TYPE.TEXTURE:
-                result.type = Shade.TYPES.OBJECT;
-                result.kind = Shade.OBJECT_KINDS.TEXTURE;
-                break;
-            case Xflow.DATA_TYPE.UNKNOWN:
-            default:
-                throw new Error("Unknown Xflow DataType: " + xflowType);
-        }
-        result.source = source;
-        return result;
     }
 
     /**
@@ -157,11 +109,12 @@
             for(var i = 0; i < this.extractedParams.length; ++i){
                 var paramName = this.extractedParams[i];
                 if(vsShaderOutput && vsShaderOutput.indexOf(paramName) != -1){
-                    contextInfo[paramName] = convertXflow2ShadeType(vsDataResult.getOutputType(paramName),
+                    contextInfo[paramName] = Xflow.convertXflowToShadeType(vsDataResult.getOutputType(paramName),
                         vsDataResult.isOutputUniform(paramName) ? Shade.SOURCES.UNIFORM : Shade.SOURCES.VERTEX);
                 }
                 else if(shaderEntries && shaderEntries[paramName]){
-                    contextInfo[paramName] = convertXflow2ShadeType(shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
+                    contextInfo[paramName] = Xflow.convertXflowToShadeType(
+                        shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
                 }
             }
             XML3D.debug.logDebug("CONTEXT:", contextData);
