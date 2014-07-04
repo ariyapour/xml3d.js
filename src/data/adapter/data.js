@@ -12,7 +12,7 @@ Xflow.setShaderConstant(Xflow.SHADER_CONSTANT_KEY.VIEW_TRANSFORM_NORMAL, "modelV
 Xflow.setShaderConstant(Xflow.SHADER_CONSTANT_KEY.WORLD_TRANSFORM, "modelMatrix");
 Xflow.registerErrorCallback(function(message, xflowNode){
     message = "Xflow: " + message;
-    var userData = xflowNode.userData;
+    var userData = xflowNode && xflowNode.userData;
     if (userData && userData.ownerDocument) {
         if (userData.ownerDocument === document) {
             XML3D.debug.logError(message, userData);
