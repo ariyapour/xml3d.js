@@ -102,7 +102,7 @@
             return;
 
         if(node.operator){
-            if(noOperators || !canOperatorMerge(cData, node.operator, platform)){
+            if(noOperators || !canUseOperator(cData, node.operator, platform)){
                 blockSubtree(cData, node);
                 return;
             }
@@ -126,17 +126,20 @@
         }
     }
 
-    function canOperatorMerge(cData, operator, platform){
-        if(!cData.firstOperator)
-            return true;
+    function canUseOperator(cData, operator, platform){
 
-        if(Xflow.shadejs.hasSupport() && cData.firstOperator.evaluate_shadejs && operator.evaluate_shadejs){
-            if(platform == Xflow.PLATFORM.GLSL_VS)
-                return true;
-            if(platform == Xflow.PLATFORM.JAVASCRIPT)
-                return true;
+        if(!operator.platforms[platform]) return false;
+
+        var shadeJsSupport = (Xflow.shadejs.hasSupport() && operator.evaluate_shadejs);
+
+        if(cData.firstOperator && !shadeJsSupport)
+            return false; // We can only merge with shadeJs Operators
+
+        if(platform == Xflow.PLATFORM.GLSL_VS || platform == Xflow.PLATFORM.GLSL_FS){
+            if(!shadeJsSupport) return false;
         }
-        return false;
+
+        return true;
     }
 
     function blockSubtree(cData, node){
