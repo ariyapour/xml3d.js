@@ -211,8 +211,9 @@ var Xflow = {};
      */
     Xflow.PLATFORM = {
         JAVASCRIPT: 0,
-        GLSL: 1,
-        CL: 2
+        GLSL_VS: 1,
+        GLSL_FS: 2,
+        CL: 3
     };
 
     Xflow.PROCESS_STATE = {
