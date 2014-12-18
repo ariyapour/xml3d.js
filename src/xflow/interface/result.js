@@ -133,4 +133,39 @@ VSDataResult.prototype.getVertexShader = function(vsConfig){
 }
 
 
+/**
+ * FSDataResult is used to analyse the output of a FragmentShader
+ * Note that the FSDataResult is not used to generate the FragmentShader directly.
+ * For that, the Xflow.FragmentShader structure must be created from Xflow.FragmentShaderRequest
+ * @constructor
+ * @extends {Xflow.Result}
+ */
+Xflow.FSDataResult = function(){
+    Xflow.Result.call(this);
+    this._program = null;
+    this._programData = null;
+};
+Xflow.createClass(Xflow.FSDataResult, Xflow.Result);
+var FSDataResult = Xflow.FSDataResult;
+
+Object.defineProperty(FSDataResult.prototype, "outputNames", {
+    set: function(v){
+        throw new Error("shaderOutputNames is readonly");
+    },
+    get: function(){ return this._program.getOutputNames(); }
+});
+
+FSDataResult.prototype.isOutputUniform = function(name){
+    return this._program.isOutputUniform(name);
+}
+FSDataResult.prototype.isOutputNull = function(name){
+    return this._program.isOutputNull(name);
+}
+FSDataResult.prototype.getOutputType = function(name){
+    return this._program.getOutputType(name);
+}
+FSDataResult.prototype.getFragmentShader = function(){
+    return this._program.createFragmentShader(this._programData);
+}
+
 })();

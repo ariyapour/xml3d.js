@@ -191,4 +191,96 @@ function getDataNodeShaderKey(dataNode, vsConfig){
     return dataNode.id + "|" + vsConfig.getKey();
 }
 
+/**
+ * A FragmentShaderRequest is a Request for a FSDataResult, used to generate a Xflow.FragmentShader that includes
+ * dataflow processing
+ * @constructor
+ * @extends {Xflow.Request}
+ * @param {Xflow.DataNode} dataNode
+ * @param {Xflow.FSConfig} fsConfig Configuration which includes the original shade.js shader code
+ * @param {?function} callback A callback function that gets called whenever the result of the Request changes
+ */
+var FragmentShaderRequest = function(dataNode, fsConfig, callback){
+
+//	TODO Do we have a filter in fsConfig?
+//    var filter = fsConfig.getFilter(); 
+//    if(filter.length == 0)
+//        throw new Error("vsConfig requires at least one attribute entry.");
+//    Xflow.Request.call(this, dataNode, filter, callback);
+    this._fsConfig = fsConfig;
+    this._fsConnectNode = getFsConnectNode(dataNode, fsConfig);
+};
+
+Xflow.createClass(FragmentShaderRequest, Xflow.Request);
+Xflow.FragmentShaderRequest = FragmentShaderRequest;
+
+FragmentShaderRequest.prototype.getConfig = function(){
+    return this._fsConfig;
+}
+
+//TODO what about getResult. For getResult we need the filter!
+FragmentShaderRequest.prototype.getResult = function(){
+    return swapResultRequest(this, this._fsConnectNode._getResult(Xflow.RESULT_TYPE.FS, this._filter));
+}
+
+
+FragmentShaderRequest.prototype._onDataNodeChange = function(notification){
+    if(notification == Xflow.RESULT_STATE.CHANGED_STRUCTURE){
+        var newFSConnectedNode = getFsConnectNode(this._dataNode, this._fsConfig, this._filter);
+        if(newFSConnectedNode != this._fsConnectNode){
+            clearFsConnectNode(this._fsConnectNode);
+            this._fsConnectNode = newFSConnectedNode;
+        }
+    }
+    Request.prototype._onDataNodeChange.call(this, notification);
+}
+
+////
+
+FragmentShaderRequest.prototype._onResultChanged = function(result, notification){
+    this._onDataNodeChange(notification);
+}
+
+function getFsConnectNode(dataNode, fsConfig, filter){
+    var forwardNode = dataNode._getForwardNode(filter);
+
+    var key = getDataNodeShaderKey(forwardNode, fsConfig);
+    var connectNode;
+    if(!(connectNode = c_fsConnectNodeCache[key])){
+        var graph = forwardNode._graph;
+        connectNode = graph.createDataNode(false);
+        connectNode.appendChild(forwardNode);
+
+//        TODO do we have fsConfig.getOperator()?
+//        connectNode.computeOperator = fsConfig.getOperator();
+        connectNode.computeInputMapping = null;
+        connectNode.computeOutputMapping = null;
+
+        c_fsConnectNodeCache[key] = connectNode;
+        c_fsConnectNodeCount[connectNode.id] = 1;
+        c_fsConnectNodeKey[connectNode.id] = key;
+    }
+    else{
+        c_fsConnectNodeCount[connectNode.id]++;
+    }
+
+    return connectNode;
+}
+
+function clearFsConnectNode(connectNode){
+    c_fsConnectNodeCount[connectNode.id]--;
+    if(!c_fsConnectNodeCount[connectNode.id]){
+        var key = c_fsConnectNodeKey[connectNode.id];
+        c_fsConnectNodeCache[key] = null;
+        connectNode.clearChildren();
+    }
+}
+
+
+function getDataNodeShaderKey(dataNode, fsConfig){
+    return dataNode.id + "|" + vsConfig.getKey();
+}
+
+
+
 })();
