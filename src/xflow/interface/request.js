@@ -191,6 +191,12 @@ function getDataNodeShaderKey(dataNode, vsConfig){
     return dataNode.id + "|" + vsConfig.getKey();
 }
 
+
+var  c_fsConnectNodeCount = {},
+	 c_fsConnectNodeKey = {},
+	 c_fsConnectNodeCache = {};
+
+
 /**
  * A FragmentShaderRequest is a Request for a FSDataResult, used to generate a Xflow.FragmentShader that includes
  * dataflow processing
@@ -202,7 +208,7 @@ function getDataNodeShaderKey(dataNode, vsConfig){
  */
 var FragmentShaderRequest = function(dataNode, fsConfig, callback){
 
-//	TODO Do we have a filter in fsConfig?
+//	TODO Do we have a filter in fsConfig? ---> for getFsConnectNode we can pass without filter
 //    var filter = fsConfig.getFilter(); 
 //    if(filter.length == 0)
 //        throw new Error("vsConfig requires at least one attribute entry.");
@@ -244,7 +250,7 @@ FragmentShaderRequest.prototype._onResultChanged = function(result, notification
 function getFsConnectNode(dataNode, fsConfig, filter){
     var forwardNode = dataNode._getForwardNode(filter);
 
-    var key = getDataNodeShaderKey(forwardNode, fsConfig);
+    var key = getDataNodeShaderKey(forwardNode, fsConfig);  // I guess here we return the source code
     var connectNode;
     if(!(connectNode = c_fsConnectNodeCache[key])){
         var graph = forwardNode._graph;
@@ -278,7 +284,7 @@ function clearFsConnectNode(connectNode){
 
 
 function getDataNodeShaderKey(dataNode, fsConfig){
-    return dataNode.id + "|" + vsConfig.getKey();
+    return dataNode.id + "|" + fsConfig.getKey();
 }
 
 

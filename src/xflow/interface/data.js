@@ -74,6 +74,7 @@ Xflow.DataEntry = function(type){
     this._type = type;
     this._listeners = [];
     this.userData = {};
+    this._deferredName="";
 };
 var DataEntry = Xflow.DataEntry;
 

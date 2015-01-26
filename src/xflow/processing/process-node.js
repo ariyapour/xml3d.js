@@ -249,6 +249,8 @@ RequestNode.prototype.getResult = function(resultType){
         result = getRequestComputeResult(this);
     }else if(resultType == Xflow.RESULT_TYPE.VS){
         result = getRequestVSResult(this);
+    }else if(resultType == Xflow.RESULT_TYPE.FS){
+        result = getRequestFSResult(this);
     }
     result.loading = (this.status == Xflow.PROCESS_STATE.LOADING);
     return result;
@@ -322,6 +324,19 @@ function getRequestVSResult(requestNode)
     return result;
 }
 
+
+function getRequestFSResult(requestNode)
+{
+    var executer = getOrCreateExecuter(requestNode, Xflow.PLATFORM.GLSL_FS);
+    if(!requestNode.results[Xflow.RESULT_TYPE.FS])
+        requestNode.results[Xflow.RESULT_TYPE.FS] = new Xflow.FSDataResult();
+    var result = requestNode.results[Xflow.RESULT_TYPE.FS];
+
+    var program = executer.getFragmentShader();
+    result._program = program;
+    result._programData = executer.programData;
+    return result;
+}
 
 
 })();

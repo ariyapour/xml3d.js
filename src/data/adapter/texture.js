@@ -35,6 +35,9 @@
     TextureDataAdapter.prototype.createTextureEntry = function() {
         var node = this.node;
         var entry = new Xflow.TextureEntry(null);
+//        if (node.defferedName)
+//        	entry._defferedName=true;
+        entry._deferredName=node.defferedName;
         var config = entry.getSamplerConfig();
         config.wrapS = clampToGL(node.wrapS);
         config.wrapT = clampToGL(node.wrapT);

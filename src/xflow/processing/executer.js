@@ -61,6 +61,15 @@
         return this.program;
     }
 
+    
+    Xflow.Executer.prototype.getFragmentShader = function(){
+        runSubNodes(this);
+        updateIterateState(this);
+
+        this.program = Xflow.createProgram(this.operatorList);
+
+        return this.program;
+    }
 
     function constructExecuter(executer, ownerNode){
         var cData = {
@@ -231,16 +240,17 @@
 
             var connectionKey = connection.getKey();
             var inputSlotIdx = cData.inputSlots[connectionKey];
+            var deferred= channel.entries[0]["dataEntry"]._deferredName; // This is not good! How can I get deferredName
             if(channel && inputSlotIdx != undefined){
                 // Direct input already exists
-                entry.setDirectInput(j, inputSlotIdx, mappedInputName);
+                entry.setDirectInput(j, inputSlotIdx, mappedInputName,deferred);
             }
             else{
                 // new direct input
                 inputSlotIdx = executer.programData.inputs.length;
                 cData.inputSlots[connectionKey] = inputSlotIdx;
                 executer.programData.inputs.push(connection);
-                entry.setDirectInput(j, inputSlotIdx, mappedInputName);
+                entry.setDirectInput(j, inputSlotIdx, mappedInputName,deferred);
             }
         }
     }

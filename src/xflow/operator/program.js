@@ -55,8 +55,8 @@
         this.inputInfo[mappingIndex] = { operatorIndex: operatorIndex, outputIndex: outputIndex};
     }
 
-    Xflow.OperatorEntry.prototype.setDirectInput = function(mappingIndex, inputIndex, mappedName){
-        this.inputInfo[mappingIndex] = { inputIndex: inputIndex, mappedName: mappedName };
+    Xflow.OperatorEntry.prototype.setDirectInput = function(mappingIndex, inputIndex, mappedName, deferredName){
+        this.inputInfo[mappingIndex] = { inputIndex: inputIndex, mappedName: mappedName, deferredName: deferredName };
     }
 
     Xflow.OperatorEntry.prototype.setFinalOutput = function(operatorOutputIndex, globalOutputIndex){
@@ -328,7 +328,9 @@
             // as a fallback mode to not break the old implementations
             if(operatorList.platform === Xflow.PLATFORM.GLSL_VS){
                 c_program_cache[key] = new Xflow.VSProgram(operatorList);
-            } else if (firstOperator.platform === Xflow.PLATFORM.CL) {
+            }else if (operatorList.platform === Xflow.PLATFORM.GLSL_FS) {
+                c_program_cache[key] = new Xflow.FSProgram(operatorList);
+            }else if (firstOperator.platform === Xflow.PLATFORM.CL) {
                 c_program_cache[key] = new Xflow.CLProgram(operatorList);
             }else if(firstOperator.platform === Xflow.PLATFORM.JAVASCRIPT && firstOperator.evaluate_shadejs && Xflow.shadejs.hasSupport() ) {
                 c_program_cache[key] = new Xflow.FastJsProgram(operatorList);

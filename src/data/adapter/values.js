@@ -39,17 +39,22 @@
         }
         else{
             delete config.scriptValue;
-            value = this.node.value;
+            if (this.node.deferredName)
+            	value = this.node.name;
+            else
+            	value = this.node.value;
         }
 
         var type = BUFFER_TYPE_TABLE[this.node.localName];
         var buffer = new Xflow.BufferEntry(type, value);
+        buffer._deferredName = this.node.deferredName;
 
         this.xflowInputNode = XML3D.data.xflowGraph.createInputNode();
         this.xflowInputNode.name = this.node.name;
         this.xflowInputNode.data = buffer;
         this.xflowInputNode.key = this.node.key;
         this.xflowInputNode.paramName = this.node.param ? this.node.name : null;
+//        this.xflowInputNode._defferedName = node.defferedName;
     }
 
     ValueDataAdapter.prototype.getXflowNode = function(){

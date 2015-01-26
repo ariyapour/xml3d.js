@@ -9,6 +9,7 @@
     <script type="text/javascript" src="../../../shadejs/lib/shade.js"></script>
     <script type="text/javascript" src="../../tools/camera.js"></script>
     <script type="text/javascript" src="scripts/myxflow-shadejs.js" ></script>
+    <script type="text/javascript" src="scripts/fetchTex.js" ></script>
     <title>XML3D Examples</title>
 
   </head>
@@ -19,19 +20,13 @@
    </h1>
    <script id="shader" type="text/shade-javascript" >
         function shade(env) {
-            var color = env.diffuseColor;
-            if(env.diffuseTexture && env.texcoord){
-                var texColor = env.diffuseTexture.sample2D(env.texcoord).rgb();
-                texColor = Math.pow(texColor, new Vec3(2.2));
-                color = color.mul(texColor);
-            }
-            //return color;
-            return new Shade().diffuse(color, env.normal, 1)
-                    .phong(env.specularColor, env.normal, env.shininess);
+
+
+	return new Shade().diffuse(env.diffuseColor, env.normal);
         }
    </script>
 
-    <xml3d id="myxml3d" class="xml3d" activeView="#Camera" style="background: black;" >
+    <xml3d id="myxml3d" class="xml3d" activeView="#Camera" style="background: blue;" >
      <defs id="mainDef">
 
       <!--- Not so important part: -->
@@ -41,13 +36,35 @@
        <float3 name="intensity">100 100 100</float3>
       </lightshader>
 
+		<!-- 
       <shader id="Material" script="#shader" >
        <float name="ambientIntensity">0.1</float>
        <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
-       <float3 name="diffuseColor">1 1 1</float3>
+       <float3 name="diffuseColor">1.0 1.0 1.0</float3>
        <float3 name="specularColor">0.5 0.5 0.5</float3>
        <float name="shininess">0.0978473581213</float>
-      </shader>
+      </shader>-->
+	  
+	  
+	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+		    <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
+		    <float2 name="texcoord" deferredName=true></float2>
+	  </data>
+	            
+
+      
+      <shader id="Material" script="#shader">
+	      <float name="ambientIntensity">0.1</float>
+	      <!-- <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
+	      <float3 name="diffuseColor" deferredName=true>1 1 1</float3> -->
+	      <float3 name="specularColor">0.5 0.5 0.5</float3>
+	       <float name="shininess">0.0978473581213</float>
+	       <data src="#color"></data>
+	       <float3 name="position" deferred=true ></float3>
+    	   <float3 name="normal" deferred=true ></float3>
+      </shader>  
+
+      
 
       <transform id="t_Camera" rotation="-0.641815 0.733700 0.223063 1.145952" scale="1 1 1" translation="3.184399 3.711076 2.405665"></transform>
       <transform id="t_Grid" rotation="1 0.000000 0.000000 0.000000" scale="25.000000 25.000000 25.000000" translation="0.000000 0.00 0.000000"></transform>
@@ -63,9 +80,10 @@
       </data>
 
       <!-- Generate Grid: -->
+      
 
       <data id="generatedGrid" compute="xflow.mygrid(size)">
-		    <int name="size" id="size">200</int>
+		    <int name="size" deferredName=true id="size">200</int>
 	    </data>
 
       <!-- Transform Grid to Waves: -->

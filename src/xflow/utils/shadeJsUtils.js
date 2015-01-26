@@ -86,12 +86,13 @@
                     var directInputIndex = entry.getDirectInputIndex(j),
                         isIterate = operatorList.isInputIterate(directInputIndex),
                         arrayAccess = mappingEntry.array;
+                    	deferredName = mappingEntry.deferredName;
                     if(isIterate)
-                        snippet.addVertexInput(shadeJsType, directInputIndex);
+                        snippet.addVertexInput(shadeJsType, directInputIndex, deferredName);
                     else if(arrayAccess)
-                        snippet.addUniformArray(shadeJsType, directInputIndex, operatorList.getInputSize(directInputIndex));
+                        snippet.addUniformArray(shadeJsType, directInputIndex, operatorList.getInputSize(directInputIndex),deferredName);
                     else
-                        snippet.addUniformInput(shadeJsType, directInputIndex);
+                        snippet.addUniformInput(shadeJsType, directInputIndex,deferredName);
                 }
             }
             snippetList.addEntry(snippet);

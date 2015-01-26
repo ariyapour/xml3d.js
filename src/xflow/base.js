@@ -148,7 +148,8 @@ var Xflow = {};
 
     Xflow.RESULT_TYPE = {
         COMPUTE: 0,
-        VS: 1
+        VS: 1,
+        FS:2
     };
 
 
