@@ -33,9 +33,10 @@
         };
 
 //        var result = Shade.compileJsProgram(snippetList, systemParams, true);
-//        var result = Shade.creatFragmentShaderSource(snippetList, systemParams, true);
-        var func = eval("(" + result.code + ")");
-        return func;
+        var result = Shade.creatFragmentShaderSource(snippetList, systemParams, true);
+//        var func = eval("(" + result.code + ")");
+//        return func;
+        return result;
     }
 
 }());
