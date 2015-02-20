@@ -331,10 +331,12 @@ function getRequestFSResult(requestNode)
     if(!requestNode.results[Xflow.RESULT_TYPE.FS])
         requestNode.results[Xflow.RESULT_TYPE.FS] = new Xflow.FSDataResult();
     var result = requestNode.results[Xflow.RESULT_TYPE.FS];
-
     var program = executer.getFragmentShader();
     result._program = program;
+
+    //var snippetList = Xflow.shadejs.convertOperatorListToSnippets(program.list, 0, program.list.entries.length);
     result._programData = executer.programData;
+
     return result;
 }
 

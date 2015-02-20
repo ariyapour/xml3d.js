@@ -224,10 +224,13 @@ FragmentShaderRequest.prototype.getConfig = function(){
     return this._fsConfig;
 }
 
-//TODO what about getResult. For getResult we need the filter!
-FragmentShaderRequest.prototype.getResult = function(){
-    return swapResultRequest(this, this._fsConnectNode._getResult(Xflow.RESULT_TYPE.FS, this._filter));
+FragmentShaderRequest.prototype.getResult = function(){ //add output as filter
+    return swapResultRequest(this, this._fsConnectNode._getResult(Xflow.RESULT_TYPE.FS, ["output"])); //test
 }
+
+//FragmentShaderRequest.prototype.getResult = function(){ //add output as filter
+//    return swapResultRequest(this, this._fsConnectNode._getResult(Xflow.RESULT_TYPE.FS, this._filter));
+//}
 
 
 FragmentShaderRequest.prototype._onDataNodeChange = function(notification){
@@ -258,7 +261,7 @@ function getFsConnectNode(dataNode, fsConfig, filter){
         connectNode.appendChild(forwardNode);
 
 //        TODO do we have fsConfig.getOperator()?
-//        connectNode.computeOperator = fsConfig.getOperator();
+        connectNode.computeOperator = fsConfig.getOperator(dataNode); // Implement this for fsconfig
         connectNode.computeInputMapping = null;
         connectNode.computeOutputMapping = null;
 

@@ -100,6 +100,15 @@
         update: function (scene, opt) {
             opt = opt || {};
             var that = this;
+            
+//            if (this.request._fsConfig){  //test
+//            	var FSData = this.getShaderDataResult();
+//            	var fastJs = new Xflow.FastJsProgram(FSData._program.list);
+//            	this.sourceTemplate = fastJs.func.code;
+//            	this.extractedParams = Shade.extractParameters(this.sourceTemplate,
+//                        {implementation: "xml3d-glsl-forward"}).shaderParameters;
+//            	
+//            }
 
             // Clean up shaderClosures that are not used!
             var i = this.shaderClosures.length;

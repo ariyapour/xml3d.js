@@ -110,7 +110,7 @@
         if(!channel)
             return null;
         var result = {
-            type: channel.getType(),
+            type: channel.getType(),// here is important
             seqLength: channel.getSequenceLength(),
             seqMinKey: channel.getSequenceMinKey(),
             seqMaxKey: channel.getSequenceMaxKey(),

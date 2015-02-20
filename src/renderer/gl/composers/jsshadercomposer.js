@@ -63,18 +63,15 @@
                 this.updateRequest(shaderInfo.getData());
             }
         },
-        updateRequest: function(xflowDataNode){
-            if(this.request) this.request.clear();
-            var fsConfig = new Xflow.FSConfig(this.sourceTemplate);
-            this.request = new Xflow.FragmentShaderRequest(xflowDataNode,fsConfig,
-            		this.onShaderRequestChange.bind(this));
-            this.setShaderRecompile();
-            // TODO: Create FS Request Instead -- You need to pass the SHADER CODE here
-            // Don't do this here but OVERRIDE the updateRequest method in jsshadercomposer.js
-//            this.request = new Xflow.ComputeRequest(xflowDataNode, this.getRequestFields(),
-//                this.onShaderRequestChange.bind(this));
+//        updateRequest: function(xflowDataNode){
+//            if(this.request) this.request.clear();
+//            var fsConfig = new Xflow.FSConfig(this.sourceTemplate);
+//            this.request = new Xflow.FragmentShaderRequest(xflowDataNode,fsConfig,
+//            		this.onShaderRequestChange.bind(this));
+//            
+////            this.sourceTemplate = 
 //            this.setShaderRecompile();
-        },
+//        },
         getRequestFields: function() {
             return this.extractedParams;
         },

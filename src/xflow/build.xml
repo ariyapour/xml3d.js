@@ -25,8 +25,9 @@
         <file name="./operator/operator.js" />
         <file name="./operator/program.js" />
         <file name="./operator/vs-program.js" />
-	<file name="./operator/fs-program.js" />
+		<file name="./operator/fs-program.js" />
         <file name="./operator/fast-js-program.js" />
+		<file name="./operator/js-merge-program.js" />
         <file name="./operator/cl-program.js" />
 
         <file name="./operator/default/morph3.js" />

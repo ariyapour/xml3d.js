@@ -4,8 +4,7 @@ Xflow.registerOperator("xflow.fetchTex", {
                 {type: 'float2', source: 'texcoord',deferredName:true }],
     platforms: ["JAVASCRIPT", "GLSL_FS"],
     evaluate_shadejs: function(diffuseTexture, texcoord){
-    	diffuseColor = diffuseTexture.sample2D(texcoord).rgb();
-    	return diffuseColor;
+    	return diffuseTexture.sample2D(texcoord).rgb();
     }
 
 });

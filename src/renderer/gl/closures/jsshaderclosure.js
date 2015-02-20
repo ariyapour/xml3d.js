@@ -93,6 +93,8 @@
                 "global.shade" :[{"extra": {"type": "object","kind": "any","global" : true,"info" : {}}}]
             };
 
+            
+            
             var systemUniforms = scene.systemUniforms, systemInfo = contextData["this"].info;
             for(var systemSource in c_SystemUpdate){
                 var entry = c_SystemUpdate[systemSource];
@@ -103,13 +105,21 @@
             }
 
             var contextInfo = contextData["global.shade"][0].extra.info;
-
+            
+//            scene.updateShaders();
+            
+//            var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);//test
+//            this.sourceTemplate = fastJs.func.code; //test
+//            
+//            this.extractedParams = Shade.extractParameters(this.sourceTemplate,
+//                    {implementation: "xml3d-glsl-forward"}).shaderParameters;
+//            
             var shaderEntries = shaderResult && shaderResult.getOutputMap(),
                 vsShaderOutput = vsDataResult && vsDataResult.outputNames;
 
             for(var i = 0; i < this.extractedParams.length; ++i){
                 var paramName = this.extractedParams[i];
-                if(vsShaderOutput && vsShaderOutput.indexOf(paramName) != -1){
+                if(vsShaderOutput && vsShaderOutput.indexOf(paramName) != -1 ){
                     contextInfo[paramName] = Xflow.shadejs.convertFromXflow(vsDataResult.getOutputType(paramName),
                         vsDataResult.isOutputUniform(paramName) ? Shade.SOURCES.UNIFORM : Shade.SOURCES.VERTEX);
                 }
@@ -203,6 +213,7 @@
                 channelVsAttribute(vsConfig, names[i], spaceInfo);
             }
             vsConfig.addInputParameter(Xflow.DATA_TYPE.FLOAT4X4, "modelViewProjectionMatrix", true);
+//            vsConfig.addInputParameter(Xflow.DATA_TYPE.FLOAT2, "texcoord", true);//test
             vsConfig.channelAttribute("position", "_glPosition", "this.modelViewProjectionMatrix.mulVec(position, 1.0)");
             //vsConfig.addCodeFragment( "gl_Position = modelViewProjectionMatrix * vec4(#I{position}, 1.0);");
             var vertexShader =  vsRequest.getVertexShader();
