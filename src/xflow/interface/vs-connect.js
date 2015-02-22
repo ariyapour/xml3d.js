@@ -93,7 +93,7 @@ Xflow.VSConfig.prototype.getChannelingKey = function(){
 
 var c_vs_operator_cache = {};
 
-Xflow.VSConfig.prototype.getOperator = function(){// We have to make the same thing for FSConfig
+Xflow.VSConfig.prototype.getOperator = function(){
     var key = this.getKey();
     if(c_vs_operator_cache[key])
         return c_vs_operator_cache[key];

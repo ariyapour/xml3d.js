@@ -108,11 +108,11 @@
             
 //            scene.updateShaders();
             
-            var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);//test
-            this.sourceTemplate = fastJs.func.code; //test
-            
-            this.extractedParams = Shade.extractParameters(this.sourceTemplate,
-                    {implementation: "xml3d-glsl-forward"}).shaderParameters;
+//            var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);//test
+//            this.sourceTemplate = fastJs.func.code; //test
+//            
+//            this.extractedParams = Shade.extractParameters(this.sourceTemplate,
+//                    {implementation: "xml3d-glsl-forward"}).shaderParameters;
 //            
             var shaderEntries = shaderResult && shaderResult.getOutputMap(),
                 vsShaderOutput = vsDataResult && vsDataResult.outputNames;
@@ -124,14 +124,14 @@
                         vsDataResult.isOutputUniform(paramName) ? Shade.SOURCES.UNIFORM : Shade.SOURCES.VERTEX);
                 }
                 else if(shaderEntries && shaderEntries[paramName]){
-//                	if (shaderEntries[paramName]._deferredName){
-//                		contextInfo[paramName] = Xflow.shadejs.convertFromXflow(
-//                                shaderEntries[paramName].type, Shade.SOURCES.VERTEX);
-//                	}
-//                	else{
+                	if (shaderEntries[paramName]._deferredName){
+                		contextInfo[paramName] = Xflow.shadejs.convertFromXflow(
+                                shaderEntries[paramName].type, Shade.SOURCES.VERTEX);
+                	}
+                	else{
                     contextInfo[paramName] = Xflow.shadejs.convertFromXflow(
                         shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
-//                	}
+                	}
                 }
             }
             XML3D.debug.logDebug("CONTEXT:", contextData);

@@ -63,15 +63,15 @@
                 this.updateRequest(shaderInfo.getData());
             }
         },
-        updateRequest: function(xflowDataNode){
-            if(this.request) this.request.clear();
-            var fsConfig = new Xflow.FSConfig(this.sourceTemplate);
-            this.request = new Xflow.FragmentShaderRequest(xflowDataNode,fsConfig,
-            		this.onShaderRequestChange.bind(this));
-            
-//            this.sourceTemplate = 
-            this.setShaderRecompile();
-        },
+//        updateRequest: function(xflowDataNode){
+//            if(this.request) this.request.clear();
+//            var fsConfig = new Xflow.FSConfig(this.sourceTemplate);
+//            this.request = new Xflow.FragmentShaderRequest(xflowDataNode,fsConfig,
+//            		this.onShaderRequestChange.bind(this));
+//            
+////            this.sourceTemplate = 
+//            this.setShaderRecompile();
+//        },
         getRequestFields: function() {
             return this.extractedParams;
         },
@@ -87,7 +87,7 @@
             var names = this.extractedParams.slice();
             //if(names.indexOf("position") == -1) names.push("position");
             vsConfig.addAttribute(Xflow.DATA_TYPE.FLOAT3, "position", true);
-            vsConfig.addAttribute(Xflow.DATA_TYPE.FLOAT2, "texcoord", true);
+//            vsConfig.addAttribute(Xflow.DATA_TYPE.FLOAT2, "texcoord", true);
             for(var i = 0; i < names.length; ++i){
                 var name = names[i];
                 if(name == "position" ) continue;
