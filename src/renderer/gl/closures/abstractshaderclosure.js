@@ -101,14 +101,16 @@
          * @param {Xflow.ComputeResult} xflowResult
          */
         updateUniformsFromComputeResult: function (xflowResult) {
-            var map = xflowResult.getOutputMap();
+            var map = xflowResult.getOutputMap(this.extractedParams);
 
             var envBase = this.uniformCollection.envBase = {};
             this.setDefaultUniforms(this.uniformCollection.envBase);
 
             for(var name in map){
-                var value = webgl.getGLUniformValueFromXflowDataEntry(map[name], this.context);
-                envBase[name] = value;
+            	if (!map[name]._deferredName){
+            		var value = webgl.getGLUniformValueFromXflowDataEntry(map[name], this.context);
+                	envBase[name] = value;
+            	}
             }
             var names = Object.keys(envBase);
             this.setUniformVariables(names, null, this.uniformCollection);

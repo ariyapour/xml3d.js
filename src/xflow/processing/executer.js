@@ -216,8 +216,8 @@
         for(var j = 0; j < mapping.length; ++j){
             var channel = node.inputChannels[mapping[j].source];
             var operatorIndex;
-            if(channel && channel.creatorProcessNode && (operatorIndex =
-                executer.mergedNodes.indexOf(channel.creatorProcessNode) ) != -1 )
+            if((channel && channel.creatorProcessNode && (operatorIndex =
+                executer.mergedNodes.indexOf(channel.creatorProcessNode) ) != -1 ))
             {
                 // it's transfer input
                 var outputIndex = getOperatorOutputIndex(channel.creatorProcessNode, channel);
@@ -243,7 +243,7 @@
             var deferred= channel.entries[0]["dataEntry"]._deferredName; // This is not good! How can I get deferredName
             if(channel && inputSlotIdx != undefined){
                 // Direct input already exists
-                entry.setDirectInput(j, inputSlotIdx, mappedInputName,deferred);
+                entry.setDirectInput(j, inputSlotIdx, mappedInputNam,deferred);
             }
             else{
                 // new direct input

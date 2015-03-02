@@ -305,8 +305,8 @@ function getRequestComputeResult(requestNode)
     result._dataEntries = {}; result._outputNames = [];
     for(var name in requestNode.channels){
         var entry = requestNode.channels[name].getDataEntry();
-        result._dataEntries[name] = entry && !entry.isEmpty() ? entry : null;
-        result._outputNames.push(name);
+	    result._dataEntries[name] = entry && !entry.isEmpty() ? entry : null;
+	    result._outputNames.push(name);
     }
     return result;
 }

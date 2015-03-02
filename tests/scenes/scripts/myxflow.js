@@ -60,7 +60,7 @@ Xflow.registerOperator("xflow.mygrid", {
  */
 Xflow.registerOperator("xflow.mywave", {
 	outputs: [	{type: 'float3', name: 'position'},
-				{type: 'float3', name: 'normal'} ],
+				{type: 'float3', name: 'normal'},],
     params:  [  {type: 'float3', source: 'position' },
                 {type: 'float3', source: 'normal' },
                 {type: 'float',  source: 'strength'},
@@ -70,6 +70,7 @@ Xflow.registerOperator("xflow.mywave", {
 
 		for(var i = 0; i < info.iterateCount; i++) {
 			var offset = i*3;
+			texcoord[offset]=texcoord[offset];
 			var dist = Math.sqrt(position[offset]*position[offset]+position[offset+2]*position[offset+2]);
 			newpos[offset] = position[offset];
 			newpos[offset+1] = Math.sin(wavelength[0]*dist-phase[0])*strength[0];

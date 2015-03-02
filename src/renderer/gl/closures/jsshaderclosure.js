@@ -108,13 +108,7 @@
             
 //            scene.updateShaders();
             
-//            var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);//test
-//            this.sourceTemplate = fastJs.func.code; //test
-//            
-//            this.extractedParams = Shade.extractParameters(this.sourceTemplate,
-//                    {implementation: "xml3d-glsl-forward"}).shaderParameters;
-//            
-            var shaderEntries = shaderResult && shaderResult.getOutputMap(),
+            var shaderEntries = shaderResult && shaderResult.getOutputMap(this.extractedParams),
                 vsShaderOutput = vsDataResult && vsDataResult.outputNames;
 
             for(var i = 0; i < this.extractedParams.length; ++i){
@@ -124,7 +118,7 @@
                         vsDataResult.isOutputUniform(paramName) ? Shade.SOURCES.UNIFORM : Shade.SOURCES.VERTEX);
                 }
                 else if(shaderEntries && shaderEntries[paramName]){
-                	if (shaderEntries[paramName]._deferredName){
+                	if (shaderEntries[paramName]._deferredName == true){
                 		contextInfo[paramName] = Xflow.shadejs.convertFromXflow(
                                 shaderEntries[paramName].type, Shade.SOURCES.VERTEX);
                 	}
@@ -219,7 +213,6 @@
                 channelVsAttribute(vsConfig, names[i], spaceInfo);
             }
             vsConfig.addInputParameter(Xflow.DATA_TYPE.FLOAT4X4, "modelViewProjectionMatrix", true);
-//            vsConfig.addInputParameter(Xflow.DATA_TYPE.FLOAT2, "texcoord", true);//test
             vsConfig.channelAttribute("position", "_glPosition", "this.modelViewProjectionMatrix.mulVec(position, 1.0)");
             //vsConfig.addCodeFragment( "gl_Position = modelViewProjectionMatrix * vec4(#I{position}, 1.0);");
             var vertexShader =  vsRequest.getVertexShader();

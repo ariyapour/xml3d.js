@@ -168,19 +168,8 @@ FSDataResult.prototype.getFragmentShader = function(){
     return this._program.createFragmentShader(this._programData);
 }
 
-FSDataResult.prototype.getOutputMap= function(){
-	var fastJs = new Xflow.FastJsProgram(this._program.list);
-	var extractedParams = Shade.extractParameters(fastJs.func.code,
-          {implementation: "xml3d-glsl-forward"}).shaderParameters;
-	
-	
+FSDataResult.prototype.getOutputMap= function(extractedParams){
 	var request = new Xflow.ComputeRequest(this._requests[0]._fsConnectNode,extractedParams);
-//	var dataEntries= request.getResult().getOutputMap();
-//	for (entry in dataEntries){
-//		if (dataEntries[entry]._deferredName == true)
-//			delete dataEntries[entry];
-//	}
-//	return dataEntries;
 	return request.getResult().getOutputMap();
 }
 

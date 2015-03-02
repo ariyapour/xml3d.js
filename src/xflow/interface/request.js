@@ -212,7 +212,7 @@ var FragmentShaderRequest = function(dataNode, fsConfig, callback){
 //    var filter = fsConfig.getFilter(); 
 //    if(filter.length == 0)
 //        throw new Error("vsConfig requires at least one attribute entry.");
-//    Xflow.Request.call(this, dataNode, filter, callback);
+    Xflow.Request.call(this, dataNode, null, callback);
     this._fsConfig = fsConfig;
     this._fsConnectNode = getFsConnectNode(dataNode, fsConfig);
 };

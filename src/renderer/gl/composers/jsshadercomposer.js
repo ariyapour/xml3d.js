@@ -62,16 +62,22 @@
             if (this.extractedParams.length) {
                 this.updateRequest(shaderInfo.getData());
             }
+            
+            var shaderResult = this.getShaderDataResult();
+            
+            var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);//test
+            this.sourceTemplate = shaderInfo.scriptCode = fastJs.func.code; //test
+            this.extractedParams= Shade.extractParameters(this.sourceTemplate,
+                    {implementation: "xml3d-glsl-forward"}).shaderParameters;
         },
-//        updateRequest: function(xflowDataNode){
-//            if(this.request) this.request.clear();
-//            var fsConfig = new Xflow.FSConfig(this.sourceTemplate);
-//            this.request = new Xflow.FragmentShaderRequest(xflowDataNode,fsConfig,
-//            		this.onShaderRequestChange.bind(this));
-//            
-////            this.sourceTemplate = 
-//            this.setShaderRecompile();
-//        },
+        updateRequest: function(xflowDataNode){
+            if(this.request) this.request.clear();
+            var fsConfig = new Xflow.FSConfig(this.sourceTemplate);
+            this.request = new Xflow.FragmentShaderRequest(xflowDataNode,fsConfig,
+            		this.onShaderRequestChange.bind(this));
+
+            this.setShaderRecompile();
+        },
         getRequestFields: function() {
             return this.extractedParams;
         },
@@ -84,6 +90,7 @@
         createObjectDataRequest: function(objectDataNode, callback){
 
             var vsConfig = new Xflow.VSConfig();
+            
             var names = this.extractedParams.slice();
             //if(names.indexOf("position") == -1) names.push("position");
             vsConfig.addAttribute(Xflow.DATA_TYPE.FLOAT3, "position", true);
