@@ -10,6 +10,16 @@
     <script type="text/javascript" src="../../tools/camera.js"></script>
     <script type="text/javascript" src="scripts/myxflow-shadejs.js" ></script>
     <script type="text/javascript" src="scripts/fetchTex.js" ></script>
+    <script type="text/javascript" src="scripts/starBall.js" ></script>
+    <script type="text/javascript" src="scripts/fractal.js" ></script>
+    <script type="text/javascript" src="scripts/checker.js" ></script>
+    <script type="text/javascript" src="scripts/voronoiNoise.js" ></script>
+    <script type="text/javascript" src="scripts/calcDistance.js" ></script>
+    <script type="text/javascript" src="scripts/randomPointGenerator.js" ></script>
+    <script type="text/javascript" src="scripts/snoise.js" ></script>
+    <script type="text/javascript" src="scripts/colorMul.js" ></script>
+    <script type="text/javascript" src="scripts/colorRamp.js" ></script>
+    <script type="text/javascript" src="scripts/clampLength.js" ></script>
     <title>XML3D Examples</title>
 
   </head>
@@ -18,10 +28,12 @@
    <h1>
     Wave it!
    </h1>
-   <script id="shader" type="text/shade-javascript" >
-        function shade(env) {
-		return new Shade().diffuse(env.diffuseColor, env.normal);
-        }
+
+
+	<script id="shader" type="text/shade-javascript" >
+    function shade(env) {
+        return new Shade().diffuse(env.diffuseColor,env.normal);
+    }
    </script>
 
     <xml3d id="myxml3d" class="xml3d" activeView="#Camera" style="background: blue;" >
@@ -33,32 +45,123 @@
        <float3 name="attenuation">1 0.033333 1</float3>
        <float3 name="intensity">100 100 100</float3>
       </lightshader>
-
-		<!-- 
-      <shader id="Material" script="#shader" >
-       <float name="ambientIntensity">0.1</float>
-       <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
-       <float3 name="diffuseColor">1.0 1.0 1.0</float3>
-       <float3 name="specularColor">0.5 0.5 0.5</float3>
-       <float name="shininess">0.0978473581213</float>
-      </shader>-->
+	 
 	  
-	  
+	  <!-- Texture and ColorMul -->
+	  <!--
 	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
 			<float2 name="texcoord" deferredName=true></float2>
 		    <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
 	  </data>
-	            
+	  
+	  <data id="color2" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
+	  		<float name="scale">5</float>
+	  <data src="#color"></data>
+	  </data>
+	  -->
 
+
+	  <!--  ColorRamp and Texture -->
+	  <!--	      
+	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+			<float2 name="texcoord" deferredName=true></float2>
+		    <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
+	  </data>  
+	  
+	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+	  		<data src="#color"></data>
+	  </data>
+	      
+	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  		  <data src="#color2"></data>
+	  		  <float3 name="color1" >0.018 0.005 0.310</float3>
+  			  <float3 name="color2" >0.056 0.828 0.096</float3>
+	  </data>    
+	      -->
+	      
+	      
+	      
+	      
+	  <!--  ColorRamp and Checker -->
+	       
+	  <data id="color" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
+			<float2 name="texcoord" deferredName=true></float2>
+			<float name="frequency">10</float>
+	  </data> 
+	  
+	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+	  		<data src="#color"></data>
+	  </data>
+	      
+	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  		  <data src="#color2"></data>
+	  		  <float3 name="color1" >0.0 0.0 0.0</float3>
+  			  <float3 name="color2" >1.0 0.0 0.096</float3>
+	  </data>    
+	  -->
+	      
+	      
+	      
+	            
+	  <!--  ColorRamp and StarBall -->
+	  	<!--
+	  <data id="color" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
+	  		<float3 name="position" deferredName=true></float3>
+			<float2 name="texcoord" deferredName=true></float2>
+	  </data>
+	  
+	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor,texcoord)">
+	  		<float2 name="texcoord" deferredName=true></float2>
+	  		<data src="#color"></data>
+	  </data>
+	      
+	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  		  <data src="#color2"></data>
+ 			  <float3 name="color1" >0.0 0.0 1.0</float3>
+  			  <float3 name="color2" >0.056 0.828 0.096</float3>
+	  </data>    
+	  -->
+	  
+	  
+	  
+	  <!-- StarBall and ColorMul -->
+	  <!--
+	  <data id="color" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
+	  		<float3 name="position" deferredName=true></float3>
+			<float2 name="texcoord" deferredName=true></float2>
+	  </data>
+	  
+	  <data id="color2" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
+	  		<float name="scale">5</float>
+	  		<data src="#color"></data>
+	  </data>
+	  
+	  -->
+	  
+	  
+	  <!-- Checker -->
+	  <!--
+	  <data id="color" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
+			<float2 name="texcoord" deferredName=true></float2>
+			<float name="frequency">10</float>
+	  </data>
+	  -->
+	  
+	  
+	  <!-- Fractal -->
+	  <!--
+	  <data id="color" compute="(diffuseColor)=xflow.fractal(texcoord,time)">
+			<float2 name="texcoord" deferredName=true></float2>
+			<float name="time">1.0</float>
+	  </data>
+	  -->
       
       <shader id="Material" script="#shader">
-	      <float name="ambientIntensity">0.1</float>
-	       <float3 name="position" deferredName=true></float3>
-    	   <float3 name="normal" deferredName=true></float3>
-    	   <data src="#color"></data>
+	     <float name="ambientIntensity">0.1</float>
+	     <float3 name="position" deferredName=true></float3>
+    	 <float3 name="normal" deferredName=true></float3>
+    	 <data src="#color3"></data>
       </shader>  
-
-      
 
       <transform id="t_Camera" rotation="-0.641815 0.733700 0.223063 1.145952" scale="1 1 1" translation="3.184399 3.711076 2.405665"></transform>
       <transform id="t_Grid" rotation="1 0.000000 0.000000 0.000000" scale="25.000000 25.000000 25.000000" translation="0.000000 0.00 0.000000"></transform>
