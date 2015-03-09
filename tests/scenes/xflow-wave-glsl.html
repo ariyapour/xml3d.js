@@ -89,7 +89,8 @@
 			<float name="frequency">10</float>
 	  </data> 
 	  
-	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor,texcoord)">
+	  		<float2 name="texcoord" deferredName=true></float2>
 	  		<data src="#color"></data>
 	  </data>
 	      

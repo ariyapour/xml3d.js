@@ -1,7 +1,7 @@
 Xflow.registerOperator("xflow.starBall", {
 	outputs: [	{type: 'float3', name: 'diffuseColor'}],
-    params:  [ {type: 'float3', source: 'position',deferredName : true },
-                {type: 'float2', source: 'texcoord' ,deferredName : true}],
+    params:  [ {type: 'float3', source: 'position'},
+                {type: 'float2', source: 'texcoord'}],
     platforms: ["JAVASCRIPT", "GLSL_FS"],
     evaluate_shadejs: function starBall(position,texcoord){
     	 var fw = this.fwidth ? this.fwidth(position) : new Vec2(0.005);
