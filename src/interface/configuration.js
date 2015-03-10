@@ -401,7 +401,7 @@ XML3D.classInfo['float'] = {
     // TODO: Handle style for float
     name: {a: XML3D.StringAttributeHandler},
     param: {a: XML3D.BoolAttributeHandler, params: false},
-    deferredName: {a: XML3D.BoolAttributeHandler, params: false},
+    deferred: {a: XML3D.BoolAttributeHandler, params: false},
     key: {a: XML3D.FloatAttributeHandler, params: 0.0},
     value: {a: XML3D.FloatArrayValueHandler},
     setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
@@ -416,7 +416,7 @@ XML3D.classInfo['float2'] = {
     // TODO: Handle style for float2
     name: {a: XML3D.StringAttributeHandler},
     param: {a: XML3D.BoolAttributeHandler, params: false},
-    deferredName: {a: XML3D.BoolAttributeHandler, params: false},
+    deferred: {a: XML3D.BoolAttributeHandler, params: false},
     key: {a: XML3D.FloatAttributeHandler, params: 0.0},
     value: {a: XML3D.Float2ArrayValueHandler},
     setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
@@ -431,7 +431,7 @@ XML3D.classInfo['float3'] = {
     // TODO: Handle style for float3
     name: {a: XML3D.StringAttributeHandler},
     param: {a: XML3D.BoolAttributeHandler, params: false},
-    deferredName: {a: XML3D.BoolAttributeHandler, params: false},
+    deferred: {a: XML3D.BoolAttributeHandler, params: false},
     key: {a: XML3D.FloatAttributeHandler, params: 0.0},
     value: {a: XML3D.Float3ArrayValueHandler},
     setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
@@ -446,7 +446,7 @@ XML3D.classInfo['float4'] = {
     // TODO: Handle style for float4
     name: {a: XML3D.StringAttributeHandler},
     param: {a: XML3D.BoolAttributeHandler, params: false},
-    deferredName: {a: XML3D.BoolAttributeHandler, params: false},
+    deferred: {a: XML3D.BoolAttributeHandler, params: false},
     key: {a: XML3D.FloatAttributeHandler, params: 0.0},
     value: {a: XML3D.Float4ArrayValueHandler},
     setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
@@ -461,7 +461,7 @@ XML3D.classInfo['float4x4'] = {
     // TODO: Handle style for float4x4
     name: {a: XML3D.StringAttributeHandler},
     param: {a: XML3D.BoolAttributeHandler, params: false},
-    deferredName: {a: XML3D.BoolAttributeHandler, params: false},
+    deferred: {a: XML3D.BoolAttributeHandler, params: false},
     key: {a: XML3D.FloatAttributeHandler, params: 0.0},
     value: {a: XML3D.Float4x4ArrayValueHandler},
     setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
@@ -476,7 +476,7 @@ XML3D.classInfo['int'] = {
     // TODO: Handle style for int
     name: {a: XML3D.StringAttributeHandler},
     param: {a: XML3D.BoolAttributeHandler, params: false},
-    deferredName: {a: XML3D.BoolAttributeHandler, params: false},
+    deferred: {a: XML3D.BoolAttributeHandler, params: false},
     key: {a: XML3D.FloatAttributeHandler, params: 0.0},
     value: {a: XML3D.IntArrayValueHandler},
     setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
@@ -491,7 +491,7 @@ XML3D.classInfo['int4'] = {
     // TODO: Handle style for int4
     name: {a: XML3D.StringAttributeHandler},
     param: {a: XML3D.BoolAttributeHandler, params: false},
-    deferredName: {a: XML3D.BoolAttributeHandler, params: false},
+    deferred: {a: XML3D.BoolAttributeHandler, params: false},
     key: {a: XML3D.FloatAttributeHandler, params: 0.0},
     value: {a: XML3D.IntArrayValueHandler},
     setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
@@ -506,7 +506,7 @@ XML3D.classInfo['bool'] = {
     // TODO: Handle style for bool
     name: {a: XML3D.StringAttributeHandler},
     param: {a: XML3D.BoolAttributeHandler, params: false},
-    deferredName: {a: XML3D.BoolAttributeHandler, params: false},
+    deferred: {a: XML3D.BoolAttributeHandler, params: false},
     key: {a: XML3D.FloatAttributeHandler, params: 0.0},
     value: {a: XML3D.BoolArrayValueHandler},
     setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
@@ -521,7 +521,7 @@ XML3D.classInfo['texture'] = {
     // TODO: Handle style for texture
     name: {a: XML3D.StringAttributeHandler},
     param: {a: XML3D.BoolAttributeHandler, params: false},
-    deferredName: {a: XML3D.BoolAttributeHandler, params: false},
+    deferred: {a: XML3D.BoolAttributeHandler, params: false},
     key: {a: XML3D.FloatAttributeHandler, params: 0.0},
     type: {a: XML3D.EnumAttributeHandler, params: {e: XML3D.TextureTypes, d: 0}},
     filterMin: {a: XML3D.EnumAttributeHandler, params: {e: XML3D.FilterTypes, d: 2}},

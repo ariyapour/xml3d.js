@@ -86,7 +86,7 @@
                     var directInputIndex = entry.getDirectInputIndex(j),
                         isIterate = operatorList.isInputIterate(directInputIndex),
                         arrayAccess = mappingEntry.array;
-                    	deferredName = entry.inputInfo[j].deferredName;
+                    	deferredName = entry.inputInfo[j].deferred;
                     	if(mappingEntry.name!=entry.inputInfo[j].mappedName )
                     		parameterMap[mappingEntry.name]=entry.inputInfo[j].mappedName ;
                     if(isIterate)

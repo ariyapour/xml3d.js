@@ -37,7 +37,7 @@
         var entry = new Xflow.TextureEntry(null);
 //        if (node.defferedName)
 //        	entry._defferedName=true;
-        entry._deferredName=node.defferedName;
+        entry._deferredName=node.deffered;
         var config = entry.getSamplerConfig();
         config.wrapS = clampToGL(node.wrapS);
         config.wrapT = clampToGL(node.wrapT);

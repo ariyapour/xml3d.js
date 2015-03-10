@@ -240,7 +240,7 @@
 
             var connectionKey = connection.getKey();
             var inputSlotIdx = cData.inputSlots[connectionKey];
-            var deferred= channel.entries[0]["dataEntry"]._deferredName; // This is not good! How can I get deferredName
+            var deferred= channel.entries[0]["dataEntry"]._deferred; // This is not good! How can I get deferredName
             if(channel && inputSlotIdx != undefined){
                 // Direct input already exists
                 entry.setDirectInput(j, inputSlotIdx, mappedInputNam,deferred);

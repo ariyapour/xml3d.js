@@ -39,7 +39,7 @@
         }
         else{
             delete config.scriptValue;
-            if (this.node.deferredName)
+            if (this.node.deferred)
             	value = this.node.name;
             else
             	value = this.node.value;
@@ -47,7 +47,7 @@
 
         var type = BUFFER_TYPE_TABLE[this.node.localName];
         var buffer = new Xflow.BufferEntry(type, value);
-        buffer._deferredName = this.node.deferredName;
+        buffer._deferredName = this.node.deferred;
 
         this.xflowInputNode = XML3D.data.xflowGraph.createInputNode();
         this.xflowInputNode.name = this.node.name;

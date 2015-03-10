@@ -25,7 +25,8 @@
     }
 
     function createFastJsProgram(operatorList){
-        var snippetList = Xflow.shadejs.convertOperatorListToSnippets(operatorList);
+    	var parameterMap={};
+        var snippetList = Xflow.shadejs.convertOperatorListToSnippets(operatorList,0,operatorList.entries.length,parameterMap);
         var systemParams = {
             "type": "object",
             "kind": "any",
@@ -33,7 +34,7 @@
         };
 
 //        var result = Shade.compileJsProgram(snippetList, systemParams, true);
-        var result = Shade.creatFragmentShaderSource(snippetList, systemParams, true);
+        var result = Shade.creatFragmentShaderSource(snippetList, systemParams, parameterMap);
 //        var func = eval("(" + result.code + ")");
 //        return func;
         return result;
