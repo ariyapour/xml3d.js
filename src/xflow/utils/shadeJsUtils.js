@@ -86,9 +86,9 @@
                     var directInputIndex = entry.getDirectInputIndex(j),
                         isIterate = operatorList.isInputIterate(directInputIndex),
                         arrayAccess = mappingEntry.array;
-                    	deferredName = entry.inputInfo[j].deferred;
-                    	if(mappingEntry.name!=entry.inputInfo[j].mappedName )
-                    		parameterMap[mappingEntry.name]=entry.inputInfo[j].mappedName ;
+                    	deferredName = entry.inputInfo[j].deferredName;
+                    	if(mappingEntry.name!=entry.inputInfo[j].mappedName &&  !entry.inputInfo[j].deferredName)
+                    		parameterMap[mappingEntry.name] = entry.inputInfo[j].mappedName;
                     if(isIterate)
                         snippet.addVertexInput(shadeJsType, directInputIndex, deferredName);
                     else if(arrayAccess)

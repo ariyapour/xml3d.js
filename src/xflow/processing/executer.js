@@ -240,17 +240,17 @@
 
             var connectionKey = connection.getKey();
             var inputSlotIdx = cData.inputSlots[connectionKey];
-            var deferred= channel.entries[0]["dataEntry"]._deferred; // This is not good! How can I get deferredName
+            var deferredName= channel.entries[0]["dataEntry"]._deferredName; // This is not good! How can I get deferredName
             if(channel && inputSlotIdx != undefined){
                 // Direct input already exists
-                entry.setDirectInput(j, inputSlotIdx, mappedInputNam,deferred);
+                entry.setDirectInput(j, inputSlotIdx, mappedInputNam,deferredName);
             }
             else{
                 // new direct input
                 inputSlotIdx = executer.programData.inputs.length;
                 cData.inputSlots[connectionKey] = inputSlotIdx;
                 executer.programData.inputs.push(connection);
-                entry.setDirectInput(j, inputSlotIdx, mappedInputName,deferred);
+                entry.setDirectInput(j, inputSlotIdx, mappedInputName,deferredName);
             }
         }
     }

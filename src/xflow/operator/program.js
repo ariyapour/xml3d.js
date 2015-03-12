@@ -55,8 +55,8 @@
         this.inputInfo[mappingIndex] = { operatorIndex: operatorIndex, outputIndex: outputIndex};
     }
 
-    Xflow.OperatorEntry.prototype.setDirectInput = function(mappingIndex, inputIndex, mappedName, deferred){
-        this.inputInfo[mappingIndex] = { inputIndex: inputIndex, mappedName: mappedName, deferred: deferred };
+    Xflow.OperatorEntry.prototype.setDirectInput = function(mappingIndex, inputIndex, mappedName, deferredName){
+        this.inputInfo[mappingIndex] = { inputIndex: inputIndex, mappedName: mappedName, deferredName: deferredName };
     }
 
     Xflow.OperatorEntry.prototype.setFinalOutput = function(operatorOutputIndex, globalOutputIndex){

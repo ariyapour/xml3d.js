@@ -47,14 +47,15 @@
 
         var type = BUFFER_TYPE_TABLE[this.node.localName];
         var buffer = new Xflow.BufferEntry(type, value);
-        buffer._deferredName = this.node.deferred;
+        if (this.node.deferred)
+        	buffer._deferredName = this.node.name;
+        
 
         this.xflowInputNode = XML3D.data.xflowGraph.createInputNode();
         this.xflowInputNode.name = this.node.name;
         this.xflowInputNode.data = buffer;
         this.xflowInputNode.key = this.node.key;
         this.xflowInputNode.paramName = this.node.param ? this.node.name : null;
-//        this.xflowInputNode._defferedName = node.defferedName;
     }
 
     ValueDataAdapter.prototype.getXflowNode = function(){
