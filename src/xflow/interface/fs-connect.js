@@ -32,7 +32,10 @@ Xflow.FSConfig.prototype.getOperator = function(xflowNode){
     for (var param in convertedShaderCode.params){
     	var name = convertedShaderCode.params[param];
     	var attr = xflowNode.getOutputChannelInfo(name);
-		type = Xflow.getTypeName(attr.type);
+    	if (attr)
+    		type = Xflow.getTypeName(attr.type);
+    	else
+    		type ="float"; // it doesnt matter if it is right type pr not. Shadejs will figure it out
 		params.push( { type: type, source: name,optional: false} ); 
 		name += "T" + type + "N" + name + "O" + false + ".";	
     }

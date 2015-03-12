@@ -204,7 +204,7 @@
             executer.operatorList.addEntry(entry);
             executer.mergedNodes.push(node);
             if(isOutputNode || (i == cData.constructionOrder.length-1))
-                executer.mergedOutputNodes.push(node)
+                executer.mergedOutputNodes.push(node);
 
         }
 
@@ -240,7 +240,8 @@
 
             var connectionKey = connection.getKey();
             var inputSlotIdx = cData.inputSlots[connectionKey];
-            var deferredName= channel.entries[0]["dataEntry"]._deferredName; // This is not good! How can I get deferredName
+            if (channel)
+            	var deferredName= channel.entries[0]["dataEntry"]._deferredName; // This is not good! How can I get deferredName
             if(channel && inputSlotIdx != undefined){
                 // Direct input already exists
                 entry.setDirectInput(j, inputSlotIdx, mappedInputNam,deferredName);

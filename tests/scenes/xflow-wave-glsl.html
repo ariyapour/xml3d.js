@@ -32,6 +32,7 @@
 
 	<script id="shader" type="text/shade-javascript" >
     function shade(env) {
+		var temp = env.test;
         return new Shade().diffuse(env.diffuseColor,env.normal);
     }
    </script>
@@ -46,23 +47,9 @@
        <float3 name="intensity">100 100 100</float3>
       </lightshader>
 	 
-	  
-	  <!-- Texture and ColorMul -->
-	   <!--
-	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
-			<float2 name="texcoord" deferred=true></float2>
-		    <texture name="diffuseTexture" deferred=true><img src="textures/water.jpg"/></texture>
-	  </data>
-	  
-	  <data id="color2" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
-	  		<float name="scale">3</float>
-	  <data src="#color"></data>
-	  </data>
-	  -->
-
-
+	 
 	  <!--  ColorRamp and Texture -->
-	  	      
+	  <!--	       
 	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
 			<float2 name="texcoord" deferred=true></float2>
 		    <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
@@ -80,10 +67,8 @@
 	      -->
 	      
 	      
-	      
-	      
 	  <!--  ColorRamp and Checker -->
-	     <!-- 
+	  
 	  <data id="color" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
 			<float2 name="texcoord" deferred=true></float2>
 			<float name="frequency">10</float>
@@ -96,15 +81,13 @@
 	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
 	  		  <data src="#color2"></data>
 	  		  <float3 name="color1" >0.0 0.0 0.0</float3>
-  			  <float3 name="color2" >1.0 0.0 0.096</float3>
+  			  <float3 name="color2" >1.0 1.0 0.096</float3>
 	  </data>    
 	  -->
-	      
-	      
-	      
+
 	            
 	  <!--  ColorRamp and StarBall -->
-	  	<!--
+	  <!--
 	  <data id="color" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
 	  		<float3 name="position" deferred=true></float3>
 			<float2 name="texcoord" deferred=true></float2>
@@ -121,6 +104,18 @@
 	  </data>    
 	  -->
 	  
+	  <!-- Texture and ColorMul -->
+	  <!--
+	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+			<float2 name="texcoord" deferred=true></float2>
+		    <texture name="diffuseTexture" deferred=true><img src="textures/water.jpg"/></texture>
+	  </data>
+	  
+	  <data id="color2" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
+	  		<float name="scale">5</float>
+	  <data src="#color"></data>
+	  </data>
+	  -->
 	  
 	  
 	  <!-- StarBall and ColorMul -->
@@ -131,7 +126,7 @@
 	  </data>
 	  
 	  <data id="color2" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
-	  		<float name="scale">5</float>
+	  		<float name="scale">10</float>
 	  		<data src="#color"></data>
 	  </data>
 	  
@@ -139,7 +134,7 @@
 	  
 	  
 	  <!-- Checker -->
-	 <!--
+	  <!--
 	  <data id="color" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
 			<float2 name="texcoord" deferred=true></float2>
 			<float name="frequency">10</float>
@@ -148,17 +143,16 @@
 	  
 	  
 	  <!-- Fractal -->
-	  <!--
+	  
 	  <data id="color" compute="(diffuseColor)=xflow.fractal(texcoord,time)">
 			<float2 name="texcoord" deferred=true></float2>
-			<float name="time">1.0</float>
+			<float name="time">0.0</float>
 	  </data>
 	  -->
       
       <shader id="Material" script="#shader">
 	     <float name="ambientIntensity">0.1</float>
-	     <float3 name="position" deferred=true></float3>
-    	 <float3 name="normal" deferred=true></float3>
+	     <float name="test">0.0</float>
     	 <data src="#color3"></data>
       </shader>  
 
