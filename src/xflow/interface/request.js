@@ -224,6 +224,11 @@ FragmentShaderRequest.prototype.getConfig = function(){
     return this._fsConfig;
 }
 
+FragmentShaderRequest.prototype.updateConfig = function(code, inputIndices){
+    this._fsConfig._shaderSourceCode = code;
+    this._fsConfig._inputIndices = inputIndices;
+}
+
 FragmentShaderRequest.prototype.getResult = function(){ //add output as filter
     return swapResultRequest(this, this._fsConnectNode._getResult(Xflow.RESULT_TYPE.FS, ["output"])); //test
 }

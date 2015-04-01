@@ -244,7 +244,7 @@
             	var deferredName= channel.entries[0]["dataEntry"]._deferredName; // This is not good! How can I get deferredName
             if(channel && inputSlotIdx != undefined){
                 // Direct input already exists
-                entry.setDirectInput(j, inputSlotIdx, mappedInputNam,deferredName);
+                entry.setDirectInput(j, inputSlotIdx, mappedInputName,deferredName);
             }
             else{
                 // new direct input

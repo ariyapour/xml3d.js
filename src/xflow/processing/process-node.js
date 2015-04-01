@@ -115,7 +115,7 @@ function checkInput(processNode, operator, inputMapping, inputChannels){
                 + entry.source, dataNode);
             return false;
         }
-        if(dataName){
+        if(dataName && !entry.deferred){
             var channel = inputChannels[entry.source];
             if(!channel){
                 Xflow.notifyError("Xflow: operator " + operator.name + ": Input of name '" + dataName +

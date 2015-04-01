@@ -46,7 +46,7 @@
         function shade(env) {
     var diffuseColor;
     diffuseColor = env.diffuseTexture.sample2D(env.texcoord).rgb();
-    return new Shade().diffuse(diffuseColor, env.normal);
+    return new Shade().diffuse(diffuseColor, env.normal,env.ambientIntensity);
 }
    </script>
 
@@ -62,9 +62,7 @@
 
 		
       <shader id="Material" script="#shader" >
-       <float name="ambientIntensity">0.1</float>
-       <float2 name="texcoord" deferred=true></float2>
-       <float3 name="normal" deferred=true></float3>
+       <float name="ambientIntensity">0.1</float>lo
        <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
       </shader>
 	  

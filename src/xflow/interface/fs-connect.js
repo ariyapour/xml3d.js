@@ -8,9 +8,16 @@
  */
 Xflow.FSConfig = function(shaderCode){
     this._shaderSourceCode = shaderCode;
+    this._inputIndices = {};
 };
 
+Xflow.FSConfig.prototype.setInputIndices = function(inputIndices){
+    return this._inputIndices = inputIndices;
+}
 
+Xflow.FSConfig.prototype.setShaderSourceCode = function(shaderSourceCode){
+    return this._shaderSourceCode = shaderSourceCode;
+}
 
 Xflow.FSConfig.prototype.getKey = function(){
     return this._shaderSourceCode;
@@ -32,11 +39,15 @@ Xflow.FSConfig.prototype.getOperator = function(xflowNode){
     for (var param in convertedShaderCode.params){
     	var name = convertedShaderCode.params[param];
     	var attr = xflowNode.getOutputChannelInfo(name);
-    	if (attr)
+    	if (attr){
     		type = Xflow.getTypeName(attr.type);
-    	else
-    		type ="float"; // it doesnt matter if it is right type pr not. Shadejs will figure it out
-		params.push( { type: type, source: name,optional: false} ); 
+    		deferred = false;
+    	}
+    	else{
+    		type ="float3"; // it doesn't matter if it is right type or not. Shadejs will figure it out
+    		deferred = true;
+    	}
+		params.push( { type: type, source: name,optional: false,deferred: deferred} ); 
 		name += "T" + type + "N" + name + "O" + false + ".";	
     }
     outputs.push( { type: "float4", name: "output"} );

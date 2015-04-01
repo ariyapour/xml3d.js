@@ -108,7 +108,9 @@
             
 //            scene.updateShaders();
             
-            var shaderEntries = shaderResult && shaderResult.getOutputMap(this.extractedParams),
+//            var shaderEntries = shaderResult && shaderResult.getOutputMap(this.extractedParams),
+//            var shaderEntries = shaderResult && shaderResult.outputNames,
+            var shaderEntries = shaderResult && shaderResult.getOutputMap(),
                 vsShaderOutput = vsDataResult && vsDataResult.outputNames;
 
             for(var i = 0; i < this.extractedParams.length; ++i){
@@ -118,7 +120,7 @@
                         vsDataResult.isOutputUniform(paramName) ? Shade.SOURCES.UNIFORM : Shade.SOURCES.VERTEX);
                 }
                 else if(shaderEntries && shaderEntries[paramName]){
-                	if (shaderEntries[paramName]._deferredName == true){
+                	if (shaderEntries[paramName].deferred == true){
                 		contextInfo[paramName] = Xflow.shadejs.convertFromXflow(
                                 shaderEntries[paramName].type, Shade.SOURCES.VERTEX);
                 	}
@@ -127,6 +129,7 @@
                         shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
                 	}
                 }
+                
             }
             XML3D.debug.logDebug("CONTEXT:", contextData);
 

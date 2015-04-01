@@ -59,16 +59,19 @@
 
             // The composer is interested in changes of all possible shader parameters (extracted)
             // the instances (closures) will only set those, that occur in the instance
+            
             if (this.extractedParams.length) {
                 this.updateRequest(shaderInfo.getData());
             }
             
             var shaderResult = this.getShaderDataResult();
             
-            var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);//test
-            this.sourceTemplate = shaderInfo.scriptCode = fastJs.func.code; //test
+            var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);
+            this.sourceTemplate = shaderInfo.scriptCode = fastJs.func.code; 
+            this.request.updateConfig(this.sourceTemplate,fastJs.func.inputIndices);
             this.extractedParams= Shade.extractParameters(this.sourceTemplate,
                     {implementation: "xml3d-glsl-forward"}).shaderParameters;
+
         },
         updateRequest: function(xflowDataNode){
             if(this.request) this.request.clear();

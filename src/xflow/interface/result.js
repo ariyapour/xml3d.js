@@ -152,7 +152,7 @@ Object.defineProperty(FSDataResult.prototype, "outputNames", {
     set: function(v){
         throw new Error("shaderOutputNames is readonly");
     },
-    get: function(){ return this._program.getOutputNames(); }
+    get: function(){ return this._program.getOutputNames(this); }
 });
 
 FSDataResult.prototype.isOutputUniform = function(name){
@@ -165,12 +165,18 @@ FSDataResult.prototype.getOutputType = function(name){
     return this._program.getOutputType(name);
 }
 FSDataResult.prototype.getFragmentShader = function(){
-    return this._program.createFragmentShader(this._programData);
+    return this._program.createFragmentShader(this._programData,this._requests[0]._fsConfig);
 }
 
-FSDataResult.prototype.getOutputMap= function(extractedParams){
-	var request = new Xflow.ComputeRequest(this._requests[0]._fsConnectNode,extractedParams);
-	return request.getResult().getOutputMap();
+FSDataResult.prototype.getOutputMap= function(){// ask tomorrow if this is a right way to do it
+	var fragmenShader = this.getFragmentShader();
+	var outputMap={};
+	for (name in fragmenShader._inputNames){
+		var inputData = fragmenShader.getInputData(fragmenShader._inputNames[name]);
+		if (inputData)
+			outputMap[fragmenShader._inputNames[name]] = inputData;
+	}
+	return outputMap;
 }
 
 })();
