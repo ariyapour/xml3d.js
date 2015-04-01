@@ -101,7 +101,7 @@
          * @param {Xflow.ComputeResult} xflowResult
          */
         updateUniformsFromComputeResult: function (xflowResult) {
-            var map = xflowResult.getOutputMap(this.extractedParams);
+            var map = xflowResult.getOutputMap();
 
             var envBase = this.uniformCollection.envBase = {};
             this.setDefaultUniforms(this.uniformCollection.envBase);
