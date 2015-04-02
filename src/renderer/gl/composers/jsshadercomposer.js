@@ -64,6 +64,7 @@
                 this.updateRequest(shaderInfo.getData());
             }
             
+            // Here we make the new shader code and update the shaderComposer and fsConfig
             var shaderResult = this.getShaderDataResult();
             
             var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);
@@ -71,14 +72,12 @@
             this.request.updateConfig(this.sourceTemplate,fastJs.func.inputIndices);
             this.extractedParams= Shade.extractParameters(this.sourceTemplate,
                     {implementation: "xml3d-glsl-forward"}).shaderParameters;
-
         },
         updateRequest: function(xflowDataNode){
             if(this.request) this.request.clear();
             var fsConfig = new Xflow.FSConfig(this.sourceTemplate);
             this.request = new Xflow.FragmentShaderRequest(xflowDataNode,fsConfig,
             		this.onShaderRequestChange.bind(this));
-
             this.setShaderRecompile();
         },
         getRequestFields: function() {
@@ -127,6 +126,25 @@
                     uniformCallback(vertexShader.getOutputSourceName(name), vertexShader.getUniformOutputData(name));
                 }
             }
+        },
+        
+        distributeObjectFragmentShaderData: function(objectRequest, attributeCallback, uniformCallback){
+            var fragmentShader = objectRequest.getFragmentShader();
+            var inputNames = fragmentShader.inputNames;
+            for(var i = 0; i < inputNames.length; ++i){
+                var name = inputNames[i], entry = fragmentShader.getInputData(name);
+                if(fragmentShader.isInputUniform(name))
+                    uniformCallback(name, entry);
+                else
+                    attributeCallback(name, entry);
+            }
+//            var outputNames = vertexShader.outputNames;
+//            for(var i = 0; i < outputNames.length; ++i){
+//                var name = outputNames[i];
+//                if(vertexShader.isOutputFragmentUniform(name)){
+//                    uniformCallback(vertexShader.getOutputSourceName(name), vertexShader.getUniformOutputData(name));
+//                }
+//            }
         }
 
     });

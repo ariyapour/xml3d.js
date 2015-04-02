@@ -52,6 +52,9 @@
             var cnt = xflowDataBuffer.getIterateCount();
             this.minAttributeCount = (this.minAttributeCount == -1 ? cnt : Math.min(this.minAttributeCount, cnt));
 
+            if(xflowDataBuffer._deferredName)//test
+            	return;
+            
             if(this.isIndexed){
                 if(cnt <= this.maxIndex){
                     throw new Error("Index range of [" + this.minIndex + ", " + this.maxIndex + "] " +

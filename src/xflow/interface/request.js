@@ -207,11 +207,6 @@ var  c_fsConnectNodeCount = {},
  * @param {?function} callback A callback function that gets called whenever the result of the Request changes
  */
 var FragmentShaderRequest = function(dataNode, fsConfig, callback){
-
-//	TODO Do we have a filter in fsConfig? ---> for getFsConnectNode we can pass without filter
-//    var filter = fsConfig.getFilter(); 
-//    if(filter.length == 0)
-//        throw new Error("vsConfig requires at least one attribute entry.");
     Xflow.Request.call(this, dataNode, null, callback);
     this._fsConfig = fsConfig;
     this._fsConnectNode = getFsConnectNode(dataNode, fsConfig);
@@ -224,19 +219,26 @@ FragmentShaderRequest.prototype.getConfig = function(){
     return this._fsConfig;
 }
 
-FragmentShaderRequest.prototype.updateConfig = function(code, inputIndices){
-    this._fsConfig._shaderSourceCode = code;
-    this._fsConfig._inputIndices = inputIndices;
-}
-
 FragmentShaderRequest.prototype.getResult = function(){ //add output as filter
     return swapResultRequest(this, this._fsConnectNode._getResult(Xflow.RESULT_TYPE.FS, ["output"])); //test
+}
+
+FragmentShaderRequest.prototype.getFragmentShader = function(){
+    this.getResult(); // Update the result first
+    if(!this._fragmentShader){
+        this._fragmentShader = this._result.getFragmentShader(this._fsConfig);
+    }
+    return this._fragmentShader;
 }
 
 //FragmentShaderRequest.prototype.getResult = function(){ //add output as filter
 //    return swapResultRequest(this, this._fsConnectNode._getResult(Xflow.RESULT_TYPE.FS, this._filter));
 //}
 
+FragmentShaderRequest.prototype.updateConfig = function(code, inputIndices){
+    this._fsConfig._shaderSourceCode = code;
+    this._fsConfig._inputIndices = inputIndices;
+}
 
 FragmentShaderRequest.prototype._onDataNodeChange = function(notification){
     if(notification == Xflow.RESULT_STATE.CHANGED_STRUCTURE){

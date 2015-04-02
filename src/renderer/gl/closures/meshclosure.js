@@ -256,6 +256,9 @@
 
             this.shaderComposer.distributeObjectShaderData(this.objectShaderRequest,
                 this.bindedHandleBuffer, this.bindedHandleUniform);
+            
+            this.shaderComposer.distributeObjectFragmentShaderData(this.shaderComposer.request,
+                    this.bindedHandleBuffer, this.bindedHandleUniform);
 
             if(!this.mesh.isReadyToRender()){
                 throw new Error("Mesh has empty vertex attributes.");

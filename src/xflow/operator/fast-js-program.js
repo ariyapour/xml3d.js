@@ -25,19 +25,22 @@
     }
 
     function createFastJsProgram(operatorList){
-    	var parameterMap={};
-        var snippetList = Xflow.shadejs.convertOperatorListToSnippets(operatorList,0,operatorList.entries.length,parameterMap);
+        var snippetList = Xflow.shadejs.convertOperatorListToSnippets(operatorList,0,operatorList.entries.length);
         var systemParams = {
             "type": "object",
             "kind": "any",
             "info": {}
         };
 
-//        var result = Shade.compileJsProgram(snippetList, systemParams, true);
-        var result = Shade.creatFragmentShaderSource(snippetList, systemParams, parameterMap);
-//        var func = eval("(" + result.code + ")");
-//        return func;
-        return result;
+        if (operatorList.platform == Xflow.RESULT_TYPE.FS){
+        	var result = Shade.creatFragmentShaderSource(snippetList, systemParams);
+        	return result;
+        }
+        else{
+	        var result = Shade.compileJsProgram(snippetList, systemParams, true);
+	        var func = eval("(" + result.code + ")");
+	        return func;
+        }
     }
 
 }());
