@@ -1,13 +1,13 @@
 Xflow.registerOperator("xflow.fractal", {
 	outputs: [	{type: 'float3', name: 'diffuseColor'}],
-    params:  [ {type: 'float2', source: 'texcoord' },
+    params:  [ {type: 'float2', source: 'tex' },
                {type: 'float', source: 'time' }],
     platforms: ["JAVASCRIPT", "GLSL_FS"],
-    evaluate_shadejs: function fractal(texcoord,time)
+    evaluate_shadejs: function fractal(tex,time)
     {
         // var p = this.normalizedCoords.xy().mul(2).sub(1);
       // p = p.mul(this.width / this.height,1);
-      var p = texcoord.add(0, 0.6).mul(0.1);
+      var p = tex.add(0, 0.6).mul(0.1);
       // animation
       var tz = 0.5 - 0.5*Math.cos(0.225*time);
       var zoo = Math.pow( 0.5, 13.0001000001*tz );
