@@ -51,7 +51,7 @@
     }
 
 
-    Xflow.shadejs.convertOperatorListToSnippets = function(operatorList, startIndex, endIndex,parameterMap){
+    Xflow.shadejs.convertOperatorListToSnippets = function(operatorList, startIndex, endIndex){
         var snippetList = new Shade.SnippetList();
         var entries = operatorList.entries;
 
@@ -87,8 +87,6 @@
                         isIterate = operatorList.isInputIterate(directInputIndex),
                         arrayAccess = mappingEntry.array;
                     	deferredName = entry.inputInfo[j].deferredName;
-                    	if(mappingEntry.name!=entry.inputInfo[j].mappedName &&  !entry.inputInfo[j].deferredName && parameterMap)
-                    		parameterMap[mappingEntry.name] = entry.inputInfo[j].mappedName;
                     if(isIterate)
                         snippet.addVertexInput(shadeJsType, directInputIndex, deferredName);
                     else if(arrayAccess)

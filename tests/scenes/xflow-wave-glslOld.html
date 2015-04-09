@@ -42,13 +42,13 @@
         return new Shade().diffuse(ct.mul(0.65), env.normal.normalize(), 0).cookTorrance(new Vec3(1.0, 1.0, 1.0).mul(0.7), env.normal.normalize(), 1.7, env.roughness);
     }
    </script>-->
-  <!--  <script id="shader" type="text/shade-javascript" >
+    <script id="shader" type="text/shade-javascript" >
         function shade(env) {
     var diffuseColor;
     diffuseColor = env.diffuseTexture.sample2D(env.texcoord).rgb();
     return new Shade().diffuse(diffuseColor, env.normal,env.ambientIntensity);
 }
-   </script> -->
+   </script> 
 
     <xml3d id="myxml3d" class="xml3d" activeView="#Camera" style="background: blue;" >
      <defs id="mainDef">
@@ -59,31 +59,18 @@
        <float3 name="attenuation">1 0.033333 1</float3>
        <float3 name="intensity">100 100 100</float3>
       </lightshader> 
-
-    <shader id="Material" script="urn:xml3d:shader:phong">
-      <float3 name="diffuseColor">1.0 0.5 0.5</float3>
+	
+    <shader id="Material" script="urn:xml3d:shader:diffuse">
+      <float3 name="diffuseColor">0.10 0.2 0.5</float3>
       <float name="ambientIntensity">1.0</float>
     </shader>
+		-->
 		<!---
       <shader id="Material" script="#shader" >
        <float name="ambientIntensity">0.1</float>lo
        <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
       </shader>-->
 	  
-	  
-	  	  <!--
-      <shader id="Material" script="#shader">
-    	<float name="roughness">0.2</float>
-	  	<float3 name="position" deferredName=true></float3>
-	  	<float3 name="normal" deferredName=true></float3>
-		<float2 name="texcoord" deferredName=true></float2>
-      </shader>  
-      -->
-      
-
-
-      
-
       <transform id="t_Camera" rotation="-0.641815 0.733700 0.223063 1.145952" scale="1 1 1" translation="3.184399 3.711076 2.405665"></transform>
       <transform id="t_Grid" rotation="1 0.000000 0.000000 0.000000" scale="25.000000 25.000000 25.000000" translation="0.000000 0.00 0.000000"></transform>
       <transform id="t_Lamp" rotation="0.205942 0.331517 0.920698 1.926274" scale="1 1 1" translation="2.086632 10.648042 1.161145"></transform>

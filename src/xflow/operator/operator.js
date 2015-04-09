@@ -102,7 +102,7 @@ function initOperator(operator){
     }
     if(!operator.evaluate_shadejs){
         platforms[Xflow.PLATFORM.GLSL_VS] = false;
-        platforms[Xflow.PLATFORM.GLSL_FS] = false;//Shold we also have this?
+        platforms[Xflow.PLATFORM.GLSL_FS] = false;
     }
     operator.platforms = platforms;
 

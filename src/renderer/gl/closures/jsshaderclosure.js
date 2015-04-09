@@ -106,10 +106,7 @@
 
             var contextInfo = contextData["global.shade"][0].extra.info;
             
-//            scene.updateShaders();
             
-//            var shaderEntries = shaderResult && shaderResult.getOutputMap(this.extractedParams),
-//            var shaderEntries = shaderResult && shaderResult.outputNames,
             var shaderEntries = shaderResult && shaderResult.getOutputMap(),
                 vsShaderOutput = vsDataResult && vsDataResult.outputNames;
 

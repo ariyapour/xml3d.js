@@ -53,13 +53,13 @@ Result.prototype._notifyChanged = function(state){
         this._requests[i]._onResultChanged(this, state);
     }
     Xflow._listCallback(this, state);
-}
+};
 
 Result.prototype._onListedCallback = function(state){
     for(var i = 0; i < this._listeners.length; ++i){
         this._listeners[i](this, state);
     }
-}
+};
 
 
 
@@ -121,16 +121,16 @@ Object.defineProperty(VSDataResult.prototype, "outputNames", {
 
 VSDataResult.prototype.isOutputUniform = function(name){
     return this._program.isOutputUniform(name);
-}
+};
 VSDataResult.prototype.isOutputNull = function(name){
     return this._program.isOutputNull(name);
-}
+};
 VSDataResult.prototype.getOutputType = function(name){
     return this._program.getOutputType(name);
-}
+};
 VSDataResult.prototype.getVertexShader = function(vsConfig){
     return this._program.createVertexShader(this._programData, vsConfig);
-}
+};
 
 
 /**
@@ -157,18 +157,18 @@ Object.defineProperty(FSDataResult.prototype, "outputNames", {
 
 FSDataResult.prototype.isOutputUniform = function(name){
     return this._program.isOutputUniform(name);
-}
+};
 FSDataResult.prototype.isOutputNull = function(name){
     return this._program.isOutputNull(name);
-}
+};
 FSDataResult.prototype.getOutputType = function(name){
     return this._program.getOutputType(name);
-}
+};
 FSDataResult.prototype.getFragmentShader = function(){
     return this._program.createFragmentShader(this._programData,this._requests[0]._fsConfig);
-}
+};
 
-FSDataResult.prototype.getOutputMap= function(){// ask tomorrow if this is a right way to do it
+FSDataResult.prototype.getOutputMap= function(){
 	var fragmenShader = this.getFragmentShader();
 	var outputMap={};
 	for (name in fragmenShader._inputNames){
@@ -177,6 +177,6 @@ FSDataResult.prototype.getOutputMap= function(){// ask tomorrow if this is a rig
 			outputMap[fragmenShader._inputNames[name]] = inputData;
 	}
 	return outputMap;
-}
+};
 
 })();

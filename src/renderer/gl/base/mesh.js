@@ -52,7 +52,8 @@
             var cnt = xflowDataBuffer.getIterateCount();
             this.minAttributeCount = (this.minAttributeCount == -1 ? cnt : Math.min(this.minAttributeCount, cnt));
 
-            if(xflowDataBuffer._deferredName)//test
+            //If we have a deferred value, then we dont need to check
+            if(xflowDataBuffer._deferredName)
             	return;
             
             if(this.isIndexed){

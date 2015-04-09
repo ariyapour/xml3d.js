@@ -729,11 +729,11 @@ DataNode.prototype.removeListener = function(listener){
     Array.erase(this._listeners, listener);
 }
 
-DataNode.prototype.getOutputNames = function(){// this one might also be helpful
+DataNode.prototype.getOutputNames = function(){
     return getForwardNode(this)._channelNode.getOutputNames();
 }
 
-DataNode.prototype.getOutputChannelInfo = function(name){ // look at here for generating the input types of the operator created for shader
+DataNode.prototype.getOutputChannelInfo = function(name){
     return getForwardNode(this)._channelNode.getOutputChannelInfo(name);
 }
 DataNode.prototype.getParamNames = function(){

@@ -52,7 +52,7 @@
                 // FIXME: Shader.js should always request position (in case
             }
             catch(e){
-                // We ignore errors here. They will reoccur when updating connected mesh closures
+                // We ignore errors here. They will recur when updating connected mesh closures
                 this.extractedParams = [];
             }
             if(this.extractedParams.indexOf("position") == -1) this.extractedParams.push("position");
@@ -64,7 +64,7 @@
                 this.updateRequest(shaderInfo.getData());
             }
             
-            // Here we make the new shader code and update the shaderComposer and fsConfig
+            //Creat new shader code and update the shaderComposer and fsConfig
             var shaderResult = this.getShaderDataResult();
             
             var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);
@@ -96,7 +96,6 @@
             var names = this.extractedParams.slice();
             //if(names.indexOf("position") == -1) names.push("position");
             vsConfig.addAttribute(Xflow.DATA_TYPE.FLOAT3, "position", true);
-//            vsConfig.addAttribute(Xflow.DATA_TYPE.FLOAT2, "texcoord", true);
             for(var i = 0; i < names.length; ++i){
                 var name = names[i];
                 if(name == "position" ) continue;

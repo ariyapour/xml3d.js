@@ -42,7 +42,6 @@
     
     
     function setOutputIterate(program){
-//    	var fragmentShader = program.createFragmentShader(programData, fsConfig);
         var operatorList = program.list, entries = operatorList.entries;
 
         var baseEntry = entries[entries.length - 1], baseOperator = baseEntry.operator;

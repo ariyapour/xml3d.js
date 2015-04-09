@@ -48,12 +48,12 @@ Request.prototype.clear = function(){
 };
 
 Request.prototype._onListedCallback = function(data){
-    this._listener && this._listener(this, data)
+    this._listener && this._listener(this, data);
 };
 
 function swapResultRequest(request, newResult){
     if(request._result) request._result._removeRequest(request);
-    request._result = newResult
+    request._result = newResult;
     if(newResult) newResult._addRequest(request);
     return newResult;
 }
@@ -71,7 +71,7 @@ function notifyListeners(request, notification){
  */
 Request.prototype._onDataNodeChange = function(notification){
     notifyListeners(this, notification);
-}
+};
 
 /**
  * A ComputeRequest is a Request for a ComputeResult, which contains a named map of typed values.
@@ -89,11 +89,11 @@ Xflow.ComputeRequest = ComputeRequest;
 
 ComputeRequest.prototype.getResult = function(){
     return swapResultRequest(this, this._dataNode._getResult(Xflow.RESULT_TYPE.COMPUTE, this._filter));
-}
+};
 
 ComputeRequest.prototype._onResultChanged = function(result, notification){
     this._onDataNodeChange(notification);
-}
+};
 
 
 var c_vsConnectNodeCount = {},
@@ -123,11 +123,11 @@ Xflow.VertexShaderRequest = VertexShaderRequest;
 
 VertexShaderRequest.prototype.getConfig = function(){
     return this._vsConfig;
-}
+};
 
 VertexShaderRequest.prototype.getResult = function(){
     return swapResultRequest(this, this._vsConnectNode._getResult(Xflow.RESULT_TYPE.VS, this._filter));
-}
+};
 
 VertexShaderRequest.prototype._onDataNodeChange = function(notification){
     if(notification == Xflow.RESULT_STATE.CHANGED_STRUCTURE){
@@ -138,7 +138,7 @@ VertexShaderRequest.prototype._onDataNodeChange = function(notification){
         }
     }
     Request.prototype._onDataNodeChange.call(this, notification);
-}
+};
 
 VertexShaderRequest.prototype.getVertexShader = function(){
     this.getResult(); // Update the result first
@@ -146,11 +146,11 @@ VertexShaderRequest.prototype.getVertexShader = function(){
         this._vertexShader = this._result.getVertexShader(this._vsConfig);
     }
     return this._vertexShader;
-}
+};
 
 VertexShaderRequest.prototype._onResultChanged = function(result, notification){
     this._onDataNodeChange(notification);
-}
+};
 
 function getVsConnectNode(dataNode, vsConfig, filter){
     var forwardNode = dataNode._getForwardNode(filter);
@@ -195,8 +195,6 @@ function getDataNodeShaderKey(dataNode, vsConfig){
 var  c_fsConnectNodeCount = {},
 	 c_fsConnectNodeKey = {},
 	 c_fsConnectNodeCache = {};
-
-
 /**
  * A FragmentShaderRequest is a Request for a FSDataResult, used to generate a Xflow.FragmentShader that includes
  * dataflow processing
@@ -217,11 +215,11 @@ Xflow.FragmentShaderRequest = FragmentShaderRequest;
 
 FragmentShaderRequest.prototype.getConfig = function(){
     return this._fsConfig;
-}
+};
 
 FragmentShaderRequest.prototype.getResult = function(){ //add output as filter
     return swapResultRequest(this, this._fsConnectNode._getResult(Xflow.RESULT_TYPE.FS, ["output"])); //test
-}
+};
 
 FragmentShaderRequest.prototype.getFragmentShader = function(){
     this.getResult(); // Update the result first
@@ -229,16 +227,13 @@ FragmentShaderRequest.prototype.getFragmentShader = function(){
         this._fragmentShader = this._result.getFragmentShader(this._fsConfig);
     }
     return this._fragmentShader;
-}
+};
 
-//FragmentShaderRequest.prototype.getResult = function(){ //add output as filter
-//    return swapResultRequest(this, this._fsConnectNode._getResult(Xflow.RESULT_TYPE.FS, this._filter));
-//}
 
 FragmentShaderRequest.prototype.updateConfig = function(code, inputIndices){
     this._fsConfig._shaderSourceCode = code;
     this._fsConfig._inputIndices = inputIndices;
-}
+};
 
 FragmentShaderRequest.prototype._onDataNodeChange = function(notification){
     if(notification == Xflow.RESULT_STATE.CHANGED_STRUCTURE){
@@ -249,26 +244,25 @@ FragmentShaderRequest.prototype._onDataNodeChange = function(notification){
         }
     }
     Request.prototype._onDataNodeChange.call(this, notification);
-}
+};
 
 ////
 
 FragmentShaderRequest.prototype._onResultChanged = function(result, notification){
     this._onDataNodeChange(notification);
-}
+};
 
 function getFsConnectNode(dataNode, fsConfig, filter){
     var forwardNode = dataNode._getForwardNode(filter);
 
-    var key = getDataNodeShaderKey(forwardNode, fsConfig);  // I guess here we return the source code
+    var key = getDataNodeShaderKey(forwardNode, fsConfig);
     var connectNode;
     if(!(connectNode = c_fsConnectNodeCache[key])){
         var graph = forwardNode._graph;
         connectNode = graph.createDataNode(false);
         connectNode.appendChild(forwardNode);
 
-//        TODO do we have fsConfig.getOperator()?
-        connectNode.computeOperator = fsConfig.getOperator(dataNode); // Implement this for fsconfig
+        connectNode.computeOperator = fsConfig.getOperator(dataNode); 
         connectNode.computeInputMapping = null;
         connectNode.computeOutputMapping = null;
 

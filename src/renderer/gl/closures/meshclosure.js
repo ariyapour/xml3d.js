@@ -256,7 +256,8 @@
 
             this.shaderComposer.distributeObjectShaderData(this.objectShaderRequest,
                 this.bindedHandleBuffer, this.bindedHandleUniform);
-            // If we have URN shaders then we would not have a fragment shader
+            
+            // If we have URN shaders then we won't have a fragment shader
             if (this.shaderComposer.distributeObjectFragmentShaderData != undefined) 
             	this.shaderComposer.distributeObjectFragmentShaderData(this.shaderComposer.request,
             			this.bindedHandleBuffer, this.bindedHandleUniform);
