@@ -105,7 +105,19 @@
                     uniformCallback(name, dataMap[name]);
                 }
             }
-        }
+        },
+//        
+//        distributeObjectFragmentShaderData: function(objectRequest, attributeCallback, uniformCallback){
+//            var fragmentShader = objectRequest.getFragmentShader();
+//            var inputNames = fragmentShader.inputNames;
+//            for(var i = 0; i < inputNames.length; ++i){
+//                var name = inputNames[i], entry = fragmentShader.getInputData(name);
+//                if(fragmentShader.isInputUniform(name))
+//                    uniformCallback(name, entry);
+//                else
+//                    attributeCallback(name, entry);
+//            }
+//        }
 
     });
 

@@ -42,13 +42,13 @@
         return new Shade().diffuse(ct.mul(0.65), env.normal.normalize(), 0).cookTorrance(new Vec3(1.0, 1.0, 1.0).mul(0.7), env.normal.normalize(), 1.7, env.roughness);
     }
    </script>-->
-   <script id="shader" type="text/shade-javascript" >
+  <!--  <script id="shader" type="text/shade-javascript" >
         function shade(env) {
     var diffuseColor;
     diffuseColor = env.diffuseTexture.sample2D(env.texcoord).rgb();
     return new Shade().diffuse(diffuseColor, env.normal,env.ambientIntensity);
 }
-   </script>
+   </script> -->
 
     <xml3d id="myxml3d" class="xml3d" activeView="#Camera" style="background: blue;" >
      <defs id="mainDef">
@@ -58,13 +58,17 @@
       <lightshader id="ls_Spot" script="urn:xml3d:lightshader:point">
        <float3 name="attenuation">1 0.033333 1</float3>
        <float3 name="intensity">100 100 100</float3>
-      </lightshader>
+      </lightshader> 
 
-		
+    <shader id="Material" script="urn:xml3d:shader:phong">
+      <float3 name="diffuseColor">1.0 0.5 0.5</float3>
+      <float name="ambientIntensity">1.0</float>
+    </shader>
+		<!---
       <shader id="Material" script="#shader" >
        <float name="ambientIntensity">0.1</float>lo
        <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
-      </shader>
+      </shader>-->
 	  
 	  
 	  	  <!--
@@ -114,12 +118,15 @@
      <view id="Camera" orientation="-0.3941052556037903 0.9096987843513489 0.13087835907936096 0.8260897732744243" position="13.423173904418945 6.755307197570801 14.065818786621094"></view>
 
      <!-- Wave Shape Display: -->
-
      <group shader="#Material" transform="#t_Grid">
       <mesh type="triangles" id="waveMesh">
         <data src="#wave"></data>
       </mesh>
      </group>
+    <shader id="ex4_1_redShader" script="urn:xml3d:shader:phong">
+      <float3 name="diffuseColor">1.0 0.5 0.5</float3>
+      <float name="ambientIntensity">1.0</float>
+    </shader>
 
      <!-- Light Source: -->
      <group transform="#t_Lamp">

@@ -138,13 +138,6 @@
                 else
                     attributeCallback(name, entry);
             }
-//            var outputNames = vertexShader.outputNames;
-//            for(var i = 0; i < outputNames.length; ++i){
-//                var name = outputNames[i];
-//                if(vertexShader.isOutputFragmentUniform(name)){
-//                    uniformCallback(vertexShader.getOutputSourceName(name), vertexShader.getUniformOutputData(name));
-//                }
-//            }
         }
 
     });

@@ -256,9 +256,10 @@
 
             this.shaderComposer.distributeObjectShaderData(this.objectShaderRequest,
                 this.bindedHandleBuffer, this.bindedHandleUniform);
-            
-            this.shaderComposer.distributeObjectFragmentShaderData(this.shaderComposer.request,
-                    this.bindedHandleBuffer, this.bindedHandleUniform);
+            // If we have URN shaders then we would not have a fragment shader
+            if (this.shaderComposer.distributeObjectFragmentShaderData != undefined) 
+            	this.shaderComposer.distributeObjectFragmentShaderData(this.shaderComposer.request,
+            			this.bindedHandleBuffer, this.bindedHandleUniform);
 
             if(!this.mesh.isReadyToRender()){
                 throw new Error("Mesh has empty vertex attributes.");
