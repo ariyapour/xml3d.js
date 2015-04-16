@@ -14,56 +14,6 @@ var ValueDataAdapter = function (factory, node) {
 };
 XML3D.createClass(ValueDataAdapter, NodeAdapter);
 
-//<<<<<<< HEAD
-//    var BUFFER_TYPE_TABLE = {};
-//    BUFFER_TYPE_TABLE['float']    = Xflow.DATA_TYPE.FLOAT;
-//    BUFFER_TYPE_TABLE['int']      = Xflow.DATA_TYPE.INT;
-//    BUFFER_TYPE_TABLE['byte']     = Xflow.DATA_TYPE.BYTE;
-//    BUFFER_TYPE_TABLE['ubyte']    = Xflow.DATA_TYPE.UBYTE;
-//    BUFFER_TYPE_TABLE['bool']     = Xflow.DATA_TYPE.BOOL;
-//    BUFFER_TYPE_TABLE['float2']   = Xflow.DATA_TYPE.FLOAT2;
-//    BUFFER_TYPE_TABLE['float3']   = Xflow.DATA_TYPE.FLOAT3;
-//    BUFFER_TYPE_TABLE['float4']   = Xflow.DATA_TYPE.FLOAT4;
-//    BUFFER_TYPE_TABLE['int4']     = Xflow.DATA_TYPE.INT4;
-//    BUFFER_TYPE_TABLE['float4x4'] = Xflow.DATA_TYPE.FLOAT4X4;
-//    XML3D.data.BUFFER_TYPE_TABLE = BUFFER_TYPE_TABLE;
-//    /**
-//     * Constructor of XML3D.data.ValueDataAdapter
-//     *
-//     * @extends XML3D.data.DataAdapter
-//     * @extends XML3D.data.ProviderEntry
-//     * @constructor
-//     *
-//     * @param factory
-//     * @param {Element} node
-//     */
-//    var ValueDataAdapter = function(factory, node)
-//    {
-//        XML3D.data.DataAdapter.call(this, factory, node);
-//        this.xflowInputNode = null;
-//    };
-//    XML3D.createClass(ValueDataAdapter, XML3D.base.NodeAdapter);
-//
-//    ValueDataAdapter.prototype.init = function()
-//    {
-//        var config = this.node._configured, value;
-//        if(this.node.textContent == XML3D.scriptValueLabel){
-//            value = config.scriptValue;
-//        }
-//        else{
-//            delete config.scriptValue;
-//            if (this.node.deferred)
-//            	value = this.node.name;
-//            else
-//            	value = this.node.value;
-//        }
-//
-//        var type = BUFFER_TYPE_TABLE[this.node.localName];
-//        var buffer = new Xflow.BufferEntry(type, value);
-//        if (this.node.deferred)
-//        	buffer._deferredName = this.node.name;
-        
-//=======
 ValueDataAdapter.prototype.init = function()
 {
     var config = this.node._configured, value;
@@ -82,7 +32,6 @@ ValueDataAdapter.prototype.init = function()
     var buffer = new Xflow.BufferEntry(type, value);
     if (this.node.deferred)
     	buffer._deferredName = this.node.name;
-//>>>>>>> ariyapour/xflow-shadejs
 
     this.xflowInputNode = this.factory.graph.createInputNode();
     this.xflowInputNode.name = this.node.name;

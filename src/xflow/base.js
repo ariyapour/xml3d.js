@@ -242,12 +242,8 @@ var Xflow = {};
         JAVASCRIPT: 0,
         GLSL_VS: 1,
         GLSL_FS: 2,
-//<<<<<<< HEAD
-//        CL: 3
-//=======
         CL: 3,
         ASYNC: 4
-//>>>>>>> ariyapour/xflow-shadejs
     };
 
     Xflow.PROCESS_STATE = {

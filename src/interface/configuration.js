@@ -445,21 +445,12 @@ classInfo['float'] = {
     id: {a: handlers.IDHandler},
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     // TODO: Handle style for float
-//<<<<<<< HEAD
-//    name: {a: XML3D.StringAttributeHandler},
-//    param: {a: XML3D.BoolAttributeHandler, params: false},
-//    deferred: {a: XML3D.BoolAttributeHandler, params: false},
-//    key: {a: XML3D.FloatAttributeHandler, params: 0.0},
-//    value: {a: XML3D.FloatArrayValueHandler},
-//    setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
-//=======
     name: {a: handlers.StringAttributeHandler},
     param: {a: handlers.BoolAttributeHandler, params: false},
     deferred: {a: handlers.BoolAttributeHandler, params: false},
     key: {a: handlers.FloatAttributeHandler, params: 0.0},
     value: {a: handlers.FloatArrayValueHandler},
     setScriptValue: {m: methods.XML3DDataSourceTypeSetScriptValue},
-//>>>>>>> ariyapour/xflow-shadejs
     _term: undefined
 };
 /**
@@ -469,21 +460,12 @@ classInfo['float2'] = {
     id: {a: handlers.IDHandler},
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     // TODO: Handle style for float2
-//<<<<<<< HEAD
-//    name: {a: XML3D.StringAttributeHandler},
-//    param: {a: XML3D.BoolAttributeHandler, params: false},
-//    deferred: {a: XML3D.BoolAttributeHandler, params: false},
-//    key: {a: XML3D.FloatAttributeHandler, params: 0.0},
-//    value: {a: XML3D.Float2ArrayValueHandler},
-//    setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
-//=======
     name: {a: handlers.StringAttributeHandler},
     param: {a: handlers.BoolAttributeHandler, params: false},
     deferred: {a: handlers.BoolAttributeHandler, params: false},
     key: {a: handlers.FloatAttributeHandler, params: 0.0},
     value: {a: handlers.Float2ArrayValueHandler},
     setScriptValue: {m: methods.XML3DDataSourceTypeSetScriptValue},
-//>>>>>>> ariyapour/xflow-shadejs
     _term: undefined
 };
 /**
@@ -493,21 +475,12 @@ classInfo['float3'] = {
     id: {a: handlers.IDHandler},
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     // TODO: Handle style for float3
-//<<<<<<< HEAD
-//    name: {a: XML3D.StringAttributeHandler},
-//    param: {a: XML3D.BoolAttributeHandler, params: false},
-//    deferred: {a: XML3D.BoolAttributeHandler, params: false},
-//    key: {a: XML3D.FloatAttributeHandler, params: 0.0},
-//    value: {a: XML3D.Float3ArrayValueHandler},
-//    setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
-//=======
     name: {a: handlers.StringAttributeHandler},
     param: {a: handlers.BoolAttributeHandler, params: false},
     deferred: {a: handlers.BoolAttributeHandler, params: false},
     key: {a: handlers.FloatAttributeHandler, params: 0.0},
     value: {a: handlers.Float3ArrayValueHandler},
     setScriptValue: {m: methods.XML3DDataSourceTypeSetScriptValue},
-//>>>>>>> ariyapour/xflow-shadejs
     _term: undefined
 };
 /**
@@ -517,21 +490,12 @@ classInfo['float4'] = {
     id: {a: handlers.IDHandler},
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     // TODO: Handle style for float4
-//<<<<<<< HEAD
-//    name: {a: XML3D.StringAttributeHandler},
-//    param: {a: XML3D.BoolAttributeHandler, params: false},
-//    deferred: {a: XML3D.BoolAttributeHandler, params: false},
-//    key: {a: XML3D.FloatAttributeHandler, params: 0.0},
-//    value: {a: XML3D.Float4ArrayValueHandler},
-//    setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
-//=======
     name: {a: handlers.StringAttributeHandler},
     param: {a: handlers.BoolAttributeHandler, params: false},
     deferred: {a: handlers.BoolAttributeHandler, params: false},
     key: {a: handlers.FloatAttributeHandler, params: 0.0},
     value: {a: handlers.Float4ArrayValueHandler},
     setScriptValue: {m: methods.XML3DDataSourceTypeSetScriptValue},
-//>>>>>>> ariyapour/xflow-shadejs
     _term: undefined
 };
 /**
@@ -541,21 +505,12 @@ classInfo['float4x4'] = {
     id: {a: handlers.IDHandler},
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     // TODO: Handle style for float4x4
-//<<<<<<< HEAD
-//    name: {a: XML3D.StringAttributeHandler},
-//    param: {a: XML3D.BoolAttributeHandler, params: false},
-//    deferred: {a: XML3D.BoolAttributeHandler, params: false},
-//    key: {a: XML3D.FloatAttributeHandler, params: 0.0},
-//    value: {a: XML3D.Float4x4ArrayValueHandler},
-//    setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
-//=======
     name: {a: handlers.StringAttributeHandler},
     param: {a: handlers.BoolAttributeHandler, params: false},
     deferred: {a: handlers.BoolAttributeHandler, params: false},
     key: {a: handlers.FloatAttributeHandler, params: 0.0},
     value: {a: handlers.Float4x4ArrayValueHandler},
     setScriptValue: {m: methods.XML3DDataSourceTypeSetScriptValue},
-//>>>>>>> ariyapour/xflow-shadejs
     _term: undefined
 };
 /**
@@ -565,21 +520,12 @@ classInfo['int'] = {
     id: {a: handlers.IDHandler},
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     // TODO: Handle style for int
-//<<<<<<< HEAD
-//    name: {a: XML3D.StringAttributeHandler},
-//    param: {a: XML3D.BoolAttributeHandler, params: false},
-//    deferred: {a: XML3D.BoolAttributeHandler, params: false},
-//    key: {a: XML3D.FloatAttributeHandler, params: 0.0},
-//    value: {a: XML3D.IntArrayValueHandler},
-//    setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
-//=======
     name: {a: handlers.StringAttributeHandler},
     param: {a: handlers.BoolAttributeHandler, params: false},
     deferred: {a: handlers.BoolAttributeHandler, params: false},
     key: {a: handlers.FloatAttributeHandler, params: 0.0},
     value: {a: handlers.IntArrayValueHandler},
     setScriptValue: {m: methods.XML3DDataSourceTypeSetScriptValue},
-//>>>>>>> ariyapour/xflow-shadejs
     _term: undefined
 };
 /**
@@ -589,21 +535,12 @@ classInfo['int4'] = {
     id: {a: handlers.IDHandler},
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     // TODO: Handle style for int4
-//<<<<<<< HEAD
-//    name: {a: XML3D.StringAttributeHandler},
-//    param: {a: XML3D.BoolAttributeHandler, params: false},
-//    deferred: {a: XML3D.BoolAttributeHandler, params: false},
-//    key: {a: XML3D.FloatAttributeHandler, params: 0.0},
-//    value: {a: XML3D.IntArrayValueHandler},
-//    setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
-//=======
     name: {a: handlers.StringAttributeHandler},
     param: {a: handlers.BoolAttributeHandler, params: false},
     deferred: {a: handlers.BoolAttributeHandler, params: false},
     key: {a: handlers.FloatAttributeHandler, params: 0.0},
     value: {a: handlers.IntArrayValueHandler},
     setScriptValue: {m: methods.XML3DDataSourceTypeSetScriptValue},
-//>>>>>>> ariyapour/xflow-shadejs
     _term: undefined
 };
 /**
@@ -613,21 +550,12 @@ classInfo['bool'] = {
     id: {a: handlers.IDHandler},
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     // TODO: Handle style for bool
-//<<<<<<< HEAD
-//    name: {a: XML3D.StringAttributeHandler},
-//    param: {a: XML3D.BoolAttributeHandler, params: false},
-//    deferred: {a: XML3D.BoolAttributeHandler, params: false},
-//    key: {a: XML3D.FloatAttributeHandler, params: 0.0},
-//    value: {a: XML3D.BoolArrayValueHandler},
-//    setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
-//=======
     name: {a: handlers.StringAttributeHandler},
     param: {a: handlers.BoolAttributeHandler, params: false},
     deferred: {a: handlers.BoolAttributeHandler, params: false},
     key: {a: handlers.FloatAttributeHandler, params: 0.0},
     value: {a: handlers.BoolArrayValueHandler},
     setScriptValue: {m: methods.XML3DDataSourceTypeSetScriptValue},
-//>>>>>>> ariyapour/xflow-shadejs
     _term: undefined
 };
 /**
@@ -637,21 +565,6 @@ classInfo['texture'] = {
     id: {a: handlers.IDHandler},
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     // TODO: Handle style for texture
-//<<<<<<< HEAD
-//    name: {a: XML3D.StringAttributeHandler},
-//    param: {a: XML3D.BoolAttributeHandler, params: false},
-//    deferred: {a: XML3D.BoolAttributeHandler, params: false},
-//    key: {a: XML3D.FloatAttributeHandler, params: 0.0},
-//    type: {a: XML3D.EnumAttributeHandler, params: {e: XML3D.TextureTypes, d: 0}},
-//    filterMin: {a: XML3D.EnumAttributeHandler, params: {e: XML3D.FilterTypes, d: 2}},
-//    filterMag: {a: XML3D.EnumAttributeHandler, params: {e: XML3D.FilterTypes, d: 2}},
-//    filterMip: {a: XML3D.EnumAttributeHandler, params: {e: XML3D.FilterTypes, d: 1}},
-//    wrapS: {a: XML3D.EnumAttributeHandler, params: {e: XML3D.WrapTypes, d: 0}},
-//    wrapT: {a: XML3D.EnumAttributeHandler, params: {e: XML3D.WrapTypes, d: 0}},
-//    wrapU: {a: XML3D.EnumAttributeHandler, params: {e: XML3D.WrapTypes, d: 0}},
-//    borderColor: {a: XML3D.StringAttributeHandler},
-//    setScriptValue: {m: XML3D.methods.XML3DDataSourceTypeSetScriptValue},
-//=======
     name: {a: handlers.StringAttributeHandler},
     param: {a: handlers.BoolAttributeHandler, params: false},
     deferred: {a: handlers.BoolAttributeHandler, params: false},
@@ -665,7 +578,6 @@ classInfo['texture'] = {
     wrapU: {a: handlers.EnumAttributeHandler, params: {e: WrapTypes, d: 0}},
     borderColor: {a: handlers.StringAttributeHandler},
     setScriptValue: {m: methods.XML3DDataSourceTypeSetScriptValue},
-//>>>>>>> ariyapour/xflow-shadejs
     _term: undefined
 };
 /**
