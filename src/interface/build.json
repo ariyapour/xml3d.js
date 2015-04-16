@@ -1,0 +1,4 @@
+{
+  "module": "interface",
+  "task": "browserify"
+}

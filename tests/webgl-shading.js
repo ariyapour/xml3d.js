@@ -33,7 +33,7 @@ test("Phong fragment shader", function() {
     equal(typeof phong.addDirectives, "function", "Function 'addDirectives' exists");
     var directives = [];
     phong.addDirectives.call(phong, directives, {}, {});
-    equal(directives.length, 8, "8 directives from phong shader");
+    equal(directives.length, 10, "10 directives from phong shader");
 
     var fragment1 = this.mergeDirectives(directives, this.addFragmentShaderHeader(phong.fragment));
     this.compiles(this.gl.FRAGMENT_SHADER, fragment1, "Phong fragment without globals compiles.");
@@ -44,11 +44,9 @@ test("Phong fragment shader", function() {
 
     directives = [];
     phong.addDirectives.call(phong, directives, {
-        point : {
-            length : 2
-        }
+        point : [{castShadow : false},{castShadow : false}]
     }, {});
-    equal(directives.length, 8, "8 directives from phong shader");
+    equal(directives.length, 10, "10 directives from phong shader");
     var fragment2 = this.mergeDirectives(directives, this.addFragmentShaderHeader(phong.fragment));
     this.compiles(this.gl.FRAGMENT_SHADER, fragment2, "Phong fragment with 2 point lights compiles.");
     notEqual(fragment2.indexOf("MAX_POINTLIGHTS 2"), -1, "MAX_POINTLIGHTS set");
@@ -58,9 +56,7 @@ test("Phong fragment shader", function() {
 
     directives = [];
     phong.addDirectives.call(phong, directives, {
-        directional : {
-            length : 1
-        }
+        directional : [{castShadow : false}]
     }, {});
     var fragment3 = this.mergeDirectives(directives, this.addFragmentShaderHeader(phong.fragment));
     this.compiles(this.gl.FRAGMENT_SHADER, fragment3, "Phong fragment with 1 directional light compiles.");
@@ -71,9 +67,7 @@ test("Phong fragment shader", function() {
 
     directives = [];
     phong.addDirectives.call(phong, directives, {
-        directional : {
-            length : 1
-        }
+        directional : [{castShadow : false}]
     }, {
         diffuseTexture : {}
     });
@@ -86,19 +80,17 @@ test("Phong fragment shader", function() {
 
     directives = [];
     phong.addDirectives.call(phong, directives, {
-        directional : {
-            length : 0
-        },
-        point : {
-            length : 20
-        }
+        directional : [],
+        point : [{castShadow : false},{castShadow : false},{castShadow : false},{castShadow : false},{castShadow : false},
+            {castShadow : false},{castShadow : false},{castShadow : false},{castShadow : false},{castShadow : false},
+            {castShadow : false},{castShadow : false},{castShadow : false},{castShadow : false},{castShadow : false}]
     }, {
         specularTexture : {}
     });
     var fragment5 = this.mergeDirectives(directives, this.addFragmentShaderHeader(phong.fragment));
     //console.log(fragment5);
-    this.compiles(this.gl.FRAGMENT_SHADER, fragment5, "Phong fragment with 20 point lights and a specular texture compiles.");
-    notEqual(fragment5.indexOf("MAX_POINTLIGHTS 20"), -1, "MAX_POINTLIGHTS set");
+    this.compiles(this.gl.FRAGMENT_SHADER, fragment5, "Phong fragment with 15 point lights and a specular texture compiles.");
+    notEqual(fragment5.indexOf("MAX_POINTLIGHTS 15"), -1, "MAX_POINTLIGHTS set");
     notEqual(fragment5.indexOf("MAX_DIRECTIONALLIGHTS 0"), -1, "MAX_DIRECTIONALLIGHTS set");
     notEqual(fragment5.indexOf("MAX_SPOTLIGHTS 0"), -1, "MAX_SPOTLIGHTS set");
     notEqual(fragment5.indexOf("HAS_DIFFUSETEXTURE 0"), -1, "HAS_DIFFUSETEXTURE set");
@@ -107,12 +99,8 @@ test("Phong fragment shader", function() {
 
     directives = [];
     phong.addDirectives.call(phong, directives, {
-        directional : {
-            length : 3
-        },
-        point : {
-            length : 5
-        }
+        directional : [{castShadow : false},{castShadow : false},{castShadow : false}],
+        point : [{castShadow : false},{castShadow : false},{castShadow : false},{castShadow : false},{castShadow : false}]
     }, {
         diffuseTexture : {},
         specularTexture : {},
@@ -390,7 +378,7 @@ test("Switching to previously unused shader", 3, function() {
         var actual = XML3DUnit.getPixelValue(gl, 40, 40);
         if (actual[4] == 0)
             return;
-        deepEqual(actual, [76,222,255,255], "Shading is correct");
+        QUnit.closeArray(actual, [76,222,255,255], PIXEL_EPSILON, "Shading is correct");
         start();
     };
     stop();

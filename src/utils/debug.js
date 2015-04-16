@@ -1,9 +1,11 @@
+var printStackTrace = require("../contrib/stacktrace-0.4.js");
+
 (function (ns) {
 
     var OPTION_LOGLEVEL = "loglevel";
     XML3D.options.register(OPTION_LOGLEVEL, "warning");
 
-    ns.debug = {
+    ns.exports = {
         ALL: 0,
         DEBUG: 1,
         INFO: 2,
@@ -55,7 +57,7 @@
                         window.console.error.apply(window.console, args);
                         break;
                     case XML3D.debug.EXCEPTION:
-                        window.console.error(XML3D.debug.printStackTrace({e: args[0], guess: true}).join('\n'));
+                        window.console.error(printStackTrace({e: args[0], guess: true}).join('\n'));
                         break;
                     case XML3D.debug.DEBUG:
                         window.console.debug.apply(window.console, args);
@@ -82,10 +84,16 @@
         },
         assert: function (c, msg) {
             if (!c) {
-                var caller = XML3D.debug.assert.caller ? XML3D.debug.assert.caller.name : null;
-
+                var caller;
+                try{
+                    caller = XML3D.debug.assert.caller ? XML3D.debug.assert.caller.name : null;
+                }
+                catch(e){
+                    caller = null;
+                }
                 if (caller)
-                    XML3D.debug.doLog(XML3D.debug.WARNING, ["Assertion failed in " + caller, msg ]); else
+                    XML3D.debug.doLog(XML3D.debug.WARNING, ["Assertion failed in " + caller, msg ]);
+                else
                     XML3D.debug.doLog(XML3D.debug.WARNING, ["Assertion failed", msg ]);
             }
         },
@@ -97,7 +105,7 @@
                 }
                 window.console.trace();
             } else {
-                var stack = XML3D.debug.printStackTrace();
+                var stack = printStackTrace();
                 msg && stack.splice(0, 0, msg);
                 XML3D.debug.doLog(logType, stack);
             }
@@ -117,4 +125,4 @@
         }
     };
 
-}(XML3D))
+}(module))

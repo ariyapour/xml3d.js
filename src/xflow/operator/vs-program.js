@@ -94,8 +94,12 @@
         var vsSnippet = constructVsSnippet(vsConfig, baseEntry, operatorList, vs);
         snippetList.addEntry(vsSnippet);
 
+//<<<<<<< HEAD
         // TODO: Make System params fetching independent of webgl namespace.
-        var systemParams = XML3D.webgl.getJSSystemConfiguration(this.context);
+//        var systemParams = XML3D.webgl.getJSSystemConfiguration(this.context);
+//=======
+        var systemParams = vsConfig.getSystemParams();
+//>>>>>>> ariyapour/xflow-shadejs
         var result = Shade.compileVertexShader(snippetList, systemParams);
         vs._glslCode = result.code;
 

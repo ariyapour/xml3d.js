@@ -25,13 +25,18 @@
     }
 
     function createFastJsProgram(operatorList){
+//<<<<<<< HEAD
         var snippetList = Xflow.shadejs.convertOperatorListToSnippets(operatorList,0,operatorList.entries.length);
+//=======
+//        var snippetList = Xflow.shadejs.convertOperatorListToSnippets(operatorList);
+//>>>>>>> ariyapour/xflow-shadejs
         var systemParams = {
             "type": "object",
             "kind": "any",
             "info": {}
         };
 
+//<<<<<<< HEAD
         if (operatorList.platform == Xflow.RESULT_TYPE.FS){
         	var result = Shade.creatFragmentShaderSource(snippetList, systemParams);
         	return result;
@@ -41,6 +46,11 @@
 	        var func = eval("(" + result.code + ")");
 	        return func;
         }
+//=======
+//        var result = Shade.compileJsProgram(snippetList, systemParams, true);
+//        var func = eval("(" + result.code + ")");
+//        return func;
+//>>>>>>> ariyapour/xflow-shadejs
     }
 
 }());

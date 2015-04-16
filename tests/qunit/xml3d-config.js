@@ -72,7 +72,9 @@ QUnit.extend( QUnit, {
         QUnit.push(passes, actual, expected, message);
     },
 
-    closeArray : function(actual, expected, maxDifference, message) {
+    closeArray : function(actual, expected, maxDifference, message, isImage) {
+
+        isImage = isImage == undefined ? false : true;
 
         if(!actual || actual.length != expected.length){
             QUnit.push(false, actual, expected, message);
@@ -82,7 +84,11 @@ QUnit.extend( QUnit, {
         for (var i=0; i<actual.length; i++) {
             var diff = Math.abs(actual[i] - expected[i]);
             if (isNaN(diff)  || diff > maxDifference) {
-                QUnit.push(false, actual, expected, message);
+                if(isImage) {
+                    QUnit.push(false, actual.length, expected.length, message);
+                } else {
+                    QUnit.push(false, actual, expected, message);
+                }
                 return;
             }
         }
@@ -147,6 +153,8 @@ var loadDocument = function(url, f) {
 };
 
 var EPSILON = 0.0001;
+var PIXEL_EPSILON = 1;
+
 QUnit.config.testTimeout = 5000;
 XML3DUnit = {};
 
@@ -183,6 +191,15 @@ XML3DUnit.getRendererString = function() {
     return result;
 };
 
+XML3DUnit.readScenePixels = function(xml3dElement) {
+    var context = getContextForXml3DElement(xml3dElement);
+    var canvas = context.canvas;
+
+    var scenePixels = new Uint8Array(canvas.width*canvas.height*4);
+    context.readPixels(0, 0, canvas.width, canvas.height, WebGLRenderingContext.RGBA, WebGLRenderingContext.UNSIGNED_BYTE, scenePixels);
+    return scenePixels;
+}
+
 XML3DUnit.loadSceneTestImages = function(doc, refSceneId, testSceneId, callback){
     var xRef = doc.getElementById(refSceneId),
         glRef = getContextForXml3DElement(xRef);
@@ -217,4 +234,59 @@ XML3DUnit.pixelsAreEqual = function(actual, shouldBe){
             actual[1] == shouldBe[1] &&
             actual[2] == shouldBe[2] &&
             actual[3] == shouldBe[3];
+}
+
+function promiseIFrameLoaded(url) {
+    var v = document.getElementById("xml3dframe");
+
+    ok(v, "Found iframe.");
+    var deferred = Q.defer();
+
+    var f = function(e) {
+        deferred.resolve(v.contentDocument);
+        v.removeEventListener("load", f, true);
+    };
+    // TODO: Loading failed
+    v.addEventListener("load", f, true);
+    v.src = url;
+    return deferred.promise;
+};
+
+function promiseOneSceneCompleteAndRendered(xml3dElement) {
+    if(xml3dElement.complete) {
+        return Q(xml3dElement);
+    }
+    var deferred = Q.defer();
+    var f = function(e) {
+        // Child elements dispact load events as well
+        if(e.target != xml3dElement) {
+            return;
+        }
+        xml3dElement.removeEventListener("load", f, true);
+        deferred.resolve(xml3dElement);
+    };
+    xml3dElement.addEventListener("load", f, true);
+    return deferred.promise;
+}
+
+function promiseSceneRendered(xml3dElement) {
+    var renderer = getRenderer(xml3dElement);
+    var glContext = getContextForXml3DElement(xml3dElement);
+    var deferred = Q.defer();
+
+    var first = true;
+    var f = function() {
+        if(first) {
+            first = false;
+            renderer.requestRedraw("test-triggered");
+            return;
+        }
+        xml3dElement.removeEventListener("framedrawn", f, true);
+        XML3DUnit.getPixelValue(glContext, 1, 1);
+        deferred.resolve(xml3dElement);
+    };
+
+    xml3dElement.addEventListener("framedrawn",f,false);
+    renderer.requestRedraw("test-triggered");
+    return deferred.promise;
 }

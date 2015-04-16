@@ -1,19 +1,17 @@
-// data/sink.js
-(function() {
-    "use strict";
-
+var DataAdapter = require("./data");
+var createClass = XML3D.createClass;
+var NodeAdapter = XML3D.base.NodeAdapter;
     /**
      * SinkDataAdapter represents the sink in the data hierarchy (no parents).
-     * Class XML3D.data.SinkDataAdapter
      * @constructor
-     * @extends {XML3D.data.DataAdapter}
+     * @extends {DataAdapter}
      * @param factory
      * @param node
      */
     var SinkDataAdapter = function(factory, node) {
-        XML3D.data.DataAdapter.call(this, factory, node);
+        DataAdapter.call(this, factory, node);
     };
-    XML3D.createClass(SinkDataAdapter, XML3D.data.DataAdapter);
+    createClass(SinkDataAdapter, DataAdapter);
 
     /**
      * Indicates whether this DataAdapter is a SinkAdapter (has no parent
@@ -32,22 +30,17 @@
         return "XML3D.data.SinkDataAdapter";
     };
 
-    // Export
-    XML3D.data.SinkDataAdapter = SinkDataAdapter;
-
-
 
     var ScriptDataAdapter = function(factory, node) {
-        XML3D.base.NodeAdapter.call(this, factory, node);
+        NodeAdapter.call(this, factory, node);
     };
-    XML3D.createClass(ScriptDataAdapter, XML3D.base.NodeAdapter);
-    XML3D.data.ScriptDataAdapter = ScriptDataAdapter;
+    createClass(ScriptDataAdapter, NodeAdapter);
 
     ScriptDataAdapter.prototype.getScriptType = function(){
         return this.node.type;
     }
 
-    ScriptDataAdapter.prototype.getScriptCode = function(){
+    ScriptDataAdapter.prototype.getScript = function(){
         return this.node.value;
     }
 
@@ -60,13 +53,13 @@
     };
 
     var ImgDataAdapter = function(factory, node) {
-        XML3D.base.NodeAdapter.call(this, factory, node);
+        NodeAdapter.call(this, factory, node);
         this.textureEntry = null;
         this.image = null;
         if (node.src)
             this.createImageFromURL(node.src);
     };
-    XML3D.createClass(ImgDataAdapter, XML3D.base.NodeAdapter);
+    createClass(ImgDataAdapter, NodeAdapter);
 
     /**
      * Creates a new image object
@@ -75,16 +68,19 @@
      */
     ImgDataAdapter.prototype.createImageFromURL = function(url) {
         var that = this;
-        var uri = new XML3D.URI(url).getAbsoluteURI(this.node.ownerDocument.documentURI);
+        var uri = new XML3D.URI(url).getAbsoluteURI(this.node.ownerDocument.URL);
         var onload = function (e, image) {
             if (that.textureEntry) {
-                that.textureEntry.setImage(image);
+                that.textureEntry.setImage(image, true);
             }
         };
         var onerror = function (e, image) {
             XML3D.debug.logError("Could not load image URI="+image.src);
         };
         this.image = XML3D.base.resourceManager.getImage(uri, onload, onerror);
+        if (that.textureEntry) {
+            that.textureEntry.setImage(this.image, true);
+        }
     };
 
     /**
@@ -93,13 +89,13 @@
     ImgDataAdapter.prototype.setTextureEntry = function(entry) {
         this.textureEntry = entry;
         if (this.image) {
-            this.textureEntry.setImage(this.image);
+            this.textureEntry.setImage(this.image, true);
         }
     };
 
     ImgDataAdapter.prototype.notifyChanged = function(evt) {
         if (evt.type == XML3D.events.VALUE_MODIFIED) {
-            var attr = evt.wrapped.attrName;
+            var attr = evt.mutation.attributeName;
             if(attr == "src"){
                 this.createImageFromURL(this.node.src);
             }
@@ -121,7 +117,7 @@
     };
 
     var VideoDataAdapter = function(factory, node) {
-        XML3D.data.DataAdapter.call(this, factory, node);
+        DataAdapter.call(this, factory, node);
         this.textureEntry = null;
         this.video = null;
         this._ticking = false;
@@ -129,7 +125,7 @@
         if (node.src)
             this.createVideoFromURL(node.src);
     };
-    XML3D.createClass(VideoDataAdapter, XML3D.base.NodeAdapter);
+    createClass(VideoDataAdapter, NodeAdapter);
 
     /**
      * Creates a new video object
@@ -138,8 +134,8 @@
      */
     VideoDataAdapter.prototype.createVideoFromURL = function(url) {
         var that = this;
-        var uri = new XML3D.URI(url).getAbsoluteURI(this.node.ownerDocument.documentURI);
-        this.video = XML3D.base.resourceManager.getVideo(uri, this.node.autoplay,
+        var uri = new XML3D.URI(url).getAbsoluteURI(this.node.ownerDocument.URL);
+        this.video = XML3D.base.resourceManager.getVideo(uri, this.node.autoplay, this.node.loop,
             {
                 canplay : function(event, video) {
                     XML3D.util.dispatchCustomEvent(that.node, 'canplay', true, true, null);
@@ -158,7 +154,7 @@
             }
         );
         if (this.textureEntry)
-            this.textureEntry.setImage(this.video);
+            this.textureEntry.setImage(this.video, true);
     };
 
     VideoDataAdapter.prototype.play = function() {
@@ -191,13 +187,13 @@
     VideoDataAdapter.prototype.setTextureEntry = function(entry) {
         this.textureEntry = entry;
         if (this.video) {
-            this.textureEntry.setImage(this.video);
+            this.textureEntry.setImage(this.video, true);
         }
     };
 
     VideoDataAdapter.prototype.notifyChanged = function(evt) {
         if (evt.type == XML3D.events.VALUE_MODIFIED) {
-            var attr = evt.wrapped.attrName;
+            var attr = evt.mutation.attributeName;
             if(attr == "src"){
                 this.createVideoFromURL(this.node.src);
             }
@@ -217,12 +213,12 @@
     /** IFrameDataAdapter **/
 
      var IFrameDataAdapter = function(factory, node) {
-        XML3D.base.NodeAdapter.call(this, factory, node);
+        NodeAdapter.call(this, factory, node);
         this.textureEntry = null;
         this.image = null;
         this.createImageFromIFrame(node);
     };
-    XML3D.createClass(IFrameDataAdapter, XML3D.base.NodeAdapter);
+    createClass(IFrameDataAdapter, NodeAdapter);
 
     /**
      * Creates a new iframe object
@@ -265,7 +261,7 @@
 
             data._canvas.complete = true;
             if (that.textureEntry) {
-                that.textureEntry.setImage(canvas);
+                that.textureEntry.setImage(canvas, true);
             }
         }
         ;
@@ -287,13 +283,16 @@
     IFrameDataAdapter.prototype.setTextureEntry = function(entry) {
         this.textureEntry = entry;
         if (this.image) {
-            this.textureEntry.setImage(this.image);
+            this.textureEntry.setImage(this.image, true);
         }
     };
 
     // Export
-    XML3D.data.IFrameDataAdapter = IFrameDataAdapter;
-    XML3D.data.ImgDataAdapter = ImgDataAdapter;
-    XML3D.data.VideoDataAdapter = VideoDataAdapter;
+    module.exports = {
+        IFrameDataAdapter: IFrameDataAdapter,
+        ImgDataAdapter: ImgDataAdapter,
+        VideoDataAdapter: VideoDataAdapter,
+        SinkDataAdapter: SinkDataAdapter,
+        ScriptDataAdapter: ScriptDataAdapter
+    };
 
-}());

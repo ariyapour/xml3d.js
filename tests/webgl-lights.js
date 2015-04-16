@@ -4,6 +4,7 @@ module("WebGL Lights", {
         var that = this;
         this.cb = function(e) {
             ok(true, "Scene loaded");
+            that.win = document.getElementById("xml3dframe").contentWindow;
             that.doc = document.getElementById("xml3dframe").contentDocument;
             start();
         };
@@ -162,12 +163,14 @@ test("Adding lights", 6, function() {
     newLight.setAttribute("shader", "#ls_Point2");
     this.doc.getElementById("pointlight2").appendChild(newLight);
 
+    this.win.XML3D.flushDOMChanges();
     equal(lightsArray.point.length, 2, "Light was added to the lights array");
 
     var newSpot = this.doc.createElementNS(XML3D.ns, "light");
     newSpot.setAttribute("shader", "#ls_Spot");
     this.doc.getElementById("spotlight").appendChild(newSpot);
 
+    this.win.XML3D.flushDOMChanges();
     equal(lightsArray.spot.length, 1, "Spot light was added to the lights array");
 
     this.doc.getElementById("dirlight").visible = false;
@@ -195,8 +198,9 @@ test("Removing lights", 6, function() {
     deepEqual(actual, [255,0,255,255], "Phong object is lit by both lights");
 
     var dirLight = this.doc.getElementById("dirlight");
-    dirLight.parentElement.removeChild(dirLight);
+    dirLight.parentNode.removeChild(dirLight);
 
+    this.win.XML3D.flushDOMChanges();
     equal(lightsArray.directional.length, 0, "Light was removed from the lights array");
 
     h.draw();
@@ -244,7 +248,7 @@ test("Remove light shader", 4, function() {
     deepEqual(actual, [255,0,255,255], "Phong object is lit by both lights");
 
     var pointLight = this.doc.getElementById("ls_Point");
-    pointLight.parentElement.removeChild(pointLight);
+    pointLight.parentNode.removeChild(pointLight);
 
     h.draw();
     actual = win.getPixelValue(gl, 90, 90);

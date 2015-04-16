@@ -86,6 +86,7 @@
                     var directInputIndex = entry.getDirectInputIndex(j),
                         isIterate = operatorList.isInputIterate(directInputIndex),
                         arrayAccess = mappingEntry.array;
+//<<<<<<< HEAD
                     	deferredName = entry.inputInfo[j].deferredName;
                     if(isIterate)
                         snippet.addVertexInput(shadeJsType, directInputIndex, deferredName);
@@ -93,11 +94,23 @@
                         snippet.addUniformArray(shadeJsType, directInputIndex, operatorList.getInputSize(directInputIndex),deferredName);
                     else
                         snippet.addUniformInput(shadeJsType, directInputIndex,deferredName);
+//=======
+//                    if(isIterate)
+//                        snippet.addVertexInput(shadeJsType, directInputIndex);
+//                    else if(arrayAccess)
+//                        snippet.addUniformArray(shadeJsType, directInputIndex, operatorList.getInputSize(directInputIndex));
+//                    else
+//                        snippet.addUniformInput(shadeJsType, directInputIndex);
+//>>>>>>> ariyapour/xflow-shadejs
                 }
             }
             snippetList.addEntry(snippet);
         }
+//<<<<<<< HEAD
         return snippetList;
+//=======
+//        return snippetList
+//>>>>>>> ariyapour/xflow-shadejs
     }
 
 })();
