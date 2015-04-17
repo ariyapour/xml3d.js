@@ -28,7 +28,7 @@ var c_fs_operator_cache = {};
 Xflow.FSConfig.prototype.getOperator = function(xflowNode){
     var key = this.getKey();
     if(c_fs_operator_cache[key])
-    return c_fs_operator_cache[key];
+    	return c_fs_operator_cache[key];
 
     var converter = new Shade.SnippetConverter();
     var convertedShaderCode = converter.convertShaderToSnippedAst(this._shaderSourceCode);
@@ -44,7 +44,8 @@ Xflow.FSConfig.prototype.getOperator = function(xflowNode){
     		deferred = false;
     	}
     	else{
-    		type ="float3"; // it doesn't matter if it is right type or not. Shadejs will figure it out
+    		//TODO We have to do it another way. It may happen its a type of vector2 and some functionalities of vector2 is not available in vector3
+    		type ="float3"; // It doesn't matter if it is right type or not. Shadejs will figure it out
     		deferred = true;
     	}
 		params.push( { type: type, source: name,optional: false,deferred: deferred} ); 

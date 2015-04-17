@@ -172,7 +172,7 @@ function checkInput(processNode, operator, inputMapping, inputChannels){
                 + entry.source, dataNode);
             return false;
         }
-        if(dataName && !entry.deferred){
+        if(dataName){
             var channel = inputChannels[entry.source];
             if(!channel){
                 if(!inputMapping) continue;

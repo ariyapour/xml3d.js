@@ -55,7 +55,7 @@ XML3D.createClass(JSShaderComposer, AbstractShaderComposer, {
             this.updateRequest(config.dataNode);
         }
         
-        //Creat new shader code and update the shaderComposer and fsConfig
+        //Create new shader code and update the shaderComposer and fsConfig
         var shaderResult = this.getShaderDataResult();
         
         var fastJs = new Xflow.FastJsProgram(shaderResult._program.list);
