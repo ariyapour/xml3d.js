@@ -47,17 +47,17 @@
 	 
 	 
 	  <!--  ColorRamp and Texture -->
-	    <!--   
-	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+	  <!--   
+	  <data id="color1" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
 			<float2 name="texcoord" deferred=true></float2>
 		    <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
 	  </data>  
 	  
 	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
-	  		<data src="#color"></data>
+	  		<data src="#color1"></data>
 	  </data>
 	      
-	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  <data id="color" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
 	  		  <data src="#color2"></data>
 	  		  <float3 name="color1" >0.018 0.005 0.310</float3>
   			  <float3 name="color2" >0.056 0.828 0.096</float3>
@@ -66,17 +66,17 @@
 	      
 	      
 	  <!--  ColorRamp and Checker -->
-	  <!--
-	  <data id="color" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
+	  
+	  <data id="color1" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
 			<float2 name="texcoord" deferred=true></float2>
 			<float name="frequency">10</float>
 	  </data> 
 	  
 	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
-	  		<data src="#color"></data>
+	  		<data src="#color1"></data>
 	  </data>
 	      
-	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  <data id="color" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
 	  		  <data src="#color2"></data>
 	  		  <float3 name="color1" >0.0 0.0 0.0</float3>
   			  <float3 name="color2" >1.0 0.0 0.096</float3>
@@ -86,16 +86,16 @@
 	            
 	  <!--  ColorRamp and StarBall -->
 	  <!--
-	  <data id="color" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
+	  <data id="color1" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
 	  		<float3 name="position" deferred=true></float3>
 			<float2 name="texcoord" deferred=true></float2>
 	  </data>
 	  
 	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
-	  		<data src="#color"></data>
+	  		<data src="#color1"></data>
 	  </data>
 	      
-	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  <data id="color" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
 	  		  <data src="#color2"></data>
  			  <float3 name="color1" >0.0 0.0 1.0</float3>
   			  <float3 name="color2" >0.056 0.828 0.096</float3>
@@ -104,28 +104,28 @@
 	  
 	  <!-- Texture and ColorMul -->
 	 <!--
-	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+	  <data id="color2" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
 			<float2 name="texcoord" deferred=true></float2>
 		    <texture name="diffuseTexture" deferred=true><img src="textures/water.jpg"/></texture>
 	  </data>
 	  
-	  <data id="color2" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
+	  <data id="color" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
 	  		<float name="scale">5</float>
-	  <data src="#color"></data>
+	  <data src="#color2"></data>
 	  </data>
 	  -->
 	  
 	  
 	  <!-- StarBall and ColorMul -->
 	  <!--
-	  <data id="color" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
+	  <data id="color2" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
 	  		<float3 name="position" deferred=true></float3>
 			<float2 name="texcoord" deferred=true></float2>
 	  </data>
 	  
-	  <data id="color2" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
+	  <data id="color" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
 	  		<float name="scale">10</float>
-	  		<data src="#color"></data>
+	  		<data src="#color2"></data>
 	  </data>
 	  
 	  -->
@@ -137,7 +137,7 @@
 			<float2 name="texcoord" deferred=true></float2>
 			<float name="frequency">10</float>
 	  </data>
-	  
+	  -->
 	  
 	  <!-- Fractal -->
 	  <!--
@@ -148,7 +148,7 @@
 	  -->
 	  
 	  <!-- Texture -->
-	  
+	  <!--
       <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
 			<float2 name="texcoord" deferred=true></float2>
 		    <texture name="diffuseTexture" deferred=true><img src="textures/water.jpg"/></texture>
