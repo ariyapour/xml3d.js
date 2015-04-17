@@ -6,10 +6,20 @@
     <link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.css"/>
     <!-- Scripts -->
     <script type="text/javascript" src="../../build/output/xml3d.js"></script>
-    <script type="text/javascript" src="../../../shadejs/lib/shade.js"></script>
+    <script type="text/javascript" src="../../../shadejs/shade.js"></script>
     <script type="text/javascript" src="../../tools/camera.js"></script>
     <script type="text/javascript" src="scripts/myxflow-shadejs.js" ></script>
-    <title>XML3D Examples</title>
+    <script type="text/javascript" src="scripts/fetchTex.js" ></script>
+    <script type="text/javascript" src="scripts/starBall.js" ></script>
+    <script type="text/javascript" src="scripts/fractal.js" ></script>
+    <script type="text/javascript" src="scripts/checker.js" ></script>
+    <script type="text/javascript" src="scripts/voronoiNoise.js" ></script>
+    <script type="text/javascript" src="scripts/calcDistance.js" ></script>
+    <script type="text/javascript" src="scripts/randomPointGenerator.js" ></script>
+    <script type="text/javascript" src="scripts/snoise.js" ></script>
+    <script type="text/javascript" src="scripts/colorMul.js" ></script>
+    <script type="text/javascript" src="scripts/colorRamp.js" ></script>
+    <script type="text/javascript" src="scripts/clampLength.js" ></script>
 
   </head>
   <body>
@@ -17,21 +27,15 @@
    <h1>
     Wave it!
    </h1>
-   <script id="shader" type="text/shade-javascript" >
-        function shade(env) {
-            var color = env.diffuseColor;
-            if(env.diffuseTexture && env.texcoord){
-                var texColor = env.diffuseTexture.sample2D(env.texcoord).rgb();
-                texColor = Math.pow(texColor, new Vec3(2.2));
-                color = color.mul(texColor);
-            }
-            //return color;
-            return new Shade().diffuse(color, env.normal, 1)
-                    .phong(env.specularColor, env.normal, env.shininess);
-        }
+
+
+	<script id="shader" type="text/shade-javascript" >
+    function shade(env) {
+        return new Shade().diffuse(env.diffuseColor,env.normal,env.ambientIntensity);
+    }
    </script>
 
-    <xml3d id="myxml3d" class="xml3d" activeView="#Camera" style="background: black;" >
+    <xml3d id="myxml3d" class="xml3d" activeView="#Camera" style="background: white;" >
      <defs id="mainDef">
 
       <!--- Not so important part: -->
@@ -40,30 +44,128 @@
        <float3 name="attenuation">1 0.033333 1</float3>
        <float3 name="intensity">100 100 100</float3>
       </lightshader>
+	 
+	 
+	  <!--  ColorRamp and Texture -->
+	    <!--   
+	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+			<float2 name="texcoord" deferred=true></float2>
+		    <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
+	  </data>  
+	  
+	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+	  		<data src="#color"></data>
+	  </data>
+	      
+	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  		  <data src="#color2"></data>
+	  		  <float3 name="color1" >0.018 0.005 0.310</float3>
+  			  <float3 name="color2" >0.056 0.828 0.096</float3>
+	  </data>    
+	      -->
+	      
+	      
+	  <!--  ColorRamp and Checker -->
+	  <!--
+	  <data id="color" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
+			<float2 name="texcoord" deferred=true></float2>
+			<float name="frequency">10</float>
+	  </data> 
+	  
+	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+	  		<data src="#color"></data>
+	  </data>
+	      
+	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  		  <data src="#color2"></data>
+	  		  <float3 name="color1" >0.0 0.0 0.0</float3>
+  			  <float3 name="color2" >1.0 0.0 0.096</float3>
+	  </data>    
+	  -->
 
-      <shader id="Material" script="#shader" >
-       <float name="ambientIntensity">0.1</float>
-       <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
-       <float3 name="diffuseColor">1 1 1</float3>
-       <float3 name="specularColor">0.5 0.5 0.5</float3>
-       <float name="shininess">0.0978473581213</float>
-      </shader>
+	            
+	  <!--  ColorRamp and StarBall -->
+	  <!--
+	  <data id="color" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
+	  		<float3 name="position" deferred=true></float3>
+			<float2 name="texcoord" deferred=true></float2>
+	  </data>
+	  
+	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+	  		<data src="#color"></data>
+	  </data>
+	      
+	  <data id="color3" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  		  <data src="#color2"></data>
+ 			  <float3 name="color1" >0.0 0.0 1.0</float3>
+  			  <float3 name="color2" >0.056 0.828 0.096</float3>
+	  </data>    
+	  -->
+	  
+	  <!-- Texture and ColorMul -->
+	 <!--
+	  <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+			<float2 name="texcoord" deferred=true></float2>
+		    <texture name="diffuseTexture" deferred=true><img src="textures/water.jpg"/></texture>
+	  </data>
+	  
+	  <data id="color2" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
+	  		<float name="scale">5</float>
+	  <data src="#color"></data>
+	  </data>
+	  -->
+	  
+	  
+	  <!-- StarBall and ColorMul -->
+	  <!--
+	  <data id="color" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
+	  		<float3 name="position" deferred=true></float3>
+			<float2 name="texcoord" deferred=true></float2>
+	  </data>
+	  
+	  <data id="color2" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
+	  		<float name="scale">10</float>
+	  		<data src="#color"></data>
+	  </data>
+	  
+	  -->
+	  
+	  
+	  <!-- Checker -->
+	   <!--
+	  <data id="color" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
+			<float2 name="texcoord" deferred=true></float2>
+			<float name="frequency">10</float>
+	  </data>
+	  
+	  
+	  <!-- Fractal -->
+	  <!--
+	  <data id="color" compute="(diffuseColor)=xflow.fractal(texcoord,time)">
+			<float2 name="texcoord" deferred=true></float2>
+			<float name="time">0.0</float>
+	  </data>
+	  -->
+	  
+	  <!-- Texture -->
+	  
+      <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+			<float2 name="texcoord" deferred=true></float2>
+		    <texture name="diffuseTexture" deferred=true><img src="textures/water.jpg"/></texture>
+	  </data>
+	  -->
+	  
+      <shader id="Material" script="#shader">
+	     <float name="ambientIntensity">0.1</float> 
+    	 <data src="#color"></data>
+      </shader>  
 
       <transform id="t_Camera" rotation="-0.641815 0.733700 0.223063 1.145952" scale="1 1 1" translation="3.184399 3.711076 2.405665"></transform>
       <transform id="t_Grid" rotation="1 0.000000 0.000000 0.000000" scale="25.000000 25.000000 25.000000" translation="0.000000 0.00 0.000000"></transform>
       <transform id="t_Lamp" rotation="0.205942 0.331517 0.920698 1.926274" scale="1 1 1" translation="2.086632 10.648042 1.161145"></transform>
 
-      <!-- Example Data: -->
-
-      <data id="exampleGrid" >
-        <float3 name="position">-1 0 -1  -1 0 0  -1 0 1    0 0 -1  0 0 0  0 0 1    1 0 -1  1 0 0  1 0 1</float3>
-        <float3 name="normal">0 1 0  0 1 0  0 1 0    0 1 0  0 1 0  0 1 0    0 1 0  0 1 0  0 1 0</float3>
-        <float2 name="texcoord">0 0  0 0.5  0 1    0.5 0  0.5 0.5  0.5 1    1 0  1 0.5  1 1</float2>
-        <int name="index">0 1 3  1 3 4    1 2 4  2 4 5    3 4 6  4 6 7    4 5 7  5 7 8 </int>
-      </data>
-
       <!-- Generate Grid: -->
-
+      
       <data id="generatedGrid" compute="xflow.mygrid(size)">
 		    <int name="size" id="size">200</int>
 	    </data>
@@ -110,7 +212,6 @@
       mytime += diff / 500;
     }
     window.setInterval(myupdate, 20);
-
     document.querySelector("#waveMesh").addEventListener('xml3dsystem', function(){
         console.log("XML3D SYSTEM: " + event.detail.systemtype);
         console.log(event.detail);
