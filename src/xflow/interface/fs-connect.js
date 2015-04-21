@@ -36,20 +36,24 @@ Xflow.FSConfig.prototype.getOperator = function(xflowNode){
     var outputs = [], params = [], glslCode = convertedShaderCode.code;
     name = "FSConnect";
     
-    for (var param in convertedShaderCode.params){
-    	var name = convertedShaderCode.params[param];
-    	var attr = xflowNode.getOutputChannelInfo(name);
-    	if (attr){
-    		type = Xflow.getTypeName(attr.type);
-    		deferred = false;
-    	}
-    	else{
-    		//TODO We have to do it another way. It may happen its a type of vector2 and some functionalities of vector2 is not available in vector3
-    		type ="float3"; // It doesn't matter if it is right type or not. Shadejs will figure it out
-    		deferred = true;
-    	}
-		params.push( { type: type, source: name,optional: false,deferred: deferred} ); 
-		name += "T" + type + "N" + name + "O" + false + ".";	
+    if (convertedShaderCode.params.length == 0)
+    	name+=this._shaderSourceCode;
+    else{
+	    for (var param in convertedShaderCode.params){
+	    	var name = convertedShaderCode.params[param];
+	    	var attr = xflowNode.getOutputChannelInfo(name);
+	    	if (attr){
+	    		type = Xflow.getTypeName(attr.type);
+	    		deferred = false;
+	    	}
+	    	else{
+	    		//TODO We have to do it another way. It may happen its a type of vector2 and some functionalities of vector2 is not available in vector3
+	    		type ="float3"; // It doesn't matter if it is right type or not. Shadejs will figure it out
+	    		deferred = true;
+	    	}
+			params.push( { type: type, source: name,optional: false,deferred: deferred} ); 
+			name += "T" + type + "N" + name + "O" + false + ".";	
+	    }
     }
     outputs.push( { type: "float4", name: "output"} );
     var operator = Xflow.initAnonymousOperator(name,

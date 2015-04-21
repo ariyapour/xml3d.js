@@ -71,28 +71,28 @@ Xflow.registerOperator("xflow.mywave", {
                 {type: 'float',  source: 'wlength'},
                 {type: 'float',  source: 'phase'}],
     platforms: ["JAVASCRIPT", "GLSL_VS"],
-//    evaluate: function(newpos, newnormal, position, normal, strength, wlength, phase, info) {
-//
-//		for(var i = 0; i < info.iterateCount; i++) {
-//			var offset = i*3;
-//			var dist = Math.sqrt(position[offset]*position[offset]+position[offset+2]*position[offset+2]);
-//			newpos[offset] = position[offset];
-//			newpos[offset+1] = Math.sin(wlength[0]*dist-phase[0])*strength[0];
-//			newpos[offset+2] = position[offset+2];
-//
-//
-//			var tmp = Math.cos(wlength[0]*dist-phase[0]) * wlength[0] * strength[0];
-//            var dx = position[offset] / dist * tmp;
-//			var dz = position[offset+2] / dist * tmp;
-//
-//			var v = XML3D.math.vec3.create();
-//            v[0] = dx; v[1] = 1; v[2] = dz;
-//            XML3D.math.vec3.normalize(v, v);
-//			newnormal[offset] = v[0];
-//			newnormal[offset+1] = v[1];
-//			newnormal[offset+2] = v[2];
-//		}
-//	},
+    evaluate: function(newpos, newnormal, position, normal, strength, wlength, phase, info) {
+
+		for(var i = 0; i < info.iterateCount; i++) {
+			var offset = i*3;
+			var dist = Math.sqrt(position[offset]*position[offset]+position[offset+2]*position[offset+2]);
+			newpos[offset] = position[offset];
+			newpos[offset+1] = Math.sin(wlength[0]*dist-phase[0])*strength[0];
+			newpos[offset+2] = position[offset+2];
+
+
+			var tmp = Math.cos(wlength[0]*dist-phase[0]) * wlength[0] * strength[0];
+            var dx = position[offset] / dist * tmp;
+			var dz = position[offset+2] / dist * tmp;
+
+			var v = XML3D.math.vec3.create();
+            v[0] = dx; v[1] = 1; v[2] = dz;
+            XML3D.math.vec3.normalize(v, v);
+			newnormal[offset] = v[0];
+			newnormal[offset+1] = v[1];
+			newnormal[offset+2] = v[2];
+		}
+	},
 	evaluate_shadejs: function(position, normal, strength, wlength, phase){
 	    var dist = position.xz().length();
 	    var height = Math.sin(wlength*dist - phase)*strength;

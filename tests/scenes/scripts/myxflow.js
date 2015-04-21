@@ -67,10 +67,8 @@ Xflow.registerOperator("xflow.mywave", {
                 {type: 'float',  source: 'wavelength'},
                 {type: 'float',  source: 'phase'}],
     evaluate: function(newpos, newnormal, position, normal, strength, wavelength, phase, info) {
-
 		for(var i = 0; i < info.iterateCount; i++) {
 			var offset = i*3;
-			texcoord[offset]=texcoord[offset];
 			var dist = Math.sqrt(position[offset]*position[offset]+position[offset+2]*position[offset+2]);
 			newpos[offset] = position[offset];
 			newpos[offset+1] = Math.sin(wavelength[0]*dist-phase[0])*strength[0];
