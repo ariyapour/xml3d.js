@@ -7,6 +7,11 @@ Xflow.registerOperator("xflow.colorRamp", {
     evaluate_shadejs:function colorRamp(fac,color1,yooooohoooo)
     {
     	return color1.add(yooooohoooo.sub(color1).div(1).mul(fac));
-    }
+    },
+    functions :[function div (a,b){
+    	return a/b;
+    	}
+    
+                ]
 
 });

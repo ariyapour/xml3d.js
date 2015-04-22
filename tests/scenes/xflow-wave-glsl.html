@@ -20,6 +20,7 @@
     <script type="text/javascript" src="scripts/colorMul.js" ></script>
     <script type="text/javascript" src="scripts/colorRamp.js" ></script>
     <script type="text/javascript" src="scripts/clampLength.js" ></script>
+    <script type="text/javascript" src="scripts/Voronoi.js" ></script>
 
   </head>
   <body>
@@ -66,7 +67,7 @@
 	      
 	      
 	  <!--  ColorRamp and Checker -->
-	  
+	  <!--
 	  <data id="color1" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
 			<float2 name="texcoord" deferred=true></float2>
 			<float name="frequency">10</float>
@@ -152,6 +153,19 @@
       <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
 			<float2 name="texcoord" deferred=true></float2>
 		    <texture name="diffuseTexture" deferred=true><img src="textures/water.jpg"/></texture>
+	  </data>
+	  -->
+	  
+	  <!-- Voronoi -->
+	  
+      <data id="color" compute="(diffuseColor)=xflow.voronoi(texcoord,normal,scale,blue,green,black,white)">
+			<float2 name="texcoord" deferred=true></float2>
+			<float3 name="normal" deferred=true></float3>
+		    <float name="scale">16</float>
+		    <float3 name="blue" >0.018 0.005 0.310</float3>
+		    <float3 name="green" >0.056 0.828 0.096</float3>
+		    <float3 name="white" >1 1 1</float3>
+		    <float3 name="black" >0 0 0</float3>
 	  </data>
 	  -->
 	  

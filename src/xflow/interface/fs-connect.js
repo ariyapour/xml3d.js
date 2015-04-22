@@ -36,7 +36,7 @@ Xflow.FSConfig.prototype.getOperator = function(xflowNode){
     var outputs = [], params = [], glslCode = convertedShaderCode.code;
     name = "FSConnect";
     
-    if (convertedShaderCode.params.length == 0)
+    if (convertedShaderCode.params.length == 0) //Solve the conflicting name, in case we have two different shaders with no input parameters
     	name+=this._shaderSourceCode;
     else{
 	    for (var param in convertedShaderCode.params){

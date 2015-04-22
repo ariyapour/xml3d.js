@@ -57,12 +57,20 @@
 
         if(startIndex === undefined) startIndex = 0;
         if(endIndex === undefined) endIndex = entries.length;
+        var functions = [];
 
         for(var i = startIndex; i < endIndex; ++i){
             var entry = entries[i], operator = entry.operator;
 
             var snippet = new Shade.SnippetEntry();
             snippet.setAst(Shade.getSnippetAst(operator.evaluate_shadejs));
+            var funcs = [];
+            if (operator.functions!=undefined && operator.functions.length !=0){
+            	for (var counter=0; counter<operator.functions.length; counter++){
+            		funcs[counter] = Shade.getSnippetAst(operator.functions[counter]);
+            	}
+            }
+            functions=functions.concat(funcs);
 
             for(var j = 0; j < operator.outputs.length; ++j){
                 var outputEntry = operator.outputs[j];
@@ -97,6 +105,7 @@
             }
             snippetList.addEntry(snippet);
         }
+        snippetList.setFunctions(functions);
         return snippetList;
     }
 
