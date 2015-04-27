@@ -9,95 +9,46 @@ Xflow.registerOperator("xflow.voronoi", {
                {type: 'float3', source: 'white' },],
     platforms: ["JAVASCRIPT", "GLSL_FS"],
     evaluate_shadejs: function shade(texcoord,normal,scale,blue,green,black,white) {
-    	  var distance = vronoiNoise(texcoord,scale);
+    	  var distance = vronoiNoise(texcoord.mul(30),scale);
     	  var N = normal.normalize();
-    	  if (distance >0.0009)
+    	  if (distance >0.9)
     	    var diffuseColor = blue;
-    	  else if (distance > 0.0005)
-    	   	     var diffuseColor = green;
-    	    else if (distance > 0.00003)
-    	       var diffuseColor = black;
+    	  else if (distance > 0.7)
+    	   	     var diffuseColor = linearColorInterpolation(0.7,0.9,green,blue,distance);//green;
+    	    else if (distance > 0.5)
+    	       var diffuseColor = linearColorInterpolation(0.5,0.7,black,green,distance);//black;
     	   	     else
-    	           var diffuseColor = white;
+    	           var diffuseColor = linearColorInterpolation(0.0,0.5,white,black,distance);//white;
     	  //var diffuseColor = env.white.mul(10*distance);
     	  return diffuseColor;
     	},
     functions :[function vronoiNoise(texCoords,scale)
     {
-        var s=2.000000001;
-        var tmpMinX=0.0001;
-        var tmpMaxX=0.0001;
-        var tmpMinY=0.0001;
-        var tmpMaxY=0.0001;
-        while(s<=scale)
-        {
-    	if (texCoords.x()< tmpMinX+1.0000000001/s)
-    	{
-    		tmpMaxX=tmpMinX+1.0000000001/s;
-    	}
-    	else
-    	{
-    		tmpMinX=tmpMinX+1.0000000001/s;
-    		tmpMaxX=tmpMinX + 1.0000000001/s;
-    	}
-    	
-    	if (texCoords.y()< tmpMinY+1.0000000001/s)
-    	{
-    		tmpMaxY=tmpMinY+1.0000000001/s;
-    	}
-    	else
-    	{
-    		tmpMinY=tmpMinY+1.0000000001/s;
-    		tmpMaxY=tmpMinY+1.0000000001/s;
-    	}
-    	s*=2.0000000001;
-        }
-        var distance = calcDistance(tmpMinX,tmpMinY,scale,texCoords);
-        return distance;
-    },
-    function calcDistance(MinX,MinY,scale,texCoords)
-    {
-      var nMinX= MinX - 1.0000000001/scale,nMinY=MinY- 1.0000000001/scale;
-      var firstClosest =Distance(nMinX+1/scale,nMinX+2/scale,nMinY,nMinY+1/scale,texCoords);
-      var secondClosest = Distance(nMinX+1/scale,nMinX+2/scale,nMinY,nMinY+1/scale,texCoords);
-      
-      	for (var j=1.0000000001;j<32;j++)
-    		for(var i=1.0000000001;i<32;i++)
-    		{
-              var minX=nMinX+ (i-1.0000000001)/scale;
-              var maxX=nMinX + i/scale;
-              var minY=nMinY+ (j-1.0000000001)/scale;
-              var maxY=nMinY + j/scale;
-              var tmp = Distance(minX,maxX,minY,maxY,texCoords);
-              if (tmp < firstClosest)
-                {
-                  secondClosest=firstClosest;
-                  firstClosest=tmp;
-                }
-                else if (tmp<secondClosest)
-                  secondClosest=tmp;
-            }
-      //return firstClosest;
-      //return secondClosest;
-      return secondClosest-firstClosest;
-      //return secondClosest+firstClosest;
-      //return secondClosest*firstClosest; // multiply distance to a big number for visibility
-    },
-    function Distance(minX,maxX,minY,maxY,texCoords)
-    {
-    	    if(minX <0.0000000001 || minY <0.0000000001 || maxX>1.0000000001 || maxY >1.0000000001) return 100.0000000001;
-    		var point = randomPointGenerator(minX,maxX,minY,maxY).sub(texCoords);
-    	    return point.dot(point); //Distance Squared
-    	    //return point.length(); //Actual Distance
-    	    //return Math.abs(point.x()) + Math.abs(point.y()); // Manhatan
-    	    //return Math.max(Math.abs(point.x()),Math.abs(point.y())); //chebychev
-    	    //return Math.pow(Math.pow(Math.abs(point.x()),e)+Math.pow(Math.abs(point.y()),e),1/e);
-    },
-    function randomPointGenerator(minX, maxX, minY, maxY) {
-    	  var seed = new Vec2(minX*env.scale,minY*env.scale);
-    	  var rand = snoise(seed);
-    	  	return new Vec2(rand * (maxX - minX) + minX,rand* (maxY - minY) + minY);
-    },
+    	  var p = new Vec2 (Math.floor(texCoords.x()),Math.floor(texCoords.y()));
+    	  var f = new Vec2 (texCoords.x() % 1, texCoords.y() % 1);
+    	  var res = new Vec2 (0.8);
+    	  for (var j=-2;j<=2;j++){
+    	    for (var i=-2; i <=2;i++){
+    	      var b = new Vec2(i,j);
+    	      var r = b.sub(f).add(randomPointGenerator(p.add(b)));
+    	      var d = r.dot(r);
+    	      if( d < res.x )
+    	        {
+    	            res.y = res.x;
+    	            res.x = d;
+    	        }
+    	        else if( d < res.y )
+    	        {
+    	            res.y = d;
+    	        }
+    	    }
+    	  }
+    	   return Math.sqrt(res.dot(res));
+    	},
+    	function randomPointGenerator(x) {
+    		  var rand = snoise(x);
+    		  	return new Vec2(rand);
+    		},
     function mod289(x)
     {
         return x.sub(Math.floor(x.mul(1 / 289)).mul(289));
@@ -152,6 +103,10 @@ Xflow.registerOperator("xflow.voronoi", {
                 a0.yz().mul(x12.xz()).add(h.yz().mul(x12.yw()))
         );
         return 130 * m.dot(g);
+    },
+    function linearColorInterpolation (x,y,fX,fY,t)
+    {
+      return fX.add(fY.sub(fX).div(y-x).mul(t-x));
     }
     
                 ]
