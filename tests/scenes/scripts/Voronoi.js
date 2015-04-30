@@ -9,8 +9,7 @@ Xflow.registerOperator("xflow.voronoi", {
                {type: 'float3', source: 'white' },],
     platforms: ["JAVASCRIPT", "GLSL_FS"],
     evaluate_shadejs: function shade(texcoord,normal,scale,blue,green,black,white) {
-    	  var distance = vronoiNoise(texcoord.mul(30),scale);
-    	  var N = normal.normalize();
+    	  var distance = vronoiNoise(texcoord.mul(20),scale);
     	  if (distance >0.9)
     	    var diffuseColor = blue;
     	  else if (distance > 0.7)
@@ -21,6 +20,7 @@ Xflow.registerOperator("xflow.voronoi", {
     	           var diffuseColor = linearColorInterpolation(0.0,0.5,white,black,distance);//white;
     	  //var diffuseColor = env.white.mul(10*distance);
     	  return diffuseColor;
+//    	  return new Vec3(distance);
     	},
     functions :[function vronoiNoise(texCoords,scale)
     {
@@ -44,6 +44,7 @@ Xflow.registerOperator("xflow.voronoi", {
     	    }
     	  }
     	   return Math.sqrt(res.dot(res));
+//    	  return res.x()-res.y();
     	},
     	function randomPointGenerator(x) {
     		  var rand = snoise(x);

@@ -2,6 +2,7 @@
 
     Xflow.shadejs = {};
 
+    
     Xflow.shadejs.hasSupport = function(){
         return window.Shade !== undefined;
     }
@@ -58,6 +59,7 @@
         if(startIndex === undefined) startIndex = 0;
         if(endIndex === undefined) endIndex = entries.length;
         var functions = [];
+        var blockedFunctionNames ={names:[]};
 
         for(var i = startIndex; i < endIndex; ++i){
             var entry = entries[i], operator = entry.operator;
@@ -67,7 +69,14 @@
             var funcs = [];
             if (operator.functions!=undefined && operator.functions.length !=0){
             	for (var counter=0; counter<operator.functions.length; counter++){
+            		var name = operator.functions[counter].name;
+//            		name = getFreeFunctionName(name,i,blockedFunctionNames);
+            		var actuallName= getFreeFunctionName(name,i,blockedFunctionNames);
             		funcs[counter] = Shade.getSnippetAst(operator.functions[counter]);
+            		funcs[counter].id.name = actuallName;
+            		if (name != actuallName)
+            			snippet.handleFunctionCall(name,actuallName);
+            		
             	}
             }
             functions=functions.concat(funcs);
@@ -107,6 +116,17 @@
         }
         snippetList.setFunctions(functions);
         return snippetList;
+    }
+    
+    function getFreeFunctionName(name,counter, blockedFunctionNames){
+    	if (blockedFunctionNames.names.indexOf(name)!= -1){
+    		name = name+"_"+counter;
+    		blockedFunctionNames.names = blockedFunctionNames.names.concat(name);
+    		return name;
+    	}
+    	blockedFunctionNames.names = blockedFunctionNames.names.concat(name);
+    	return name;
+    	
     }
 
 })();

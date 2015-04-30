@@ -6,10 +6,11 @@ Xflow.registerOperator("xflow.colorRamp", {
     platforms: ["JAVASCRIPT", "GLSL_FS"],
     evaluate_shadejs:function colorRamp(fac,color1,yooooohoooo)
     {
+    	var x = mul(3,4);
     	return color1.add(yooooohoooo.sub(color1).div(1).mul(fac));
     },
-    functions :[function div (a,b){
-    	return a/b;
+    functions :[function mul (a,b){
+    	return a*b;
     	}
     
                 ]
