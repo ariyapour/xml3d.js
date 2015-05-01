@@ -69,14 +69,9 @@
             var funcs = [];
             if (operator.functions!=undefined && operator.functions.length !=0){
             	for (var counter=0; counter<operator.functions.length; counter++){
-            		var name = operator.functions[counter].name;
-//            		name = getFreeFunctionName(name,i,blockedFunctionNames);
-            		var actuallName= getFreeFunctionName(name,i,blockedFunctionNames);
-            		funcs[counter] = Shade.getSnippetAst(operator.functions[counter]);
-            		funcs[counter].id.name = actuallName;
-            		if (name != actuallName)
-            			snippet.handleFunctionCall(name,actuallName);
-            		
+            		var functionAst =  new Shade.SnippetEntry();
+            		functionAst.setAst(Shade.getSnippetAst(operator.functions[counter]));
+            		funcs[counter] = {functionAst:functionAst, operatorIndex: i};
             	}
             }
             functions=functions.concat(funcs);
