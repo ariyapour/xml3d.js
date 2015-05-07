@@ -2,13 +2,14 @@ Xflow.registerOperator("xflow.voronoi", {
 	outputs: [	{type: 'float3', name: 'diffuseColor'}],
     params:  [ {type: 'float2', source: 'texcoord' },
                {type: 'float3', source: 'normal' },
-               {type: 'float', source: 'scale' },
+               {type: 'int', source: 'scale', array: true },
                {type: 'float3', source: 'blue' },
                {type: 'float3', source: 'green' },
                {type: 'float3', source: 'black' },
                {type: 'float3', source: 'white' },],
     platforms: ["JAVASCRIPT", "GLSL_FS"],
     evaluate_shadejs: function shade(texcoord,normal,scale,blue,green,black,white) {
+    	  var x =scale[0]; 
     	  var distance = vronoiNoise(texcoord.mul(20),scale);
     	  if (distance >0.9)
     	    var diffuseColor = blue;
@@ -19,12 +20,13 @@ Xflow.registerOperator("xflow.voronoi", {
     	   	     else
     	           var diffuseColor = linearColorInterpolation(0.0,0.5,white,black,distance);//white;
     	  //var diffuseColor = env.white.mul(10*distance);
-    	  return diffuseColor;
+    	  return diffuseColor.mul(x);
 //    	  return new Vec3(distance);
     	},
-    functions :[function vronoiNoise(texCoords,scale)
+    functions :[function vronoiNoise(texCoords)
     {
     	  var p = new Vec2 (Math.floor(texCoords.x()),Math.floor(texCoords.y()));
+//    	  var y=scale[1];
     	  var f = new Vec2 (texCoords.x() % 1, texCoords.y() % 1);
     	  var res = new Vec2 (0.8);
     	  for (var j=-2;j<=2;j++){

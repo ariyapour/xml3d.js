@@ -144,7 +144,7 @@
 	  <!--
 	  <data id="color" compute="(diffuseColor)=xflow.fractal(texcoord,time)">
 			<float2 name="texcoord" deferred=true></float2>
-			<float name="time">0.0</float>
+			<float name="time">0.5</float>
 	  </data>
 	  -->
 	  
@@ -157,11 +157,11 @@
 	  -->
 	  
 	  <!-- Voronoi -->
-	  
+	   
       <data id="color" compute="(diffuseColor)=xflow.voronoi(texcoord,normal,scale,blue,green,black,white)">
 			<float2 name="texcoord" deferred=true></float2>
 			<float3 name="normal" deferred=true></float3>
-		    <float name="scale">16</float>
+		    <int name="scale">1 100</int>
 		    <float3 name="blue" >0.018 0.005 0.310</float3>
 		    <float3 name="green" >0.056 0.828 0.096</float3>
 		    <float3 name="white" >1 1 1</float3>

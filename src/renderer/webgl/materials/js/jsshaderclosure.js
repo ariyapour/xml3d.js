@@ -145,6 +145,8 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
                 var workSet = new Shade.WorkingSet();
                 workSet.parse(this.sourceTemplate, {loc: true});
                 workSet.analyze(contextData, implementation, options);
+//                workSet.aast.body[5].params[1].extra = {elements:{kind:"int",type:"int"},staticSize:10,type:'array'};
+                workSet.aast.globalParameters["global.shade"][0].extra.info.scale ={elements:{kind:"int",type:"int"},source:"uniform",staticSize:10,type:'array'}; 
                 var spaceInfo = workSet.getProcessingData('spaceInfo');
                 var glslShader = workSet.compileFragmentShader(compileOptions);
 
