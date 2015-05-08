@@ -111,14 +111,15 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
                         vsDataResult.isOutputUniform(paramName) ? Shade.SOURCES.UNIFORM : Shade.SOURCES.VERTEX);
                 }
                 else if(shaderEntries && shaderEntries[paramName]){
-                	if (shaderEntries[paramName].deferredName){
-                		contextInfo[paramName] = Xflow.shadejs.convertFromXflow(
-                                shaderEntries[paramName].type, Shade.SOURCES.VERTEX);
-                	}
-                	else{
-                    contextInfo[paramName] = Xflow.shadejs.convertFromXflow(
-                        shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
-                	}
+                	if (shaderEntries[paramName]._array){
+                		var type = Xflow.shadejs.convertFromXflow(
+                                shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
+                			contextInfo[paramName]= {elements:{kind:type.kind,type:type.type},source:"uniform",staticSize:shaderEntries[paramName]._value.length/shaderEntries[paramName]._tupleSize,type:'array'};
+                	}else{
+                        	contextInfo[paramName] = Xflow.shadejs.convertFromXflow(
+                        		shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
+                     }
+                	
                 }
             }
         XML3D.debug.logDebug("CONTEXT:", contextData);
@@ -145,8 +146,6 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
                 var workSet = new Shade.WorkingSet();
                 workSet.parse(this.sourceTemplate, {loc: true});
                 workSet.analyze(contextData, implementation, options);
-//                workSet.aast.body[5].params[1].extra = {elements:{kind:"int",type:"int"},staticSize:10,type:'array'};
-                workSet.aast.globalParameters["global.shade"][0].extra.info.scale ={elements:{kind:"int",type:"int"},source:"uniform",staticSize:10,type:'array'}; 
                 var spaceInfo = workSet.getProcessingData('spaceInfo');
                 var glslShader = workSet.compileFragmentShader(compileOptions);
 

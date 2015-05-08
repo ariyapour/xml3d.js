@@ -161,7 +161,8 @@
       <data id="color" compute="(diffuseColor)=xflow.voronoi(texcoord,normal,scale,blue,green,black,white)">
 			<float2 name="texcoord" deferred=true></float2>
 			<float3 name="normal" deferred=true></float3>
-		    <int name="scale">1 100</int>
+		     <float name="scale" array=true>1.0 0.0 0.0 0.3 0.6 0.9</float>
+		   <!-- <int name="scale">1 10 20 100</int>-->
 		    <float3 name="blue" >0.018 0.005 0.310</float3>
 		    <float3 name="green" >0.056 0.828 0.096</float3>
 		    <float3 name="white" >1 1 1</float3>

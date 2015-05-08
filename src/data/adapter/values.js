@@ -33,6 +33,8 @@ ValueDataAdapter.prototype.init = function()
     if (this.node.deferred)
     	buffer._deferredName = this.node.name;
 
+    if (this.node.array)
+    	buffer._array=this.node.array;
     this.xflowInputNode = this.factory.graph.createInputNode();
     this.xflowInputNode.name = this.node.name;
     this.xflowInputNode.data = buffer;
