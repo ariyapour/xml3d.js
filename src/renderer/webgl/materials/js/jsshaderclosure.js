@@ -114,7 +114,7 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
                 	if (shaderEntries[paramName]._array){
                 		var type = Xflow.shadejs.convertFromXflow(
                                 shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
-                			contextInfo[paramName]= {elements:{kind:type.kind,type:type.type},source:"uniform",staticSize:shaderEntries[paramName]._value.length/shaderEntries[paramName]._tupleSize,type:'array'};
+                			contextInfo[paramName]= {elements:{kind:type.kind,type:type.type},source:"uniform",staticSize:shaderEntries[paramName]._value.length/shaderEntries[paramName]._tupleSize,type:'array',length:shaderEntries[paramName]._value.length/shaderEntries[paramName]._tupleSize};
                 	}else{
                         	contextInfo[paramName] = Xflow.shadejs.convertFromXflow(
                         		shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);

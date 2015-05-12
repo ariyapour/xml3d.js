@@ -10,7 +10,7 @@ Xflow.registerOperator("xflow.voronoi", {
     platforms: ["JAVASCRIPT", "GLSL_FS"],
     evaluate_shadejs: function shade(texcoord,normal,scale,blue,green,black,white) {
     	  var x =scale[0];
-//    	  var y = scale.length;
+    	  var y = scale.length();
     	  var distance = vronoiNoise(texcoord.mul(20));
     	  if (distance >0.9)
     	    var diffuseColor = blue;
