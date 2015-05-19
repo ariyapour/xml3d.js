@@ -109,12 +109,17 @@ Xflow.VSConfig.prototype.getOperator = function(){
 
     var outputs = [], params = [], glslCode = "\t// VS Connector\n";
     name = "VSConnect";
-    for(var name in this._attributes){
-        var attr = this._attributes[name];
-        var type = Xflow.getTypeName(attr.type);
-        outputs.push( { type: type, name: name} );
-        params.push( { type: type, source: name, optional: attr.optional} );
-        name += "T" + type + "N" + name + "O" + attr.optional + ".";
+
+    if (this._attributes.length == 0) //Solve the conflicting name, in case we have two different shaders with no input parameters
+    	name+=this._shaderSourceCode;
+    else{
+	    for(var name in this._attributes){
+	        var attr = this._attributes[name];
+	        var type = Xflow.getTypeName(attr.type);
+	        outputs.push( { type: type, name: name} );
+	        params.push( { type: type, source: name, optional: attr.optional} );
+	        name += "T" + type + "N" + name + "O" + attr.optional + ".";
+	    }
     }
     var operator = Xflow.initAnonymousOperator(name,
     {

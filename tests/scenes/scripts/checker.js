@@ -17,8 +17,9 @@ Xflow.registerOperator("xflow.checker", {
       return color;
     }
 	,
-	functions :[function mul (a,b){
-		return a*b*10;
+	functions :[
+	    function mul (a,b){
+	    	return a*b*10;
 		}
 	
 	            ]

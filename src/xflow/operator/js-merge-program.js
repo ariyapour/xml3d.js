@@ -25,8 +25,15 @@
 
     function applyDefaultOperation(entry, programData, operatorData){
         var args = assembleFunctionArgs(entry, programData);
+        var ast = Shade.getSnippetAst(entry.operator.evaluate);
+        for (var i=0; i< entry.operator.functions.length; i++){ // add new functions as new arguments for evaluate function
+        	ast.params.push({name:entry.operator.functions[i].name,type: "Identifier"});
+        	args.push(entry.operator.functions[i]);
+        }
         args.push(operatorData);
+        entry.operator.evaluate =eval ("("+Shade.toJavaScript(ast)+")");
         entry.operator.evaluate.apply(operatorData, args);
+        handlePostProcessOutput(entry, programData, args, false);
     }
 
     function applyCoreOperation(program, programData, operatorData){

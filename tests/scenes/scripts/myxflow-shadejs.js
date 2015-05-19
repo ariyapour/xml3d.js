@@ -22,7 +22,9 @@ Xflow.registerOperator("xflow.mygrid", {
 
         // Create Positions
 		for(var i = 0; i < position.length / 3; i++) {
-			var offset = i*3;
+//			var offset = i*3;
+			var offset = mul(i,3);
+			var x = div(offset,3);
 			position[offset] =  (((i % s) / (s-1))-0.5)*2;
 			position[offset+1] = 0;
 			position[offset+2] = ((Math.floor(i/s) / (s-1))-0.5)*2;
@@ -30,14 +32,14 @@ Xflow.registerOperator("xflow.mygrid", {
 
         // Create Normals
 		for(var i = 0; i < normal.length / 3; i++) {
-			var offset = i*3;
+			var offset = mul(i,3);
 			normal[offset] =  0;
 			normal[offset+1] = 1;
 			normal[offset+2] = 0;
 		}
         // Create Texture Coordinates
 		for(var i = 0; i < texcoord.length / 2; i++) {
-			var offset = i*2;
+			var offset = mul(i,2);
             texcoord[offset] = (i%s) / (s-1);
             texcoord[offset+1] = Math.floor(i/s) / (s-1);
 		}
@@ -45,7 +47,7 @@ Xflow.registerOperator("xflow.mygrid", {
         // Create Indices
 		var length = (s-1) * (s-1);
 		for(var i = 0; i < length; i++) {
-			var offset = i*6;
+			var offset = mul(i,6);
 			var base = i + Math.floor(i / (s-1));
 			index[offset+0] = base;
 			index[offset+1] = base + 1;
@@ -54,9 +56,24 @@ Xflow.registerOperator("xflow.mygrid", {
 			index[offset+3] = base + 1;
 			index[offset+5] = base + s + 1;
 		}
-		boundingBox[0] = boundingBox[1] = boundingBox[2] = -1;
-        boundingBox[3] = boundingBox[4] = boundingBox[5] = 1;
+//		boundingBox[0] = boundingBox[1] = boundingBox[2] = -1;
+//      boundingBox[3] = boundingBox[4] = boundingBox[5] = 1;
+		boundingBox[0] = -1;
+		boundingBox[1] = -1;
+		boundingBox[2] = -1;
+		boundingBox[3] = 1;
+		boundingBox[4] = 1;
+		boundingBox[5] = 1;
 	}
+	,
+	functions :[function mul (a,b){
+		return a*b;
+		},
+		function div(a,b){
+			return a/b;
+		}
+	
+	            ]
 });
 
 /**
@@ -106,4 +123,10 @@ Xflow.registerOperator("xflow.mywave", {
             normal: new Vec3(dx, 1, dz).normalize()
         };
 	}
+	,
+	functions :[function mul (a,b){
+		return a*b*10;
+		}
+	
+	            ]
 });

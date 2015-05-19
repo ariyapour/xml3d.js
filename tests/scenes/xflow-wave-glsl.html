@@ -21,6 +21,7 @@
     <script type="text/javascript" src="scripts/colorRamp.js" ></script>
     <script type="text/javascript" src="scripts/clampLength.js" ></script>
     <script type="text/javascript" src="scripts/Voronoi.js" ></script>
+    <script type="text/javascript" src="scripts/Mix.js" ></script>
 
   </head>
   <body>
@@ -77,10 +78,10 @@
 	  		<data src="#color1"></data>
 	  </data>
 	      
-	  <data id="color" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+	  <data id="color" compute="(diffuseColor)=xflow.colorRamp(fac,rang1,rang2)">
 	  		  <data src="#color2"></data>
-	  		  <float3 name="color1" >0.0 0.0 0.0</float3>
-  			  <float3 name="color2" >1.0 0.0 0.096</float3>
+	  		  <float3 name="rang1" >0.0 0.0 0.0</float3>
+  			  <float3 name="rang2" >1.0 0.0 0.096</float3>
 	  </data>    
 	  -->
 
@@ -157,17 +158,48 @@
 	  -->
 	  
 	  <!-- Voronoi -->
-	  
+	  <!--
       <data id="color" compute="(diffuseColor)=xflow.voronoi(texcoord,normal,scale,blue,green,black,white)">
 			<float2 name="texcoord" deferred=true></float2>
 			<float3 name="normal" deferred=true></float3>
-		    <float name="scale">16</float>
+		    <float name="scale">1</float>
 		    <float3 name="blue" >0.018 0.005 0.310</float3>
 		    <float3 name="green" >0.056 0.828 0.096</float3>
 		    <float3 name="white" >1 1 1</float3>
 		    <float3 name="black" >0 0 0</float3>
 	  </data>
 	  -->
+	  
+	  <!-- Mix -->
+	   
+	  <data id="color1" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
+			<float2 name="texcoord" deferred=true></float2>
+			<float name="frequency">10</float>
+	  </data> 
+	  
+	  <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+	  		<data src="#color1"></data>
+	  </data>
+	      
+	  <data id="colorSecond" compute="(color2)=xflow.colorRamp(fac,rang1,rang2)">
+	  		  <data src="#color2"></data>
+	  		  <float3 name="rang1" >0.0 0.0 0.0</float3>
+  			  <float3 name="rang2" >1.0 0.0 0.096</float3>
+	  </data>  
+	 
+	 
+	  <data id="colorFirst" compute="(color1)=xflow.starBall(position,texcoord)">
+	  		<float3 name="position" deferred=true></float3>
+			<float2 name="texcoord" deferred=true></float2>
+	  </data>
+	  
+	  <data id="color" compute="(diffuseColor)=xflow.mix(color1,color2,weight)">
+			<float name="weight">0.5</float>
+			<data src="#colorFirst"></data>
+			<data src="#colorSecond"></data>
+	  </data>
+	  -->
+	  
 	  
       <shader id="Material" script="#shader">
 	     <float name="ambientIntensity">0.1</float> 
