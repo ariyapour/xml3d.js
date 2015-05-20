@@ -91,7 +91,7 @@ Xflow.registerOperator("xflow.mywave", {
     evaluate: function(newpos, newnormal, position, normal, strength, wlength, phase, info) {
 
 		for(var i = 0; i < info.iterateCount; i++) {
-			var offset = i*3;
+			var offset = mul(i,3);
 			var dist = Math.sqrt(position[offset]*position[offset]+position[offset+2]*position[offset+2]);
 			newpos[offset] = position[offset];
 			newpos[offset+1] = Math.sin(wlength[0]*dist-phase[0])*strength[0];
@@ -112,9 +112,10 @@ Xflow.registerOperator("xflow.mywave", {
 	},
 	evaluate_shadejs: function(position, normal, strength, wlength, phase){
 	    var dist = position.xz().length();
+	    
 	    var height = Math.sin(wlength*dist - phase)*strength;
 
-	    var tmp = Math.cos(wlength*dist - phase) * wlength * strength;
+	    var tmp = mul(Math.cos(wlength*dist - phase) , wlength) * strength;
 	    var dx = position.x() / dist * tmp;
         var dz = position.z() / dist * tmp;
 
@@ -125,7 +126,7 @@ Xflow.registerOperator("xflow.mywave", {
 	}
 	,
 	functions :[function mul (a,b){
-		return a*b*10;
+		return a*b;
 		}
 	
 	            ]
