@@ -158,11 +158,11 @@
 	  -->
 	  
 	  <!-- Voronoi -->
-	  <!--
+	  
       <data id="color" compute="(diffuseColor)=xflow.voronoi(texcoord,normal,scale,blue,green,black,white)">
 			<float2 name="texcoord" deferred=true></float2>
 			<float3 name="normal" deferred=true></float3>
-		    <float name="scale">1</float>
+		    <float name="scale">15</float>
 		    <float3 name="blue" >0.018 0.005 0.310</float3>
 		    <float3 name="green" >0.056 0.828 0.096</float3>
 		    <float3 name="white" >1 1 1</float3>
@@ -171,7 +171,7 @@
 	  -->
 	  
 	  <!-- Mix -->
-	   
+	   <!--
 	  <data id="color1" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
 			<float2 name="texcoord" deferred=true></float2>
 			<float name="frequency">10</float>

@@ -92,7 +92,7 @@ Xflow.registerOperator("xflow.mywave", {
 
 		for(var i = 0; i < info.iterateCount; i++) {
 			var offset = mul(i,3);
-			var dist = Math.sqrt(position[offset]*position[offset]+position[offset+2]*position[offset+2]);
+			var dist = Math.sqrt(position[offset] * position[offset]+position[offset+2] * position[offset+2]);
 			newpos[offset] = position[offset];
 			newpos[offset+1] = Math.sin(wlength[0]*dist-phase[0])*strength[0];
 			newpos[offset+2] = position[offset+2];
