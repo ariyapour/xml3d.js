@@ -28,12 +28,12 @@ var DataAdapter = function (factory, node) {
 XML3D.createClass(DataAdapter, BaseDataAdapter);
 
 DataAdapter.prototype.init = function () {
-	//Going up in the DOM hierarchy to find XML3D node
-	var xml3dNode = this.node;        	
-	while(xml3dNode.localName != "xml3d"){
-		xml3dNode = xml3dNode.parentNode; 
-	}
-    
+	  //Going up in the DOM hierarchy to find XML3D node
+  	var xml3dNode = this.node;        	
+  	while(xml3dNode.localName != "xml3d"){
+  		xml3dNode = xml3dNode.parentNode; 
+  	}
+      
     //get xml3d data adapter
     var systemDataAdapter= this.factory.getAdapter(xml3dNode);
 
@@ -82,6 +82,20 @@ DataAdapter.prototype.getDataProgressLevel = function(){
     return this.xflowDataNode._children[0].getProgressLevel();
 };
 
+DataAdapter.prototype.addNameToSystemFilter = function(name){
+    if (this.xflowDataNode._children.length == 2 ){//check if this data node contains the system node
+        var filterMapping =this.xflowDataNode._children[1]._filterMapping;
+        filterMapping.setName(filterMapping.length,name);
+    }
+};
+
+
+DataAdapter.prototype.removeNameFromSystemFilter = function(name){
+    if (this.xflowDataNode._children.length == 2 ){  //check if this data node contains the system node
+        var filterMapping =this.xflowDataNode._children[1]._filterMapping;
+        filterMapping.removeName(filterMapping._names.indexOf(name));
+    }
+};
     /** Recursively passing platform information to children of a data node
      *  Requires that the children and the parents of data nodes are defined
      *
@@ -160,16 +174,13 @@ function addSystemNodeToAdapter(filterNames,adapter,systemDataNode,xflowDataNode
 	
 	var filter = "keep("+filterNames.join(",")+")";
 	var sysData = new DataNode(false);
-	var sysDataAndUserData = new DataNode(false);
-	
+
 	sysData.sourceNode = systemDataNode;
 	sysData.systemDataNode = true;
-	sysData.systemDataAdapter = true;
 	sysData.setFilter(filter);
-	sysDataAndUserData.appendChild(xflowDataNode);
-	sysDataAndUserData.appendChild(sysData);
 
-  adapter.xflowDataNode.appendChild(sysDataAndUserData);
+  adapter.xflowDataNode.appendChild(xflowDataNode);
+  adapter.xflowDataNode.appendChild(sysData);
   return;
 }
 

@@ -30,13 +30,13 @@ XML3DDataAdapter.prototype.init = function(){
      </data>
      */
 	this.xflowDataNode = new DataNode(false);// This is higher level data node which contains both user and system data nodes
-    this.xflowDataNode.addLoadListener(this.onXflowLoadEvent.bind(this));
-    this.xflowDataNode.userData = this.node;
-	this.setDefaultValues();
+  this.xflowDataNode.addLoadListener(this.onXflowLoadEvent.bind(this));
+  this.xflowDataNode.userData = this.node;
+	this.setDefaultValues();//add system node
 
 	var systemDataNodeURI = this.node.getAttribute("sys");
 	if (systemDataNodeURI){
-		this.addUserDefinedSystemNode(systemDataNodeURI);
+		this.addUserDefinedSystemNode(systemDataNodeURI);//add user defined system node
 	}
 	
 };
@@ -95,83 +95,69 @@ XML3DDataAdapter.prototype.addUserDefinedSystemNode = function (URI) {  //Here w
 		 }
 		 return;
 	}
-	
-	if(node && node._configured === undefined)
-        config.element(node);
-    if (!node || node._configured === undefined)
-        return null;
 
     var adapter = this.factory.getAdapter(node);
-    //
-    //var elemHandler = node._configured;
-    //var key = this.factory.aspect + "_" + this.factory.canvasId;
-    //var adapter = elemHandler.adapters[key];
-    //if (adapter == undefined){
-    //
-	 //   //adapter = this.factory.createAdapter(node);
-		//
-	 //   if (adapter) {
-	 //       elemHandler.adapters[key] = adapter;
-	 //   }
-	 //
-	 //   var xflowDataNode = new DataNode(false); // Higher level dataNode to contain the actual Nodes
-	 //   adapter.xflowDataNode = new DataNode(false);
-	 //   adapter.xflowDataNode.addLoadListener(adapter.onXflowLoadEvent.bind(adapter));
-	 //   adapter.xflowDataNode.userData = adapter.node;
-	 //
-	 //   // Setting platform and node type information for a data sequence
-	 //   adapter.xflowDataNode.setPlatform(adapter.node.getAttribute("platform"));
-    //
-	 //   adapter.updateAdapterHandle{("src", adapter.node.getAttribute("src"));
-	 //   if(!adapter.assetData)
-	 //   	adapter.xflowDataNode.setFilter(adapter.node.getAttribute("filter"));
-	 //       updateCompute(adapter);
-	 //   }
-	 //
-	 //   for (var child = adapter.node.firstElementChild; child !== null; child = child.nextElementSibling) {
-	 //   	var subadapter = adapter.factory.getAdapter(child);
-	 //   	if (subadapter.getXflowNode){
-    ////        	adapter.xflowDataNode.appendChild(subadapter.getXflowNode());
-	 //   		xflowDataNode.appendChild(subadapter.getXflowNode());
-	 //   	}
-	 //   }
-	 //   adapter.xflowDataNode.appendChild(xflowDataNode);
-	 //
-	 //   if (adapter.xflowDataNode._platform !== null) {
-	 //       recursiveDataNodeAttrInit(adapter.getXflowNode());
-	 //   }
-    //}else{
-
-    adapter.xflowDataNode.removeChild(adapter.xflowDataNode._children[1]);
-    //}
-    
+    //adapter.xflowDataNode.removeChild(adapter.xflowDataNode._children[1]);
+    removeSystemNodes(adapter.xflowDataNode); //Remove system data node from this adapter
     if (this.xflowDataNode._children.length == 2){
     	var oldUserSystemNode = this.getUserDefinedSystemNode();
     	this.xflowDataNode.removeChild(oldUserSystemNode);
-    	this.xflowDataNode.appendChild(adapter.xflowDataNode); //We add the new user defined system data node
-    	oldUserSystemNode.appendChild(this.xflowDataNode);     //We remove whole system data node from the old user defined node
+    	this.xflowDataNode.appendChild(adapter.xflowDataNode); //Add the new user defined system data node
+      addSystemNodes(oldUserSystemNode,this.xflowDataNode);
+    	//oldUserSystemNode.appendChild(this.xflowDataNode);     //Add new system data node to the old user defined node
     }else{
     	this.xflowDataNode.appendChild(adapter.xflowDataNode);
     }
     
 };
 
+
+function removeSystemNodes(node){
+  if (node._children[1] && node._children[1].systemDataNode != undefined) {
+    node.removeChild(node._children[1]);
+  }
+
+  for (var i=0; i<node._children.length; i++) {
+    if (node._children[i]._children){
+      removeSystemNodes(node._children[i]);
+    }
+  };
+
+}
+
+function addSystemNodes(node,systemNode){
+  if (node._children.length ==1 && node._children[0]._children) {
+    var sysData = new DataNode(false);
+    sysData.sourceNode = systemNode;
+    sysData.systemDataNode = true;
+    node.appendChild(sysData);
+    addSystemNodes(node._children[0],systemNode);
+  }
+  else{
+    for (var i=0; i<node._children.length; i++) {
+      if (node._children[i]._children){
+        addSystemNodes(node._children[i],systemNode);
+      }
+    }
+  }
+
+}
+
+
 XML3DDataAdapter.prototype.setDefaultValues = function(){
 	var xflowDataNode = new DataNode(false); // system data node
+
+  var inputNode = new InputNode();
+  inputNode.name="time";
+  inputNode.data = new BufferEntry(XC.DATA_TYPE.FLOAT, new Float32Array([0.0]));
+  xflowDataNode.appendChild(inputNode);
     
-    var inputNode = new InputNode();
-    inputNode.name="time";
-    inputNode.data = new BufferEntry(XC.DATA_TYPE.FLOAT, new Float32Array([0.0]));
-    xflowDataNode.appendChild(inputNode);
+  inputNode = new InputNode();
+  inputNode.name="test";
+  inputNode.data = new BufferEntry(XC.DATA_TYPE.FLOAT, new Float32Array([5.0]));
+  xflowDataNode.appendChild(inputNode);
     
-    inputNode = new InputNode();
-    inputNode.name="test";
-    inputNode.data = new BufferEntry(XC.DATA_TYPE.FLOAT, new Float32Array([5.0]));
-    xflowDataNode.appendChild(inputNode);
-    
-    this.xflowDataNode.appendChild(xflowDataNode);
-    
-    
+  this.xflowDataNode.appendChild(xflowDataNode);
 };
 
 XML3DDataAdapter.prototype.onXflowLoadEvent = function(node, newLevel, oldLevel){

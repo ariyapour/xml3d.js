@@ -19,8 +19,6 @@ var ValueDataAdapter = function (factory, node) {
 };
 XML3D.createClass(ValueDataAdapter, NodeAdapter);
 
-// TODO(ksons): In a first step, name-mangle every value element that has the
-// sys flag set
 ValueDataAdapter.prototype.init = function()
 {
     var config = this.node._configured, value;
@@ -70,18 +68,12 @@ ValueDataAdapter.prototype.attributeChangedCallback = function (name, oldValue, 
         this.xflowInputNode.paramName = newValue ? this.node.name : null;
     }else if (name == "sys"){
         var parentDataAdapter = this.factory.getAdapter(this.node.parentNode);
-
-        // TODO: move this logic to the data adapter!
-        if (parentDataAdapter.getXflowNode()._children[0]._children.length >1 && parentDataAdapter.getXflowNode()._children[0]._children[1].systemDataNode == true)
-    	  var filterMapping = parentDataAdapter.getXflowNode()._children[0]._children[1]._filterMapping;
-    	
     	if (!this.node.attributes["sys"]){
     		//If the sys flag is removed we update the filter in system data node
-	    	filterMapping.removeName(filterMapping._names.indexOf(this.node.name));
+            parentDataAdapter.removeNameFromSystemFilter(this.node.name);
     	}else {
     		//If sys flag is set, we add the node name to the filter
-    		if (filterMapping)
-    		  filterMapping.setName(filterMapping.length,this.node.name);
+            parentDataAdapter.addNameToSystemFilter(this.node.name);
     	}
     }
 };
