@@ -115,6 +115,7 @@ XML3DDataAdapter.prototype.addUserDefinedSystemNode = function (URI) {  //Here w
 function removeSystemNodes(node){
   if (node._children[1] && node._children[1].systemDataNode != undefined) {
     node.removeChild(node._children[1]);
+    //node._children[1].sourceNode = null;
   }
 
   for (var i=0; i<node._children.length; i++) {
