@@ -16,25 +16,25 @@ test("Change user defined system node", 5, function() {
 
   var checkInit = frameLoaded.then(function(doc) { return doc.querySelector("xml3d") }).then(promiseSceneRendered).then(function (s) {
     var pick = XML3DUnit.getPixelValue(getContextForXml3DElement(s),256,256);
-    QUnit.closeArray(pick, [0, 230, 0, 255], PIXEL_EPSILON, "Green");
+    QUnit.closeArray(pick, [0, 255, 0, 255], PIXEL_EPSILON, "Green");
     return s;
   });
 
   var setSysXml3d = checkInit.then(changeFunction("setSysXml3d")).then(promiseSceneRendered).then(function (s) {
     var pick = XML3DUnit.getPixelValue(getContextForXml3DElement(s), 256, 256);
-    QUnit.closeArray(pick, [230, 0, 0, 255], PIXEL_EPSILON, "Changed user defined node. Should be red now.");
+    QUnit.closeArray(pick, [255, 0, 0, 255], PIXEL_EPSILON, "Changed user defined node. Should be red now.");
     return s;
   });
 
   var removeSysNode = setSysXml3d.then(changeFunction("removeSysNode")).then(promiseSceneRendered).then(function (s) {
     var pick = XML3DUnit.getPixelValue(getContextForXml3DElement(s), 256, 256);
-    QUnit.closeArray(pick, [0, 230, 0, 255], PIXEL_EPSILON, "Removed sys flag from input node. Should be green now.");
+    QUnit.closeArray(pick, [0, 255, 0, 255], PIXEL_EPSILON, "Removed sys flag from input node. Should be green now.");
     return s;
   });
 
   var setSysNode = removeSysNode.then(changeFunction("setSysNode")).then(promiseSceneRendered).then(function (s) {
     var pick = XML3DUnit.getPixelValue(getContextForXml3DElement(s), 256, 256);
-    QUnit.closeArray(pick, [230, 0, 0, 255], PIXEL_EPSILON, "Set sys flag from input node. Should be red now.");
+    QUnit.closeArray(pick, [255, 0, 0, 255], PIXEL_EPSILON, "Set sys flag from input node. Should be red now.");
     return s;
   });
 
