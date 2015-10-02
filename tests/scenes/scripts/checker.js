@@ -1,12 +1,12 @@
 Xflow.registerOperator("xflow.checker", {
 	outputs: [	{type: 'float3', name: 'diffuseColor'}],
-    params:  [ {type: 'float2', source: 'coordinates' },
+    params:  [ {type: 'float2', source: 'texcoord' },
                {type: 'float', source: 'freq' }],
     platforms: ["JAVASCRIPT", "GLSL_FS"],
-    evaluate_shadejs: function checker(coordinates,freq)
+    evaluate_shadejs: function checker(texcoord,freq)
     {
-        var smod = (coordinates.x() * freq) % 1.0;
-        var tmod = (coordinates.y() * freq) % 1.0;
+        var smod = (texcoord.x() * freq) % 1.0;
+        var tmod = (texcoord.y() * freq) % 1.0;
         var blackColor = env.blackColor || new Vec3(0);
         var whiteColor = env.whiteColor || new Vec3(1);
         var x = mul(3,4);

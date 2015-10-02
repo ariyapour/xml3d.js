@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Style -->
+    <link rel="stylesheet" type="text/css" media="all" href="style/page.css"/>
+    <link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.css"/>
+    <!-- Scripts -->
+    <script type="text/javascript" src="../../build/output/xml3d.js"></script>
+    <script type="text/javascript" src="../scripts/shade.js"></script>
+    <script type="text/javascript" src="../../tools/camera.js"></script>
+    <script type="text/javascript" src="scripts/myxflow-shadejs.js" ></script>
+    <script type="text/javascript" src="scripts/fetchTex.js" ></script>
+      <script type="text/javascript" src="scripts/normalMap.js" ></script>
+    <script type="text/javascript" src="scripts/starBall.js" ></script>
+    <script type="text/javascript" src="scripts/fractal.js" ></script>
+    <script type="text/javascript" src="scripts/checker.js" ></script>
+    <script type="text/javascript" src="scripts/voronoiNoise.js" ></script>
+    <script type="text/javascript" src="scripts/calcDistance.js" ></script>
+    <script type="text/javascript" src="scripts/randomPointGenerator.js" ></script>
+    <script type="text/javascript" src="scripts/snoise.js" ></script>
+    <script type="text/javascript" src="scripts/colorMul.js" ></script>
+    <script type="text/javascript" src="scripts/colorRamp.js" ></script>
+    <script type="text/javascript" src="scripts/staticColorRamp.js" ></script>
+    <script type="text/javascript" src="scripts/clampLength.js" ></script>
+    <script type="text/javascript" src="scripts/Voronoi.js" ></script>
+    <script type="text/javascript" src="scripts/Mix.js" ></script>
+
+  </head>
+  <body>
+  <div id="overall"><div id="content">
+   <h1>
+
+   </h1>
+
+
+	<script id="shader" type="text/shade-javascript" >
+    function shade(env) {
+            return new Shade().phong(env.diffuseColor,env.normal,env.ambientIntensity);
+    }
+   </script>
+<div align="center">
+    <xml3d id="myxml3d" class="xml3d" activeView="#Camera" style="background: white;"  align = "center">
+     <defs id="mainDef">
+
+      <!--- Not so important part: -->
+
+      <lightshader id="ls_Spot" script="urn:xml3d:lightshader:point">
+       <float3 name="attenuation">1 0.033333 1</float3>
+       <float3 name="intensity">100 100 100</float3>
+      </lightshader>
+         <lightshader id="ls_Spot1" script="urn:xml3d:lightshader:point">
+             <float3 name="attenuation">1 0.033333 1</float3>
+             <float3 name="intensity">100 100 100</float3>
+         </lightshader>
+
+         <lightshader id="dirLightShader" script="urn:xml3d:lightshader:directional">
+             <float3 name="intensity">100 100 100</float3>
+             <float3 name="direction">-1 -2 0</float3>
+         </lightshader>
+
+
+         <!--<lightshader id="ls_Spot" script="urn:xml3d:lightshader:spot">-->
+             <!--<float3 name="intensity">0.9 0.4 0.4</float3>-->
+             <!--<float3 name="attenuation">0 0 1</float3>-->
+             <!--<float3 name="direction">0 1 0</float3>-->
+             <!--<float  name="beamWidth">45.0</float>-->
+             <!--<float  name="cutOffAngle">45.0</float>-->
+             <!--<bool   name="castShadow">true</bool>-->
+         <!--</lightshader>-->
+
+
+         <dataflow id="voronoiTexture" out="diffuseColor" >
+             <float2 param="true" name="texcoord"></float2>
+             <float3 param="true" name="normal"></float3>
+             <float param="true" name="scale"></float>
+             <compute>
+                 voronoitext = xflow.voronoi(texcoord,normal,scale);
+                 diffuseColor =xflow.staticColorRamp(voronoitext);
+             </compute>
+         </dataflow>
+
+	  <!--  ColorRamp and Texture -->
+         <!--
+               <data id="color1" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+                     <float2 name="texcoord" deferred=true></float2>
+                     <texture name="diffuseTexture"><img src="textures/water.jpg"/></texture>
+               </data>
+
+               <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+                       <data src="#color1"></data>
+               </data>
+
+               <data id="color" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+                         <data src="#color2"></data>
+                         <float3 name="color1" >0.018 0.005 0.310</float3>
+                         <float3 name="color2" >0.056 0.828 0.096</float3>
+               </data>
+                   -->
+	      
+	      
+	  <!--  ColorRamp and Checker -->
+         <!--
+                               <data id="color1" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
+                                     <float2 name="texcoord" deferred=true></float2>
+                                     <float name="frequency">7</float>
+                               </data>
+
+                               <data id="color2 compute="(fac)=xflow.clampLength(diffuseColor)">
+                                       <data src="#color1"></data>
+                               </data>
+
+                               <data id="color" compute="(diffuseColor)=xflow.colorRamp(fac,rang1,rang2)">
+                                         <data src="#color2"></data>
+                                         <float3 name="rang1" >0.0 0.0 0.0</float3>
+                                         <float3 name="rang2" >1.0 0.0 0.096</float3>
+                               </data>
+
+
+
+             <!--  ColorRamp and StarBall -->
+         <!--
+             <data id="color1" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
+                     <float3 name="position" deferred=true></float3>
+                   <float2 name="texcoord" deferred=true></float2>
+             </data>
+
+             <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+                     <data src="#color1"></data>
+             </data>
+
+             <data id="color" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+                       <data src="#color2"></data>
+                      <float3 name="color1" >0.0 0.0 1.0</float3>
+                       <float3 name="color2" >0.056 0.828 0.096</float3>
+             </data>
+             -->
+	  
+	  <!-- Texture and ColorMul -->
+	 <!--
+	  <data id="color2" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+			<float2 name="texcoord" deferred=true></float2>
+		    <texture name="diffuseTexture" deferred=true><img src="textures/water.jpg"/></texture>
+	  </data>
+	  
+	  <data id="color" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
+	  		<float name="scale">5</float>
+	  <data src="#color2"></data>
+	  </data>
+	  -->
+	  
+	  
+	  <!-- StarBall and ColorMul -->
+	  <!--
+	  <data id="color2" compute="(diffuseColor)=xflow.starBall(position,texcoord)">
+	  		<float3 name="position" deferred=true></float3>
+			<float2 name="texcoord" deferred=true></float2>
+	  </data>
+	  
+	  <data id="color" compute="(diffuseColor)=xflow.colorMul(diffuseColor,scale)">
+	  		<float name="scale">10</float>
+	  		<data src="#color2"></data>
+	  </data>
+	  
+	  -->
+	  
+	  
+	  <!-- Checker -->
+         <!--
+                                                 <data id="color" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
+                                                       <float2 name="texcoord" deferred=true></float2>
+                                                       <float name="frequency">10</float>
+                                                 </data>
+                                                 -->
+	  
+	  <!-- Fractal -->
+	  <!--
+	  <data id="color" compute="(diffuseColor)=xflow.fractal(texcoord,time)">
+			<float2 name="texcoord" deferred=true></float2>
+			<float name="time">0.0</float>
+	  </data>
+	  -->
+         <!--
+         <!-- Texture  -->
+         <!--
+                                                                     <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+                                                                           <float2 name="texcoord" deferred=true></float2>
+                                                                           <texture name="diffuseTexture" deferred=true><img src="textures/marble2.jpg"/></texture>
+                                                                     </data>
+                                                                     -->
+         <!-- Texture  ^ checker-->
+         <!--
+                           <data id="colorFirst" compute="(color1)=xflow.fetchTex(diffuseTexture,texcoord)">
+                               <float2 name="texcoord" deferred=true></float2>
+                               <texture name="diffuseTexture" deferred=true><img src="textures/marble4.jpg"/></texture>
+                           </data>
+
+                           <data id="colorSecond" compute="(color2)=xflow.checker(texcoord,frequency)">
+                               <float2 name="texcoord" deferred=true></float2>
+                               <float name="frequency">2</float>
+                           </data>
+
+                  <data id="color" compute="(diffuseColor)=xflow.colorRamp(fac,color1,color2)">
+                      <float name="fac">0.5</float>
+                      <data src="#colorFirst"></data>
+                      <data src="#colorSecond"></data>
+                  </data>
+                           <!--<data id="color" compute="(diffuseColor)=xflow.mix(color1,color2,weight)">-->
+                      <!--<float name="weight">0.5</float>-->
+                      <!--<data src="#colorFirst"></data>-->
+                      <!--<data src="#colorSecond"></data>-->
+                  <!--</data>-->
+                  -->
+	  
+	  <!-- Voronoi ColorRamp -->
+         <!--
+                                                                         <data id="color1" compute="(diffuseColor)=xflow.voronoi(texcoord,normal,scale)">
+                                                                               <float2 name="texcoord" deferred=true></float2>
+                                                                               <float3 name="normal" deferred=true></float3>
+                                                                               <float name="scale">6</float>
+                                                                         </data>
+
+                                                                        <data id="color" compute="(diffuseColor)=xflow.staticColorRamp(diffuseColor)">
+                                                                            <data src="#color1"></data>
+                                                                        </data>
+
+                                                                        -->
+         <!--
+                            <data id="color" compute="(diffuseColor)=xflow.voronoi(texcoord,normal,scale)">
+                                <float2 name="texcoord" deferred=true></float2>
+                                <float3 name="normal" deferred=true></float3>
+                                <float name="scale">15</float>
+                            </data>
+                            -->
+	  <!-- Mix -->
+         <!--
+                           <data id="color1" compute="(diffuseColor)=xflow.checker(texcoord,frequency)">
+                             <float2 name="texcoord" deferred=true></float2>
+                             <float name="frequency">10</float>
+                       </data>
+
+                       <data id="color2" compute="(fac)=xflow.clampLength(diffuseColor)">
+                               <data src="#color1"></data>
+                       </data>
+
+                       <data id="colorSecond" compute="(color2)=xflow.colorRamp(fac,rang1,rang2)">
+                                 <data src="#color2"></data>
+                                 <float3 name="rang1" >0.0 0.0 0.0</float3>
+                                 <float3 name="rang2" >1.0 0.0 0.096</float3>
+                       </data>
+
+
+                       <data id="colorFirst" compute="(color1)=xflow.starBall(position,texcoord)">
+                               <float3 name="position" deferred=true></float3>
+                             <float2 name="texcoord" deferred=true></float2>
+                       </data>
+
+                       <data id="color" compute="(diffuseColor)=xflow.mix(color1,color2,weight)">
+                             <float name="weight">0.5</float>
+                             <data src="#colorFirst"></data>
+                             <data src="#colorSecond"></data>
+                       </data>
+                       -->
+
+         <!-- Texture  ^ normal map-->
+
+         <data id="color" compute="(diffuseColor)=xflow.fetchTex(diffuseTexture,texcoord)">
+             <float2 name="texcoord" deferred=true></float2>
+             <texture name="diffuseTexture" deferred=true><img src="textures/PolishedHearts-ColorMap.png"/></texture>
+         </data>
+         <data id="normalMap" compute="(normal)=xflow.normalMap(diffuseTexture,texcoord)">
+             <float2 name="texcoord" deferred=true></float2>
+             <texture name="diffuseTexture"><img src="textures/PolishedHearts-NormalMap.png"/></texture>
+         </data>-->
+
+         <!--Noprmal Map-->
+         <!--<data id="normalMap" compute="(normal)=xflow.normalMap(diffuseTexture,texcoord)">-->
+             <!--<float2 name="texcoord" deferred=true></float2>-->
+             <!--<texture name="diffuseTexture"><img src="textures/normal6.jpg"/></texture>-->
+         <!--</data>-->
+
+
+         <shader id="Material" script="#shader">
+             <float name="ambientIntensity">0.06</float>
+             <data src="#color"></data>
+             <data src="#normalMap"></data>
+
+         </shader>
+
+         <!--<shader id="Material1" script="#shader">-->
+             <!--<float name="ambientIntensity">0.6</float>-->
+             <!--<data src="#color3"></data>-->
+
+         <!--</shader>-->
+
+
+         <!--<shader id="Material" script="#shader">-->
+             <!--<float name="ambientIntensity">0.1</float>-->
+             <!--<data compute="dataflow['#voronoiTexture']">-->
+                 <!--<float2 name="texcoord" deferred=true></float2>-->
+                 <!--<float3 name="normal" deferred=true></float3>-->
+                 <!--<float name="scale">6</float>-->
+             <!--</data>-->
+
+         <!--</shader>-->
+
+      <transform id="t_Camera" rotation="-0.641815 0.733700 0.223063 1.145952" scale="1 1 1" translation="3.184399 3.711076 2.405665"></transform>
+      <transform id="t_Grid" rotation="1 0.000000 0.000000 0.000000" scale="25.000000 25.000000 25.000000" translation="0.000000 0.00 0.000000"></transform>
+      <transform id="t_Lamp" rotation="0.205942 0.331517 0.920698 1.926274" scale="1 1 1" translation="2.086632 10.648042 1.161145"></transform>
+         <transform id="front" translation="0 40 20"></transform>
+
+      <!-- Generate Grid: -->
+      
+      <data id="generatedGrid" compute="xflow.mygrid(size)">
+		    <int name="size" id="size">200</int>
+	    </data>
+
+      <!-- Transform Grid to Waves: -->
+
+      <data id="wave" compute="(position, normal) = xflow.mywave(position, normal, strength, wavelength, phase)" >
+        <float name="strength" id="strength">0.01</float>
+        <float name="wavelength" id="wavelength">40.0</float>
+        <float name="phase" id="ph">0.0</float>
+        <data src="#generatedGrid"></data>
+      </data>
+
+     </defs>
+        <view id="Camera"  position="2.5033576488494873 2.857752561569214 3.2506120204925537" orientation="-0.7636715173721313 0.6443170309066772 -0.04076428711414337 0.8640285757098034"></view>
+     <!--<view id="Camera"  orientation="-0.3941052556037903 0.9096987843513489 0.13087835907936096 0.8260897732744243" position="13.423173904418945 6.755307197570801 14.065818786621094"></view>-->
+
+     <!-- Wave Shape Display: -->
+
+     <group shader="#Material">
+      <!--<mesh type="triangles" id="waveMesh">-->
+        <!--<data src="#wave"></data>-->
+      <!--</mesh>-->
+         <mesh src="assets/basic.xml#mesh_cube"></mesh>
+     </group>
+
+     <!-- Light Source: -->
+        <group style="transform: translate3d(-10, -10px, 15px)" visible="true">
+            <light shader="#ls_Spot1"></light><!-- front-->
+        </group>
+        <group style="transform: translate3d(0, -25px, -10px)" visible="true">
+            <light shader="#ls_Spot"></light><!-- right-->
+        </group>
+
+        <group style="transform: translate3d(-20px, 25px, -10)" visible="true">
+            <light shader="#ls_Spot"></light><!-- top-->
+        </group>
+
+        <group transform="#t_Lamp">
+            <light shader="#ls_Spot_right"></light>
+        </group>
+
+
+
+
+    </xml3d>
+</div>
+
+    <script type="text/javascript">
+    /* Run timer for wave animation */
+    var mytime = 0;
+    var lastTime = Date.now();
+    var myupdate = function() {
+      var phase = document.getElementById("ph")
+      if (phase && phase._configured) {
+        phase.textContent = ""+mytime;
+      }
+      var diff = Date.now() - lastTime;
+      lastTime = Date.now();
+      mytime += diff / 500;
+    }
+    window.setInterval(myupdate, 20);
+    document.querySelector("#waveMesh").addEventListener('xml3dsystem', function(){
+        console.log("XML3D SYSTEM: " + event.detail.systemtype);
+        console.log(event.detail);
+    })
+  </script>
+
+   </div></div>
+  </body>
+ </html>

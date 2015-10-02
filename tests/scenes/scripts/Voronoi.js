@@ -1,26 +1,12 @@
 Xflow.registerOperator("xflow.voronoi", {
-	outputs: [	{type: 'float3', name: 'diffuseColor'}],
+	outputs: [	{type: 'float3', name: 'distance'}],
     params:  [ {type: 'float2', source: 'texcoord' },
                {type: 'float3', source: 'normal' },
-               {type: 'float', source: 'scale' },
-               {type: 'float3', source: 'blue' },
-               {type: 'float3', source: 'green' },
-               {type: 'float3', source: 'black' },
-               {type: 'float3', source: 'white' },],
-    platforms: ["JAVASCRIPT", "GLSL_FS"],
-    evaluate_shadejs: function shade(texcoord,normal,scale,blue,green,black,white) {
+               {type: 'float', source: 'scale' }],
+    platforms: [ "GLSL_FS"],
+    evaluate_shadejs: function voronoi(texcoord,normal,scale) {
     	  var distance = vronoiNoise(texcoord.mul(scale));
-    	  if (distance >0.9)
-    	    var diffuseColor = blue;
-    	  else if (distance > 0.7)
-    	   	     var diffuseColor = linearColorInterpolation(0.7,0.9,green,blue,distance);//green;
-    	    else if (distance > 0.5)
-    	       var diffuseColor = linearColorInterpolation(0.5,0.7,black,green,distance);//black;
-    	   	     else
-    	           var diffuseColor = linearColorInterpolation(0.0,0.5,white,black,distance);//white;
-    	  //var diffuseColor = env.white.mul(10*distance);
-    	  return diffuseColor;
-//    	  return new Vec3(distance);
+    	  return new Vec3(distance);
     	},
     functions :[function vronoiNoise(texCoords)
     {
@@ -43,7 +29,7 @@ Xflow.registerOperator("xflow.voronoi", {
     	        }
     	    }
     	  }
-    	   return Math.sqrt(res.dot(res));
+    	   return res.dot(res);
 //    	  return res.x()-res.y();
     	},
     	function randomPointGenerator(x) {
@@ -104,12 +90,7 @@ Xflow.registerOperator("xflow.voronoi", {
                 a0.yz().mul(x12.xz()).add(h.yz().mul(x12.yw()))
         );
         return 130 * m.dot(g);
-    },
-    function linearColorInterpolation (x,y,fX,fY,t)
-    {
-      return fX.add(fY.sub(fX).div(y-x).mul(t-x));
     }
-    
                 ]
 
 });
